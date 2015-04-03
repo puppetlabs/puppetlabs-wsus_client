@@ -1,0 +1,8 @@
+fixtures:
+  forge_modules:
+    stdlib:  
+      repo: "puppetlabs/stdlib"
+      ref:  "4.5.1"
+    registry: "puppetlabs/registry"
+  symlinks:
+    "wsus_client": "#{source_dir}"
