@@ -3,10 +3,29 @@
   "version": "0.1.0",
   "author": "puppetlabs",
   "summary": "Manage WSUS(Windows Server Update Service) settings for client nodes",
-  "license": "Apache-2.0",
+  "license": "PuppetLabs-Enterprise",
   "source": "private",
   "project_page": null,
   "issues_url": null,
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Windows",
+      "operatingsystemrelease": [
+	      "Server 2003",
+			  "Server 2003 R2",
+        "Server 2008",
+        "Server 2008 R2",
+        "Server 2012",
+        "Server 2012 R2"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": ">= 3.7.0 < 4.0.0"
+    }
+  ],
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
