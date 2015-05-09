@@ -38,7 +38,12 @@ class wsus_client (
     purge_values => $purge_values
   }
 
-  Registry_value{ require => Registry_key[$_basekey] }
+  service{ 'wuaserv':
+    ensure  => running,
+    enable  => true,
+  }
+
+  Registry_value{ require => Registry_key[$_basekey], notify => Service['wuaserv'] }
 
 
   if ($wu_server == undef or $wu_server == false) and $enable_status_server {
