@@ -176,31 +176,33 @@ describe 'wsus_client' do
         end
       end
 
-      context 'au_option =>' do
+      context 'auto_update_option =>' do
         let(:reg_key) { "#{au_key}\\AUOptions" }
-        let(:param_sym) { :au_option }
+        let(:param_sym) { :auto_update_option }
         it_behaves_like 'valid range', [2, 3, 5]
         it_behaves_like 'non enabled feature', 2
         [1, 6].each do |au_opt|
           describe "#{au_opt}" do
             let(:params) { {
-              :au_option => au_opt,
+              :auto_update_option => au_opt,
             } }
-            let(:error_message) { /Valid options for au_option are 2|3|4|5, provided #{au_opt}/ }
+            let(:error_message) { /Valid options for auto_update_option are 2|3|4|5, provided #{au_opt}/ }
             it_behaves_like 'fail validation'
           end
         end
-        describe 'require scheduled_install_day scheduled_install_time' do
-          let(:params) { {
-            :au_option => 4,
-          } }
-          let(:error_message) { /scheduled_install_day and scheduled_install_time required when specifying au_option => 4/ }
-          it_behaves_like 'fail validation'
-          it_behaves_like 'fail validation' do
+        ['Scheduled', 4].each do |param|
+          describe 'require scheduled_install_day scheduled_install_time' do
             let(:params) { {
-              :au_option => 4,
-              :scheduled_install_day => 4,
+              :auto_update_option => param,
             } }
+            let(:error_message) { /scheduled_install_day and scheduled_install_time required when specifying auto_update_option => \'#{param}\'/ }
+            it_behaves_like 'fail validation'
+            it_behaves_like 'fail validation' do
+              let(:params) { {
+                :auto_update_option => param,
+                :scheduled_install_day => 4,
+              } }
+            end
           end
         end
       end
