@@ -13,7 +13,7 @@ class wsus_client (
   $reboot_warning_timeout              = undef,
   $reschedule_wait_time                = undef,
   $scheduled_install_day               = undef,
-  $scheduled_install_time              = undef,
+  $scheduled_install_hour              = undef,
   $target_group                        = undef,
   $purge_values                        = false,
 ){
@@ -71,10 +71,11 @@ class wsus_client (
     }
   }
 
+
   if $auto_update_option {
     $_parsed_auto_update_option = parse_auto_update_option($auto_update_option)
-    if $_parsed_auto_update_option == 4 and !($scheduled_install_day and $scheduled_install_time) {
-      fail("scheduled_install_day and scheduled_install_time required when specifying auto_update_option => '${auto_update_option}'")
+    if $_parsed_auto_update_option == 4 and !($scheduled_install_day and $scheduled_install_hour) {
+      fail("scheduled_install_day and scheduled_install_hour required when specifying auto_update_option => '${auto_update_option}'")
     }
     registry_value{ "${_au_base}\\AUOptions":
       type => dword,
@@ -145,7 +146,7 @@ class wsus_client (
   }
 
   wsus_client::setting{ "${_au_base}\\ScheduledInstallTime":
-    data           => $scheduled_install_time,
+    data           => $scheduled_install_hour,
     validate_range => [0,23],
     has_enabled    => false,
   }

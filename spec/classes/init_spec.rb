@@ -191,11 +191,11 @@ describe 'wsus_client' do
           end
         end
         ['Scheduled', 4].each do |param|
-          describe 'require scheduled_install_day scheduled_install_time' do
+          describe 'require scheduled_install_day scheduled_install_hour' do
             let(:params) { {
               :auto_update_option => param,
             } }
-            let(:error_message) { /scheduled_install_day and scheduled_install_time required when specifying auto_update_option => \'#{param}\'/ }
+            let(:error_message) { /scheduled_install_day and scheduled_install_hour required when specifying auto_update_option => \'#{param}\'/ }
             it_behaves_like 'fail validation'
             it_behaves_like 'fail validation' do
               let(:params) { {
@@ -313,10 +313,10 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature', 4
       end
 
-      context 'scheduled_install_time =>' do
+      context 'scheduled_install_hour =>' do
         let(:reg_key) { "#{au_key}\\ScheduledInstallTime" }
         let(:above_range) { 24 }
-        let(:param_sym) { :scheduled_install_time }
+        let(:param_sym) { :scheduled_install_hour }
         it_behaves_like 'valid range', [0, 12, 23]
         it_behaves_like 'above range'
         it_behaves_like 'registry_value undefined' #when unset should be missing

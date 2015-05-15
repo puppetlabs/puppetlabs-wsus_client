@@ -98,7 +98,7 @@ class {'wsus_client':
 * `reboot_warning_timeout`: How long to give the user to respond before rebooting the system.
 * `reschedule_wait_time`: How long to reschedule between attempts to update.
 * `scheduled_install_day`: Day of the week to install updates on. ####Todo need to determine what is valid, code says 0,7 but not possible 
-* `scheduled_install_time`: Hour of the day to install updates, valid values are 0-23
+* `scheduled_install_hour`: Hour of the day to install updates, valid values are 0-23
 * `target_group`: The target group that the machine belongs to, note this setting is only respected when allowed from WSUS Server
 * `purge_values`: Whether to purge the registry values we are not managing under WindowsUpdate parent key.
 
