@@ -292,11 +292,11 @@ describe 'wsus_client' do
         it_behaves_like 'enabled feature', 15
       end
 
-      context 'reschedule_wait_time =>' do
+      context 'reschedule_wait_time_minutes =>' do
         let(:reg_key) { "#{au_key}\\RescheduleWaitTime" }
         let(:below_range) { 0 }
         let(:above_range) { 61 }
-        let(:param_sym) { :reschedule_wait_time }
+        let(:param_sym) { :reschedule_wait_time_minutes }
         it_behaves_like 'valid range', [1, 31, 60]
         it_behaves_like 'below range'
         it_behaves_like 'above range'

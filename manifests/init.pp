@@ -11,7 +11,7 @@ class wsus_client (
   $no_auto_update                      = undef,
   $reboot_relaunch_timeout             = undef,
   $reboot_warning_timeout              = undef,
-  $reschedule_wait_time                = undef,
+  $reschedule_wait_time_minutes        = undef,
   $scheduled_install_day               = undef,
   $scheduled_install_time              = undef,
   $target_group                        = undef,
@@ -134,7 +134,7 @@ class wsus_client (
   }
 
   wsus_client::setting{ "${_au_base}\\RescheduleWaitTime":
-    data           => $reschedule_wait_time,
+    data           => $reschedule_wait_time_minutes,
     validate_range => [1,60],
   }
 
