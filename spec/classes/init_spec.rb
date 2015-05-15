@@ -231,11 +231,11 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'detection_frequency =>' do
+      context 'detection_frequency_hours =>' do
         let(:reg_key) { "#{au_key}\\DetectionFrequency" }
         let(:below_range) { 0 }
         let(:above_range) { 23 }
-        let(:param_sym) { :detection_frequency }
+        let(:param_sym) { :detection_frequency_hours }
         it_behaves_like 'valid range', [1, 11, 22]
         it_behaves_like 'below range'
         it_behaves_like 'above range'
