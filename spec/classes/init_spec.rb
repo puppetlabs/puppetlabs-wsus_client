@@ -281,11 +281,11 @@ describe 'wsus_client' do
         it_behaves_like 'enabled feature', 200
       end
 
-      context 'reboot_warning_timeout =>' do
+      context 'reboot_warning_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootWarningTimeout" }
         let(:below_range) { 0 }
         let(:above_range) { 31 }
-        let(:param_sym) { :reboot_warning_timeout }
+        let(:param_sym) { :reboot_warning_timeout_minutes }
         it_behaves_like 'valid range', [1, 15, 30]
         it_behaves_like 'below range'
         it_behaves_like 'above range'
