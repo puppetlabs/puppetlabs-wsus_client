@@ -9,7 +9,7 @@ class wsus_client (
   $elevate_non_admins                  = undef,
   $no_auto_reboot_with_logged_on_users = undef,
   $no_auto_update                      = undef,
-  $reboot_relaunch_timeout             = undef,
+  $reboot_relaunch_timeout_minutes     = undef,
   $reboot_warning_timeout_minutes      = undef,
   $reschedule_wait_time_minutes        = undef,
   $scheduled_install_day               = undef,
@@ -124,7 +124,7 @@ class wsus_client (
   }
 
   wsus_client::setting{ "${_au_base}\\RebootRelaunchTimeout":
-    data           => $reboot_relaunch_timeout,
+    data           => $reboot_relaunch_timeout_minutes,
     validate_range => [1,440],
   }
 

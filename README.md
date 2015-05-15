@@ -94,7 +94,7 @@ class {'wsus_client':
 * `elevate_non_admins`: Whether to elevate non-admins when attempting to update.
 * `no_auto_reboot_with_logged_on_users`: Disables reboot when a user is logged in to the system.
 * `no_auto_update`: Disable Auto Update
-* `reboot_relaunch_timeout`: How long to wait before reboot will be attempted again. Valid values are 1-440 min.
+* `reboot_relaunch_timeout_minutes`: How long to wait before reboot will be attempted again. Valid values are 1-440 min.
 * `reboot_warning_timeout_minutes`: How long to give the user to respond before rebooting the system.
 * `reschedule_wait_time_minutes`: How long to reschedule between attempts to update.
 * `scheduled_install_day`: Day of the week to install updates on. ####Todo need to determine what is valid, code says 0,7 but not possible 

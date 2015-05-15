@@ -270,11 +270,11 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'reboot_relaunch_timeout =>' do
+      context 'reboot_relaunch_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootRelaunchTimeout" }
         let(:below_range) { 0 }
         let(:above_range) { 441 }
-        let(:param_sym) { :reboot_relaunch_timeout }
+        let(:param_sym) { :reboot_relaunch_timeout_minutes }
         it_behaves_like 'valid range', [1, 220, 440]
         it_behaves_like 'below range'
         it_behaves_like 'above range'
