@@ -38,7 +38,7 @@ This module can be used to configure agent nodes to point to a WSUS Server for p
 ####Set the WSUS server url to connect to
  ```
  class { 'wsus_client':
-   wu_server => 'http://myserver:8530',
+   server_url => 'http://myserver:8530',
  }
  ```
 
@@ -47,7 +47,7 @@ This module can be used to configure agent nodes to point to a WSUS Server for p
 ####Set the auto update to a scheduled date and time and disable user access
 ```
 class { 'wsus_client':
-  wu_server              => 'http://myserver:8530',
+  server_url             => 'http://myserver:8530',
   au_option              => 4,
   scheduled_install_day  => 2, #Patch Tuesdays 
   scheduled_install_time => 2, # 4AM
@@ -57,7 +57,7 @@ class { 'wsus_client':
 ####Ensure we are reporting the status back to our WSUS server
 ```
 class { 'wsus_client':
-  wu_server                => 'http://myserver:8530',
+  server_url               => 'http://myserver:8530',
   wu_status_server_enabled => true,
 }
 ```
@@ -66,7 +66,7 @@ class { 'wsus_client':
 This will set the enabled flag for the DetectionFrequency to true and set DetectionFrequency to hourly
 ```
  class {'wsus_client':
-   wu_server           => 'http://myserver:8530',
+   server_url          => 'http://myserver:8530',
    detection_frequency => 1
  }
 ```
@@ -75,7 +75,7 @@ This will set the enabled flag for the DetectionFrequency to true and set Detect
 This will expressly disable the detection_frequency by setting the DetectionFrequencyEnabled bit to false
 ```
 class {'wsus_client':
-  wu_server           => 'http://myserver:8530',
+  server_url          => 'http://myserver:8530',
   detection_frequency => false
 }
 ```
@@ -84,7 +84,7 @@ class {'wsus_client':
 
 #### wsus_client class
 
-* `wu_server`: The URL which your WSUS server can be reached.  For example: http://wsus.domain.net:8530
+* `server_url`: The URL which your WSUS server can be reached.  For example: http://wsus.domain.net:8530
 * `wu_status_server_enabled`: Whether to also set the status server as well.
 * `accept_trusted_publisher_certs`: Whether to accept trusted publisher certs when checking for updates.
 * `au_option`: The auto update option you would like to use, please see (url) for descriptions.  Valid values are 2-5
