@@ -134,8 +134,15 @@ class wsus_client (
     validate_range => [1,60],
   }
 
+  $_scheduled_install_day =  $scheduled_install_day ? {
+    true     => true,
+    false    => false,
+    /\w+|\d/ => parse_scheduled_install_day($scheduled_install_day),
+    default  => $scheduled_install_day
+  }
+
   wsus_client::setting{ "${_au_base}\\ScheduledInstallDay":
-    data           => $scheduled_install_day,
+    data           => $_scheduled_install_day,
     validate_range => [0,7],
     has_enabled    => false,
   }
