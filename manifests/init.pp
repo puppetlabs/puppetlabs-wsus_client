@@ -2,7 +2,7 @@ class wsus_client (
   $wu_server                           = undef,
   $enable_status_server                = false,
   $accept_trusted_publisher_certs      = undef,
-  $au_option                           = undef, #2..5 valid values
+  $auto_update_option                  = undef, #2..5 valid values
   $auto_install_minor_updates          = undef,
   $detection_frequency                 = undef,
   $disable_windows_update_access       = undef,
@@ -71,15 +71,14 @@ class wsus_client (
     }
   }
 
-  if $au_option == 4 and !($scheduled_install_day and $scheduled_install_time) {
-    fail('scheduled_install_day and scheduled_install_time required when specifying au_option => 4')
-  }
-
-  if $au_option {
-    validate_re($au_option,'^[2-5]$',"Valid options for au_option are 2|3|4|5, provided ${au_option}")
+  if $auto_update_option {
+    $_parsed_auto_update_option = parse_auto_update_option($auto_update_option)
+    if $_parsed_auto_update_option == 4 and !($scheduled_install_day and $scheduled_install_time) {
+      fail("scheduled_install_day and scheduled_install_time required when specifying auto_update_option => '${auto_update_option}'")
+    }
     registry_value{ "${_au_base}\\AUOptions":
       type => dword,
-      data => $au_option,
+      data => $_parsed_auto_update_option,
     }
   }
 
