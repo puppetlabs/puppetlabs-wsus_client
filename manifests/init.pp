@@ -1,6 +1,6 @@
 class wsus_client (
   $wu_server                           = undef,
-  $wu_status_server_enabled            = false,
+  $enable_status_server                = false,
   $accept_trusted_publisher_certs      = undef,
   $au_option                           = undef, #2..5 valid values
   $auto_install_minor_updates          = undef,
@@ -38,11 +38,16 @@ class wsus_client (
     purge_values => $purge_values
   }
 
-  Registry_value{ require => Registry_key[$_basekey] }
+  service{ 'wuaserv':
+    ensure  => running,
+    enable  => true,
+  }
+
+  Registry_value{ require => Registry_key[$_basekey], notify => Service['wuaserv'] }
 
 
-  if ($wu_server == undef or $wu_server == false) and $wu_status_server_enabled {
-    fail('wu_server is required when specifying wu_status_server_enabled => true')
+  if ($wu_server == undef or $wu_server == false) and $enable_status_server {
+    fail('wu_server is required when specifying enable_status_server => true')
   }
 
   if $wu_server  != undef {
@@ -56,8 +61,8 @@ class wsus_client (
         type => string,
         data => $wu_server,
       }
-      if $wu_status_server_enabled {
-        validate_bool($wu_status_server_enabled)
+      if $enable_status_server {
+        validate_bool($enable_status_server)
         registry_value{ "${_basekey}\\WUStatusServer":
           type => string,
           data => $wu_server,

@@ -160,7 +160,7 @@ describe 'wsus_client' do
         describe 'WUStatusServer' do
           let(:params) { {
             :wu_server => 'https://SERVER:8530',
-            :wu_status_server_enabled => true,
+            :enable_status_server => true,
           } }
           it_behaves_like 'registry_value' do
             let(:reg_key) { "#{base_key}\\WUServer" }
