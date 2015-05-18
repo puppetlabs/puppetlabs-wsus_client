@@ -38,7 +38,7 @@ class wsus_client (
     purge_values => $purge_values
   }
 
-  service{ 'wuaserv':
+  service{ 'wuauserv':
     ensure  => running,
     enable  => true,
   }
