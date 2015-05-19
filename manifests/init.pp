@@ -43,7 +43,7 @@ class wsus_client (
     enable  => true,
   }
 
-  Registry_value{ require => Registry_key[$_basekey], notify => Service['wuaserv'] }
+  Registry_value{ require => Registry_key[$_basekey], notify => Service['wuauserv'] }
 
 
   if ($server_url == undef or $server_url == false) and $enable_status_server {
