@@ -1,5 +1,5 @@
 class wsus_client (
-  $wu_server                           = undef,
+  $server_url                          = undef,
   $enable_status_server                = false,
   $accept_trusted_publisher_certs      = undef,
   $auto_update_option                  = undef, #2..5 valid values
@@ -46,26 +46,26 @@ class wsus_client (
   Registry_value{ require => Registry_key[$_basekey], notify => Service['wuaserv'] }
 
 
-  if ($wu_server == undef or $wu_server == false) and $enable_status_server {
-    fail('wu_server is required when specifying enable_status_server => true')
+  if ($server_url == undef or $server_url == false) and $enable_status_server {
+    fail('server_url is required when specifying enable_status_server => true')
   }
 
-  if $wu_server  != undef {
+  if $server_url  != undef {
     registry_value{ "${_au_base}\\UseWUServer":
       type => 'dword',
-      data => bool2num($wu_server != false),
+      data => bool2num($server_url != false),
     }
-    if $wu_server {
-      validate_re($wu_server, '^http(|s):\/\/', "wu_server is required to be either http or https, ${wu_server}")
+    if $server_url {
+      validate_re($server_url, '^http(|s):\/\/', "server_url is required to be either http or https, ${server_url}")
       registry_value{ "${_basekey}\\WUServer":
         type => string,
-        data => $wu_server,
+        data => $server_url,
       }
       if $enable_status_server {
         validate_bool($enable_status_server)
         registry_value{ "${_basekey}\\WUStatusServer":
           type => string,
-          data => $wu_server,
+          data => $server_url,
         }
       }
     }

@@ -133,16 +133,16 @@ describe 'wsus_client' do
         end
       end
 
-      context "wu_server =>" do
+      context "server_url =>" do
         let(:reg_type) { 'string' }
         let(:reg_data) { 'https://SERVER:8530' }
 
         describe 'WUServer setting' do
           let(:params) { {
-            :wu_server => 'https://SERVER:8530'
+            :server_url => 'https://SERVER:8530'
           } }
           it_behaves_like 'non enabled feature', 'https://SERVER:8530' do
-            let(:param_sym) { :wu_server }
+            let(:param_sym) { :server_url }
             let(:reg_key) { "#{base_key}\\WUServer" }
           end
           it_behaves_like 'registry_value' do
@@ -159,7 +159,7 @@ describe 'wsus_client' do
         end
         describe 'WUStatusServer' do
           let(:params) { {
-            :wu_server => 'https://SERVER:8530',
+            :server_url => 'https://SERVER:8530',
             :enable_status_server => true,
           } }
           it_behaves_like 'registry_value' do
