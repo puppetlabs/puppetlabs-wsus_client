@@ -4,7 +4,7 @@ class wsus_client (
   $accept_trusted_publisher_certs      = undef,
   $auto_update_option                  = undef, #2..5 valid values
   $auto_install_minor_updates          = undef,
-  $detection_frequency                 = undef,
+  $detection_frequency_hours           = undef,
   $disable_windows_update_access       = undef,
   $elevate_non_admins                  = undef,
   $no_auto_reboot_with_logged_on_users = undef,
@@ -96,7 +96,7 @@ class wsus_client (
   }
 
   wsus_client::setting{ "${_au_base}\\DetectionFrequency":
-    data           => $detection_frequency,
+    data           => $detection_frequency_hours,
     validate_range => [1,22],
   }
 

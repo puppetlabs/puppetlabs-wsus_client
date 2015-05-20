@@ -72,7 +72,7 @@ This will set the enabled flag for the DetectionFrequency to true and set Detect
 ```
 
 ####Disable detection_frequency
-This will expressly disable the detection_frequency by setting the DetectionFrequencyEnabled bit to false
+This will expressly disable the detection frequency by setting the DetectionFrequencyEnabled bit to false
 ```
 class {'wsus_client':
   server_url          => 'http://myserver:8530',
@@ -89,7 +89,7 @@ class {'wsus_client':
 * `accept_trusted_publisher_certs`: Whether to accept trusted publisher certs when checking for updates.
 * `au_option`: The auto update option you would like to use, please see (url) for descriptions.  Valid values are 2-5
 * `auto_install_minor_updates`: Whether to auto install minor updates without user interaction
-* `detection_frequency`: The frequency to check for updates. 
+* `detection_frequency_hours`: The frequency to check for updates. 
 * `disable_windows_update_access`: This option will disable windows update from non-admin users.
 * `elevate_non_admins`: Whether to elevate non-admins when attempting to update.
 * `no_auto_reboot_with_logged_on_users`: Disables reboot when a user is logged in to the system.
