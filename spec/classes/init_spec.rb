@@ -270,33 +270,33 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'reboot_relaunch_timeout =>' do
+      context 'reboot_relaunch_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootRelaunchTimeout" }
         let(:below_range) { 0 }
         let(:above_range) { 441 }
-        let(:param_sym) { :reboot_relaunch_timeout }
+        let(:param_sym) { :reboot_relaunch_timeout_minutes }
         it_behaves_like 'valid range', [1, 220, 440]
         it_behaves_like 'below range'
         it_behaves_like 'above range'
         it_behaves_like 'enabled feature', 200
       end
 
-      context 'reboot_warning_timeout =>' do
+      context 'reboot_warning_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootWarningTimeout" }
         let(:below_range) { 0 }
         let(:above_range) { 31 }
-        let(:param_sym) { :reboot_warning_timeout }
+        let(:param_sym) { :reboot_warning_timeout_minutes }
         it_behaves_like 'valid range', [1, 15, 30]
         it_behaves_like 'below range'
         it_behaves_like 'above range'
         it_behaves_like 'enabled feature', 15
       end
 
-      context 'reschedule_wait_time =>' do
+      context 'reschedule_wait_time_minutes =>' do
         let(:reg_key) { "#{au_key}\\RescheduleWaitTime" }
         let(:below_range) { 0 }
         let(:above_range) { 61 }
-        let(:param_sym) { :reschedule_wait_time }
+        let(:param_sym) { :reschedule_wait_time_minutes }
         it_behaves_like 'valid range', [1, 31, 60]
         it_behaves_like 'below range'
         it_behaves_like 'above range'
