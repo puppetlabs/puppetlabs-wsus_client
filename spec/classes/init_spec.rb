@@ -330,9 +330,6 @@ describe 'wsus_client' do
         let(:param_sym) { :scheduled_install_day }
         let(:above_range) { 8 }
         it_behaves_like 'valid range', [0, 4, 7]
-        it_behaves_like 'above range' do
-          let(:error_message) { Regexp.new("Valid options for scheduled_install_day are Everyday|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|0-7, provided '8'") }
-        end
         it_behaves_like 'registry_value undefined' #when unset should be missing
         it_behaves_like 'non enabled feature', 4
         days = %w(Everyday Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
