@@ -12,7 +12,7 @@ define wsus_client::setting(
 
 )
 {
-  private()
+  assert_private()
   if $data != undef {
     if $has_enabled {
       registry_value{ "${key}Enabled":
