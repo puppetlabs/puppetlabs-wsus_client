@@ -1,6 +1,6 @@
 class wsus_client (
   $server_url                          = undef,
-  $enable_status_server                = false,
+  $enable_status_server                = undef,
   $accept_trusted_publisher_certs      = undef,
   $auto_update_option                  = undef, #2..5 valid values
   $auto_install_minor_updates          = undef,
@@ -39,8 +39,8 @@ class wsus_client (
   }
 
   service{ 'wuauserv':
-    ensure  => running,
-    enable  => true,
+    ensure => running,
+    enable => true,
   }
 
   Registry_value{ require => Registry_key[$_basekey], notify => Service['wuauserv'] }
@@ -51,21 +51,28 @@ class wsus_client (
   }
 
   if $server_url  != undef {
-    registry_value{ "${_au_base}\\UseWUServer":
-      type => 'dword',
-      data => bool2num($server_url != false),
+    wsus_client::setting{ "${_au_base}\\UseWUServer":
+      data        => bool2num($server_url != false),
+      has_enabled => false,
     }
     if $server_url {
       validate_re($server_url, '^http(|s):\/\/', "server_url is required to be either http or https, ${server_url}")
-      registry_value{ "${_basekey}\\WUServer":
-        type => string,
-        data => $server_url,
+      wsus_client::setting{ "${_basekey}\\WUServer":
+        type        => 'string',
+        data        => $server_url,
+        has_enabled => false,
       }
-      if $enable_status_server {
+      if $enable_status_server != undef {
         validate_bool($enable_status_server)
-        registry_value{ "${_basekey}\\WUStatusServer":
-          type => string,
-          data => $server_url,
+        $_ensure_status_server = $enable_status_server ? {
+          true => 'present',
+          false => 'absent',
+        }
+        wsus_client::setting{ "${_basekey}\\WUStatusServer":
+          ensure      => $_ensure_status_server,
+          type        => 'string',
+          data        => $server_url,
+          has_enabled => false,
         }
       }
     }
@@ -77,9 +84,9 @@ class wsus_client (
     if $_parsed_auto_update_option == 4 and !($scheduled_install_day and $scheduled_install_hour) {
       fail("scheduled_install_day and scheduled_install_hour required when specifying auto_update_option => '${auto_update_option}'")
     }
-    registry_value{ "${_au_base}\\AUOptions":
-      type => dword,
-      data => $_parsed_auto_update_option,
+    wsus_client::setting{ "${_au_base}\\AUOptions":
+      data        => $_parsed_auto_update_option,
+      has_enabled => false,
     }
   }
 
@@ -159,7 +166,7 @@ class wsus_client (
   }
 
   wsus_client::setting{ "${_basekey}\\TargetGroup":
-    type        => 'string',
-    data        => $target_group,
+    type => 'string',
+    data => $target_group,
   }
 }
