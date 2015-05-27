@@ -1,6 +1,6 @@
 class wsus_client (
   $server_url                          = undef,
-  $enable_status_server                = false,
+  $enable_status_server                = undef,
   $accept_trusted_publisher_certs      = undef,
   $auto_update_option                  = undef, #2..5 valid values
   $auto_install_minor_updates          = undef,
@@ -62,9 +62,14 @@ class wsus_client (
         data        => $server_url,
         has_enabled => false,
       }
-      if $enable_status_server {
+      if $enable_status_server != undef {
         validate_bool($enable_status_server)
+        $_ensure_status_server = $enable_status_server ? {
+          true => 'present',
+          false => 'absent',
+        }
         wsus_client::setting{ "${_basekey}\\WUStatusServer":
+          ensure      => $_ensure_status_server,
           type        => 'string',
           data        => $server_url,
           has_enabled => false,

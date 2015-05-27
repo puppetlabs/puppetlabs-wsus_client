@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'wsus_client' do
   let(:reg_type) { 'dword' }
   let(:enabled_bit) { 1 }
+  let(:reg_ensure) { 'present' }
 
   test_hash = {
     '2012' => {:base_key => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate',
@@ -15,8 +16,9 @@ describe 'wsus_client' do
     it {
       should contain_registry_value(reg_key).with(
                {
-                 'type' => reg_type,
-                 'data' => reg_data,
+                 'ensure' => reg_ensure,
+                 'type'   => reg_type,
+                 'data'   => reg_data,
                }
              )
     }
@@ -157,21 +159,41 @@ describe 'wsus_client' do
             let(:reg_type) { 'dword' }
           end
         end
-        describe 'WUStatusServer' do
-          let(:params) { {
-            :server_url => 'https://SERVER:8530',
-            :enable_status_server => true,
-          } }
-          it_behaves_like 'registry_value' do
-            let(:reg_key) { "#{base_key}\\WUServer" }
+        describe 'WUStatusServer =>' do
+          describe 'true' do
+            let(:params) { {
+              :server_url => 'https://SERVER:8530',
+              :enable_status_server => true,
+            } }
+            it_behaves_like 'registry_value' do
+              let(:reg_key) { "#{base_key}\\WUServer" }
+            end
+            it_behaves_like 'registry_value' do
+              let(:reg_key) { "#{base_key}\\WUStatusServer" }
+            end
+            it_behaves_like 'registry_value' do
+              let(:reg_key) { "#{au_key}\\UseWUServer" }
+              let(:reg_data) { 1 }
+              let(:reg_type) { 'dword' }
+            end
           end
-          it_behaves_like 'registry_value' do
-            let(:reg_key) { "#{base_key}\\WUStatusServer" }
-          end
-          it_behaves_like 'registry_value' do
-            let(:reg_key) { "#{au_key}\\UseWUServer" }
-            let(:reg_data) { 1 }
-            let(:reg_type) { 'dword' }
+          describe 'false' do
+            let(:params) { {
+              :server_url => 'https://SERVER:8530',
+              :enable_status_server => false,
+            } }
+            it_behaves_like 'registry_value' do
+              let(:reg_key) { "#{base_key}\\WUServer" }
+            end
+            it_behaves_like 'registry_value' do
+              let(:reg_key) { "#{base_key}\\WUStatusServer" }
+              let(:reg_ensure) { 'absent' }
+            end
+            it_behaves_like 'registry_value' do
+              let(:reg_key) { "#{au_key}\\UseWUServer" }
+              let(:reg_data) { 1 }
+              let(:reg_type) { 'dword' }
+            end
           end
         end
       end

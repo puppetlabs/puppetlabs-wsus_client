@@ -2,12 +2,14 @@
 #
 ##
 define wsus_client::setting(
+  $ensure = 'present',
   $key = $title,
   $data = undef,
   $type = 'dword',
   $has_enabled = true,
   $validate_range = undef,
-  $validate_bool = false
+  $validate_bool = false,
+
 )
 {
   private()
@@ -30,8 +32,9 @@ define wsus_client::setting(
         false => $data
       }
       registry_value{ $key:
-        type => $type,
-        data => $_data,
+        ensure => $ensure,
+        type   => $type,
+        data   => $_data,
       }
     }
   }
