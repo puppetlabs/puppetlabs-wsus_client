@@ -24,7 +24,7 @@ module Puppet::Parser::Functions
     end
 
     if day_hash.has_key?(option.capitalize)
-      return day_hash[option]
+      return day_hash[option.capitalize]
     end
     raise Puppet::ParseError, "Valid options for scheduled_install_day are #{day_hash.keys.join('|')}|0-7, provided '#{option}'"
   end
