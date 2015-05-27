@@ -39,8 +39,8 @@ class wsus_client (
   }
 
   service{ 'wuauserv':
-    ensure  => running,
-    enable  => true,
+    ensure => running,
+    enable => true,
   }
 
   Registry_value{ require => Registry_key[$_basekey], notify => Service['wuauserv'] }
@@ -154,7 +154,7 @@ class wsus_client (
   }
 
   wsus_client::setting{ "${_basekey}\\TargetGroup":
-    type        => 'string',
-    data        => $target_group,
+    type => 'string',
+    data => $target_group,
   }
 }
