@@ -21,18 +21,14 @@ describe 'parse_scheduled_install_day' do
     dday = day.downcase
     describe "when parsing #{dday}" do
       it {
-        it {
-          expect(scope.function_parse_scheduled_install_day([dday])).to eq(expect_day[day])
-        }
+        expect(scope.function_parse_scheduled_install_day([dday])).to eq(expect_day[day])
       }
     end
 
-    uday = day.downcase
+    uday = day.upcase
     describe "when parsing #{uday}" do
       it {
-        it {
-          expect(scope.function_parse_scheduled_install_day([uday])).to eq(expect_day[day])
-        }
+        expect(scope.function_parse_scheduled_install_day([uday])).to eq(expect_day[day])
       }
     end
   end
