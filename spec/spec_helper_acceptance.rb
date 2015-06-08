@@ -7,12 +7,12 @@ end
 
 FUTURE_PARSER = ENV['FUTURE_PARSER'] == 'true' || false
 
-unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
+unless ENV['BEAKER_provision'] == 'no'
   is_foss = (ENV['IS_PE'] == 'no' || ENV['IS_PE'] == 'false') ? true : false
   if hosts.first.is_pe? && !is_foss
     install_pe
   else
-    version = ENV['PUPPET_VERSION'] || '3.7.4'
+    version = ENV['PUPPET_VERSION'] || '3.8.1'
     download_url = ENV['WIN_DOWNLOAD_URL'] || 'http://downloads.puppetlabs.com/windows/'
     hosts.each do |host|
       if host['platform'] =~ /windows/i
@@ -20,7 +20,7 @@ unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
                                 {
                                   :win_download_url => download_url,
                                   :version => version,
-                                  :install_32 => true})
+                                  :install_32 => ENV['CLIENT_32'] == 'true'})
       end
     end
   end
