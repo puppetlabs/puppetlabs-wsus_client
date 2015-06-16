@@ -19,12 +19,10 @@ class wsus_client (
 ){
 
   $_basekey = $::operatingsystemrelease ? {
-    /2012/  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate',
     default => 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate'
   }
 
   $_au_base = $::operatingsystemrelease ? {
-    /2012/  => "${_basekey}\\Auto Update",
     default => "${_basekey}\\AU"
   }
 

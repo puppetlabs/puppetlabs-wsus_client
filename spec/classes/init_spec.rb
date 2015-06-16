@@ -6,8 +6,8 @@ describe 'wsus_client' do
   let(:reg_ensure) { 'present' }
 
   test_hash = {
-    '2012' => {:base_key => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate',
-               :au_key => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update'},
+    '2012' => {:base_key => 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate',                                     
+               :au_key => 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU'},
     '2008' => {:base_key => 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate',
                :au_key => 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU'}
   }
