@@ -29,10 +29,12 @@ class wsus_client (
   validate_bool($purge_values)
 
   registry_key{ $_basekey:
+    ensure       => present,
     purge_values => $purge_values
   }
 
   registry_key{ $_au_base:
+    ensure       => present,
     purge_values => $purge_values
   }
 
