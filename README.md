@@ -47,7 +47,7 @@ This module can be used to configure agent nodes to point to a WSUS Server for p
 ```
 class { 'wsus_client':
   server_url             => 'http://myserver:8530',
-  au_option              => 4,
+  auto_update_option     => "Scheduled",
   scheduled_install_day  => 2, #Patch Tuesdays 
   scheduled_install_time => 2, # 4AM
 }
@@ -56,8 +56,8 @@ class { 'wsus_client':
 ####Ensure we are reporting the status back to our WSUS server
 ```
 class { 'wsus_client':
-  server_url               => 'http://myserver:8530',
-  wu_status_server_enabled => true,
+  server_url           => 'http://myserver:8530',
+  enable_status_server => true,
 }
 ```
 
@@ -65,8 +65,8 @@ class { 'wsus_client':
 This will set the enabled flag for the DetectionFrequency to true and set DetectionFrequency to hourly
 ```
  class {'wsus_client':
-   server_url          => 'http://myserver:8530',
-   detection_frequency => 1
+   server_url                => 'http://myserver:8530',
+   detection_frequency_hours => 1
  }
 ```
 
@@ -81,32 +81,29 @@ class {'wsus_client':
 
 ## Reference
 
-#### wsus_client class
+### Classes
 
-* `server_url`: The URL which your WSUS server can be reached.  For example: http://wsus.domain.net:8530
-* `wu_status_server_enabled`: Whether to also set the status server as well.
-* `accept_trusted_publisher_certs`: Whether to accept trusted publisher certs when checking for updates.
-* `au_option`: The auto update option you would like to use, please see (url) for descriptions.  Valid values are 2-5
-* `auto_install_minor_updates`: Whether to auto install minor updates without user interaction
-* `detection_frequency_hours`: The frequency to check for updates. 
-* `disable_windows_update_access`: This option will disable windows update from non-admin users.
-* `elevate_non_admins`: Whether to elevate non-admins when attempting to update.
-* `no_auto_reboot_with_logged_on_users`: Disables reboot when a user is logged in to the system.
-* `no_auto_update`: Disable Auto Update
-* `reboot_relaunch_timeout_minutes`: How long to wait before reboot will be attempted again. Valid values are 1-440 min.
-* `reboot_warning_timeout_minutes`: How long to give the user to respond before rebooting the system.
-* `reschedule_wait_time_minutes`: How long to reschedule between attempts to update.
-* `scheduled_install_day`: Day of the week to install updates on. ####Todo need to determine what is valid, code says 0,7 but not possible 
-* `scheduled_install_hour`: Hour of the day to install updates, valid values are 0-23
-* `target_group`: The target group that the machine belongs to, note this setting is only respected when allowed from WSUS Server
-* `purge_values`: Whether to purge the registry values we are not managing under WindowsUpdate parent key.
+#### `wsus_client`
+
+* `server_url`: *Optional.* The URL which your WSUS server can be reached.  For example: http://wsus.domain.net:8530 Valid options: URL including protocol
+* `enable_status_server`: *Optional.* Whether to also set the status server as well. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
+* `accept_trusted_publisher_certs`: *Optional.* Whether to accept trusted publisher certs when checking for updates. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
+* `auto_update_option`: *Optional.* The auto update option you would like to use, please see (url) for descriptions.  Valid values are 2-5, 'NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall'. Default: 'undef'
+* `auto_install_minor_updates`: *Optional.* Whether to auto install minor updates without user interaction. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
+* `detection_frequency_hours`: *Optional.* The frequency to check for updates. Valid values are 1 through 22 
+* `disable_windows_update_access`: *Optional.* This option will disable windows update from non-admin users. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
+* `elevate_non_admins`: *Optional.* Whether to elevate non-admins when attempting to update. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
+* `no_auto_reboot_with_logged_on_users`: *Optional.* Disables reboot when a user is logged in to the system. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
+* `no_auto_update`: *Optional.* Disable Auto Update. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
+* `reboot_relaunch_timeout_minutes`: *Optional.* How long to wait before reboot will be attempted again. Valid values are 1 through 440. Default: 'undef'
+* `reboot_warning_timeout_minutes`: *Optional.* How long to give the user to respond before rebooting the system. Valid values are 1 through 30. Default: 'undef'
+* `reschedule_wait_time_minutes`: *Optional.* How long to reschedule between attempts to update. Valid values are 1 through 60. Default: 'undef'
+* `scheduled_install_day`: *Optional.* Day of the week to install updates on. Valid values are Everyday, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday. Default: 'undef'
+* `scheduled_install_hour`: *Optional.* Hour of the day to install updates. Valid values are 0 through 23. Default: 'undef'
+* `target_group`: *Optional.* The target group that the machine belongs to, note this setting is only respected when allowed from WSUS Server. Valid values are String. Default: 'undef'
+* `purge_values`: *Optional.* Whether to purge the registry values we are not managing under WindowsUpdate parent key. Valid options: 'true' and 'false'. Default: 'false'
 
 ## Limitations
 
 Windows 2003+
 
-## Development
-
-This is a proprietary module only available to Puppet Enterprise users. As such, we have no formal way for users to contribute toward development. 
-However, we know our users are a charming collection of brilliant people, so if you have a bug you've fixed or a contribution to this module, 
-please generate a diff and throw it into a ticket to support---they'll ensure that we get it.
