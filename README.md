@@ -28,8 +28,7 @@ This module can be used to configure agent nodes to point to a WSUS Server for p
 ### What wsus_client affects
 
 * Manages the registry keys that pertain to WSUS configuration.
-  Pre Server 2012 this would be located under 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate'
-  For Server 2012+ 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate'
+  This would be located under 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate'
 * This is a great place to stick any warnings.
 * Can be in list or paragraph form.
 
