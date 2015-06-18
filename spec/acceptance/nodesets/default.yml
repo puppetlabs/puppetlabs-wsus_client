@@ -1,0 +1,26 @@
+---
+HOSTS:
+  w2012:
+    roles:
+    - agent
+    - default
+    platform: windows-2012r2-x86_64
+    template: win-2012r2-x86_64
+    hypervisor: vcloud
+  redhat-7-x86_64-master:
+    roles:
+    - master
+    - database
+    - agent
+    - dashboard
+    platform: el-7-x86_64
+    template: redhat-7-x86_64
+    hypervisor: vcloud
+CONFIG:
+  nfs_server: none
+  consoleport: 443
+  datastore: instance0
+  folder: Delivery/Quality Assurance/FOSS/Dynamic
+  resourcepool: delivery/Quality Assurance/FOSS/Dynamic
+  pooling_api: http://vcloud.delivery.puppetlabs.net/
+  type: foss
