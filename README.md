@@ -49,7 +49,7 @@ class { 'wsus_client':
   server_url             => 'http://myserver:8530',
   auto_update_option     => "Scheduled",
   scheduled_install_day  => 2, #Patch Tuesdays 
-  scheduled_install_time => 2, # 4AM
+  scheduled_install_hour => 2, # 2AM
 }
 ```
 
