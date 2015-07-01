@@ -133,7 +133,7 @@ class wsus_client (
 
   wsus_client::setting{ "${_au_base}\\RebootRelaunchTimeout":
     data           => $reboot_relaunch_timeout_minutes,
-    validate_range => [1,440],
+    validate_range => [1,1440],
   }
 
   wsus_client::setting{ "${_au_base}\\RebootWarningTimeout":
