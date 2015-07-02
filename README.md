@@ -95,7 +95,7 @@ class {'wsus_client':
 * `elevate_non_admins`: *Optional.* Whether to elevate non-admins when attempting to update. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
 * `no_auto_reboot_with_logged_on_users`: *Optional.* Disables reboot when a user is logged in to the system. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
 * `no_auto_update`: *Optional.* Disable Auto Update. Valid options: 'true', 'false' and 'undef'. Default: 'undef'
-* `reboot_relaunch_timeout_minutes`: *Optional.* How long to wait before reboot will be attempted again. Valid values are 1 through 440. Default: 'undef'
+* `reboot_relaunch_timeout_minutes`: *Optional.* How long to wait before reboot will be attempted again. Valid values are 1 through 1440. Default: 'undef'
 * `reboot_warning_timeout_minutes`: *Optional.* How long to give the user to respond before rebooting the system. Valid values are 1 through 30. Default: 'undef'
 * `reschedule_wait_time_minutes`: *Optional.* How long to reschedule between attempts to update. Valid values are 1 through 60. Default: 'undef'
 * `scheduled_install_day`: *Optional.* Day of the week to install updates on. Valid values are Everyday, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday. Default: 'undef'

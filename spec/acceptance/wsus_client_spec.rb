@@ -174,7 +174,7 @@ RSpec.describe 'wsus_client' do
     it_behaves_like 'enabled range',
                     :reboot_relaunch_timeout_minutes,
                     'RebootRelaunchTimeout',
-                    [1, 440],
+                    [1, 1440],
                     au_key
   end
 

@@ -295,12 +295,12 @@ describe 'wsus_client' do
       context 'reboot_relaunch_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootRelaunchTimeout" }
         let(:below_range) { 0 }
-        let(:above_range) { 441 }
+        let(:above_range) { 1441 }
         let(:param_sym) { :reboot_relaunch_timeout_minutes }
-        it_behaves_like 'valid range', [1, 220, 440]
+        it_behaves_like 'valid range', [1, 720, 1440]
         it_behaves_like 'below range'
         it_behaves_like 'above range'
-        it_behaves_like 'enabled feature', 200
+        it_behaves_like 'enabled feature', 720
       end
 
       context 'reboot_warning_timeout_minutes =>' do
