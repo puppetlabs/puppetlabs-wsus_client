@@ -27,7 +27,7 @@ end
 
 group :development do
   gem 'rake',                    :require => false
-  gem 'rspec', '~>2.14.1',       :require => false
+  gem 'rspec', '~>3.0.0',        :require => false
   gem 'puppet-lint',             :require => false
   gem 'puppetlabs_spec_helper',  :require => false
   gem 'puppet_facts',            :require => false
@@ -35,11 +35,7 @@ group :development do
 end
 
 group :system_tests do
-  if beaker_rspec_version = ENV['BEAKER_RSPEC_VERSION']
-    gem 'beaker-rspec', *location_for(beaker_rspec_version)
-  else
-    gem 'beaker-rspec',  :require => false
-  end
+  gem 'beaker-rspec', *location_for(ENV['BEAKER_RSPEC_VERSION'] || '~> 5.1')
   gem 'beaker', *location_for(ENV['BEAKER_VERSION'] || '~> 2.18')
   gem 'beaker-puppet_install_helper',  :require => false
 end
