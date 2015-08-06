@@ -126,28 +126,38 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
     end
   end
 
-  context 'auto_update_option =>', {:testcase => ['70197', '70198', '70199', '70200']} do
-    [2, 3, 5].each do |au_opt|
-      describe "#{au_opt}" do
+  context 'auto_update_option =>' do
+    {'notifyonly' => 2,
+     'autonotify' => 3,
+     'autoinstall' => 5}.each do |key, au_opt|
+      describe "#{au_opt}", {:testcase => ['70197', '70198', '70200']} do
         it { create_apply_manifest :auto_update_option => au_opt }
         it_behaves_like 'registry_value', 'AUOptions', au_key do
           let(:reg_data) { au_opt }
         end
       end
+      describe "#{key}", {:testcase => ['70201', '70202', '70204']} do
+        it { create_apply_manifest :auto_update_option => key }
+        it_behaves_like 'registry_value', 'AUOptions', au_key do
+          let(:reg_data) { au_opt }
+        end
+      end
     end
-    describe 'Scheduled', {:testrail => ['70203']} do
-      it { create_apply_manifest(
-          {:auto_update_option => 4,
-           :scheduled_install_day => 0,
-           :scheduled_install_hour => 19, }) }
-      it_behaves_like 'registry_value', 'AUOptions', au_key do
-        let(:reg_data) { 4 }
-      end
-      it_behaves_like 'registry_value', 'ScheduledInstallDay', au_key do
-        let(:reg_data) { 0 }
-      end
-      it_behaves_like 'registry_value', 'ScheduledInstallTime', au_key do
-        let(:reg_data) { 19 }
+    ['Scheduled', 4].each do |scheduled|
+      describe 'Scheduled', {:testrail => ['70203', '70199']} do
+        it { create_apply_manifest(
+            {:auto_update_option => scheduled,
+             :scheduled_install_day => 0,
+             :scheduled_install_hour => 19, }) }
+        it_behaves_like 'registry_value', 'AUOptions', au_key do
+          let(:reg_data) { 4 }
+        end
+        it_behaves_like 'registry_value', 'ScheduledInstallDay', au_key do
+          let(:reg_data) { 0 }
+        end
+        it_behaves_like 'registry_value', 'ScheduledInstallTime', au_key do
+          let(:reg_data) { 19 }
+        end
       end
     end
   end
@@ -257,7 +267,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
       end
     end
   end
-#
+
 # context 'target_group =>', {:testrail => ['70268']} do
 #   let(:reg_key) { "#{base_key}\\TargetGroup" }
 #   let(:param_sym) { :target_group }
