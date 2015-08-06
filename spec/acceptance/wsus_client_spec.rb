@@ -268,9 +268,28 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
     end
   end
 
-# context 'target_group =>', {:testrail => ['70268']} do
-#   let(:reg_key) { "#{base_key}\\TargetGroup" }
-#   let(:param_sym) { :target_group }
-#   it_behaves_like 'enabled feature', 'UberUserGroup'
-# end
+  context 'target_group =>', {:testrail => ['70268']} do
+    describe 'testTargetGroup' do
+      it {
+        create_apply_manifest :target_group => 'testTargetGroup'
+      }
+      it_behaves_like 'registry_value', 'TargetGroup' do
+        let(:reg_data) { 'testTargetGroup' }
+        let(:reg_type) { :type_string }
+      end
+      it_behaves_like 'registry_value', 'TargetGroupEnabled' do
+        let(:reg_data) { 1 }
+        let(:reg_type) { :type_dword_converted }
+      end
+    end
+    describe 'false', {:testrail => ['89606']} do
+      it {
+        create_apply_manifest :target_group => false
+      }
+      it_behaves_like 'registry_value', 'TargetGroupEnabled' do
+        let(:reg_data) { 0 }
+        let(:reg_type) { :type_dword_converted }
+      end
+    end
+  end
 end
