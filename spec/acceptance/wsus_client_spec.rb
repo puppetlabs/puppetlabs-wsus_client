@@ -69,29 +69,34 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context "server_url =>", {:testrail => ['70185', '70184']} do
+  context "server_url =>", {:testrail => ['70183', '70185', '70184']} do
     let(:reg_type) { :type_string }
-    let(:reg_data) { 'https://SERVER:8530' }
 
-    describe 'WUServer setting' do
-      it { create_apply_manifest :server_url => 'https://SERVER:8530' }
-      it_behaves_like 'registry_value', "WUServer"
-      it_behaves_like 'registry_value undefined', "WUStatusServer"
-      it_behaves_like 'registry_value', "UseWUServer", au_key do
-        let(:reg_data) { 1 }
-        let(:reg_type) { :type_dword_converted }
-      end
-    end
-    describe 'WUStatusServer', {:testrail => ['70192']} do
-      it { create_apply_manifest(
-        {:server_url => 'https://SERVER:8530',
-         :enable_status_server => true,
-        }) }
-      it_behaves_like 'registry_value', "WUServer"
-      it_behaves_like 'registry_value', "WUStatusServer"
-      it_behaves_like 'registry_value', "UseWUServer", au_key do
-        let(:reg_data) { 1 }
-        let(:reg_type) { :type_dword_converted }
+    ['http', 'https'].each do |protocol|
+      wsus_url = "#{protocol}://SERVER:8530"
+      context wsus_url do
+        let(:reg_data) { wsus_url }
+        describe 'WUServer setting' do
+          it { create_apply_manifest :server_url => wsus_url }
+          it_behaves_like 'registry_value', "WUServer"
+          it_behaves_like 'registry_value undefined', "WUStatusServer"
+          it_behaves_like 'registry_value', "UseWUServer", au_key do
+            let(:reg_data) { 1 }
+            let(:reg_type) { :type_dword_converted }
+          end
+        end
+        describe 'WUStatusServer', {:testrail => ['70192']} do
+          it { create_apply_manifest(
+              {:server_url => wsus_url,
+               :enable_status_server => true,
+              }) }
+          it_behaves_like 'registry_value', "WUServer"
+          it_behaves_like 'registry_value', "WUStatusServer"
+          it_behaves_like 'registry_value', "UseWUServer", au_key do
+            let(:reg_data) { 1 }
+            let(:reg_type) { :type_dword_converted }
+          end
+        end
       end
     end
   end
@@ -107,9 +112,9 @@ RSpec.describe 'wsus_client' do
     end
     describe 'Scheduled', {:testrail => ['70203']} do
       it { create_apply_manifest(
-        {:auto_update_option => 4,
-         :scheduled_install_day => 0,
-         :scheduled_install_hour => 19, }) }
+          {:auto_update_option => 4,
+           :scheduled_install_day => 0,
+           :scheduled_install_hour => 19, }) }
       it_behaves_like 'registry_value', 'AUOptions', au_key do
         let(:reg_data) { 4 }
       end
