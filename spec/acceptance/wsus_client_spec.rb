@@ -85,16 +85,18 @@ RSpec.describe 'wsus_client' do
             let(:reg_type) { :type_dword_converted }
           end
         end
-        describe 'WUStatusServer', {:testrail => ['70192']} do
-          it { create_apply_manifest(
-              {:server_url => wsus_url,
-               :enable_status_server => true,
-              }) }
-          it_behaves_like 'registry_value', "WUServer"
-          it_behaves_like 'registry_value', "WUStatusServer"
-          it_behaves_like 'registry_value', "UseWUServer", au_key do
-            let(:reg_data) { 1 }
-            let(:reg_type) { :type_dword_converted }
+        [true, false].each do |enabled|
+          describe 'WUStatusServer', {:testrail => ['70190', '70192']} do
+            it { create_apply_manifest(
+                {:server_url => wsus_url,
+                 :enable_status_server => enabled,
+                }) }
+            it_behaves_like 'registry_value', "WUServer"
+            it_behaves_like 'registry_value', "WUStatusServer"
+            it_behaves_like 'registry_value', "UseWUServer", au_key do
+              let(:reg_data) { enabled ? 1 : 0 }
+              let(:reg_type) { :type_dword_converted }
+            end
           end
         end
       end
