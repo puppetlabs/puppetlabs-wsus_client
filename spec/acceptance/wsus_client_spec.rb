@@ -175,7 +175,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
                     'AutoInstallMinorUpdates', au_key
   end
 
-  context 'detection_frequency_hours =>', {:testrail => ['70214', '70215']} do
+  context 'detection_frequency_hours =>', {:testrail => ['70213', '70214', '70215']} do
     it_behaves_like 'enabled range',
                     :detection_frequency_hours,
                     'DetectionFrequency',
