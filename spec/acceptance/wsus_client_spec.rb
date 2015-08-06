@@ -251,7 +251,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
     end
   end
 
-  context 'scheduled_install_time =>', {:testrail => ['70263', '70264']} do
+  context 'scheduled_install_hour =>', {:testrail => ['70263', '70264']} do
     [0, 23].each do |hour|
       describe "#{hour}" do
         it {
