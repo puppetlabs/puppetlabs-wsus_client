@@ -1,21 +1,41 @@
 require 'spec_helper_acceptance'
-
 RSpec.describe 'wsus_client' do
+
+  let(:reg_type) { :type_dword_converted }
 
   base_key = 'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate'
   au_key = "#{base_key}\\AU"
 
-  def create_apply_manifest(params)
+  def clear_registry
+    pp = <<-PP
+service {'wuauserv':
+  ensure => stopped,
+}->
+registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU':
+  ensure       => absent,
+  purge_values => true,
+}->
+registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
+  ensure       => absent,
+  purge_values => true,
+}
+    PP
+    apply_manifest_on(default, pp, :catch_failures => false)
+  end
+
+  def create_apply_manifest(params, clear_first = true)
+    if clear_first
+      clear_registry
+    end
     pp = "class {'wsus_client':"
     params.each { |k, v|
       v = "'#{v}'" if v.is_a? String
       pp << "\n  #{k.to_s} => #{v},"
     }
     pp << "}"
-    apply_manifest_on(default, pp)
+    apply_manifest_on(default, pp, :catch_failures => true)
   end
 
-  let(:reg_type) { :type_dword_converted }
 
   shared_examples 'registry_value' do |property, key = base_key|
     describe windows_registry_key(key) do
@@ -72,34 +92,37 @@ RSpec.describe 'wsus_client' do
   context "server_url =>", {:testrail => ['70183', '70185', '70184']} do
     let(:reg_type) { :type_string }
 
-    ['http', 'https'].each do |protocol|
-      wsus_url = "#{protocol}://SERVER:8530"
-      context wsus_url do
+    ['http://SERVER:8530', 'https://SERVER:8531'].each do |wsus_url|
+      describe wsus_url do
         let(:reg_data) { wsus_url }
-        describe 'WUServer setting' do
-          it { create_apply_manifest :server_url => wsus_url }
-          it_behaves_like 'registry_value', "WUServer"
-          it_behaves_like 'registry_value undefined', "WUStatusServer"
-          it_behaves_like 'registry_value', "UseWUServer", au_key do
-            let(:reg_data) { 1 }
-            let(:reg_type) { :type_dword_converted }
-          end
-        end
-        [true, false].each do |enabled|
-          describe 'WUStatusServer', {:testrail => ['70190', '70192']} do
-            it { create_apply_manifest(
-                {:server_url => wsus_url,
-                 :enable_status_server => enabled,
-                }) }
-            it_behaves_like 'registry_value', "WUServer"
-            it_behaves_like 'registry_value', "WUStatusServer"
-            it_behaves_like 'registry_value', "UseWUServer", au_key do
-              let(:reg_data) { enabled ? 1 : 0 }
-              let(:reg_type) { :type_dword_converted }
-            end
-          end
+        it { create_apply_manifest :server_url => wsus_url }
+        it_behaves_like 'registry_value', "WUServer"
+        it_behaves_like 'registry_value undefined', "WUStatusServer"
+        it_behaves_like 'registry_value', "UseWUServer", au_key do
+          let(:reg_data) { 1 }
+          let(:reg_type) { :type_dword_converted }
         end
       end
+    end
+
+    describe "true", {:testrail => ['70190']} do
+      let(:reg_data) { 'http://myserver:8530' }
+      it { create_apply_manifest(
+          {:server_url => 'http://myserver:8530',
+           :enable_status_server => true,
+          }) }
+      it_behaves_like 'registry_value', "WUStatusServer"
+      it_behaves_like 'registry_value', "WUServer"
+    end
+
+    describe "false", {:testrail => ['70192']} do
+      let(:reg_data) { 'http://myserver:8530' }
+      it { create_apply_manifest(
+          {:server_url => 'http://myserver:8530',
+           :enable_status_server => false,
+          }, false) }
+      it_behaves_like 'registry_value undefined', "WUStatusServer"
+      it_behaves_like 'registry_value', "WUServer"
     end
   end
 
