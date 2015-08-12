@@ -105,7 +105,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
       end
     end
 
-    describe "true", {:testrail => ['70190']} do
+    describe "true", {:testrail => ['70189']} do
       let(:reg_data) { 'http://myserver:8530' }
       it { create_apply_manifest(
           {:server_url => 'http://myserver:8530',
@@ -115,7 +115,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
       it_behaves_like 'registry_value', "WUServer"
     end
 
-    describe "false", {:testrail => ['70192']} do
+    describe "false", {:testrail => ['70190']} do
       let(:reg_data) { 'http://myserver:8530' }
       it { create_apply_manifest(
           {:server_url => 'http://myserver:8530',
