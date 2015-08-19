@@ -1,21 +1,41 @@
 require 'spec_helper_acceptance'
-
 RSpec.describe 'wsus_client' do
+
+  let(:reg_type) { :type_dword_converted }
 
   base_key = 'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate'
   au_key = "#{base_key}\\AU"
 
-  def create_apply_manifest(params)
+  def clear_registry
+    pp = <<-PP
+service {'wuauserv':
+  ensure => stopped,
+}->
+registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU':
+  ensure       => absent,
+  purge_values => true,
+}->
+registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
+  ensure       => absent,
+  purge_values => true,
+}
+    PP
+    apply_manifest_on(default, pp, :catch_failures => false)
+  end
+
+  def create_apply_manifest(params, clear_first = true)
+    if clear_first
+      clear_registry
+    end
     pp = "class {'wsus_client':"
     params.each { |k, v|
       v = "'#{v}'" if v.is_a? String
       pp << "\n  #{k.to_s} => #{v},"
     }
     pp << "}"
-    apply_manifest_on(default, pp)
+    apply_manifest_on(default, pp, :catch_failures => true)
   end
 
-  let(:reg_type) { :type_dword_converted }
 
   shared_examples 'registry_value' do |property, key = base_key|
     describe windows_registry_key(key) do
@@ -69,55 +89,75 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context "server_url =>", {:testrail => ['70185', '70184']} do
+  context "server_url =>", {:testrail => ['70183', '70185', '70184']} do
     let(:reg_type) { :type_string }
-    let(:reg_data) { 'https://SERVER:8530' }
 
-    describe 'WUServer setting' do
-      it { create_apply_manifest :server_url => 'https://SERVER:8530' }
-      it_behaves_like 'registry_value', "WUServer"
-      it_behaves_like 'registry_value undefined', "WUStatusServer"
-      it_behaves_like 'registry_value', "UseWUServer", au_key do
-        let(:reg_data) { 1 }
-        let(:reg_type) { :type_dword_converted }
+    ['http://SERVER:8530', 'https://SERVER:8531'].each do |wsus_url|
+      describe wsus_url do
+        let(:reg_data) { wsus_url }
+        it { create_apply_manifest :server_url => wsus_url }
+        it_behaves_like 'registry_value', "WUServer"
+        it_behaves_like 'registry_value undefined', "WUStatusServer"
+        it_behaves_like 'registry_value', "UseWUServer", au_key do
+          let(:reg_data) { 1 }
+          let(:reg_type) { :type_dword_converted }
+        end
       end
     end
-    describe 'WUStatusServer', {:testrail => ['70192']} do
+
+    describe "true", {:testrail => ['70189']} do
+      let(:reg_data) { 'http://myserver:8530' }
       it { create_apply_manifest(
-        {:server_url => 'https://SERVER:8530',
-         :enable_status_server => true,
-        }) }
-      it_behaves_like 'registry_value', "WUServer"
+          {:server_url => 'http://myserver:8530',
+           :enable_status_server => true,
+          }) }
       it_behaves_like 'registry_value', "WUStatusServer"
-      it_behaves_like 'registry_value', "UseWUServer", au_key do
-        let(:reg_data) { 1 }
-        let(:reg_type) { :type_dword_converted }
-      end
+      it_behaves_like 'registry_value', "WUServer"
+    end
+
+    describe "false", {:testrail => ['70190']} do
+      let(:reg_data) { 'http://myserver:8530' }
+      it { create_apply_manifest(
+          {:server_url => 'http://myserver:8530',
+           :enable_status_server => false,
+          }, false) }
+      it_behaves_like 'registry_value undefined', "WUStatusServer"
+      it_behaves_like 'registry_value', "WUServer"
     end
   end
 
-  context 'auto_update_option =>', {:testcase => ['70197', '70198', '70199', '70200']} do
-    [2, 3, 5].each do |au_opt|
-      describe "#{au_opt}" do
+  context 'auto_update_option =>' do
+    {'notifyonly' => 2,
+     'autonotify' => 3,
+     'autoinstall' => 5}.each do |key, au_opt|
+      describe "#{au_opt}", {:testcase => ['70197', '70198', '70200']} do
         it { create_apply_manifest :auto_update_option => au_opt }
         it_behaves_like 'registry_value', 'AUOptions', au_key do
           let(:reg_data) { au_opt }
         end
       end
+      describe "#{key}", {:testcase => ['70201', '70202', '70204']} do
+        it { create_apply_manifest :auto_update_option => key }
+        it_behaves_like 'registry_value', 'AUOptions', au_key do
+          let(:reg_data) { au_opt }
+        end
+      end
     end
-    describe 'Scheduled', {:testrail => ['70203']} do
-      it { create_apply_manifest(
-        {:auto_update_option => 4,
-         :scheduled_install_day => 0,
-         :scheduled_install_hour => 19, }) }
-      it_behaves_like 'registry_value', 'AUOptions', au_key do
-        let(:reg_data) { 4 }
-      end
-      it_behaves_like 'registry_value', 'ScheduledInstallDay', au_key do
-        let(:reg_data) { 0 }
-      end
-      it_behaves_like 'registry_value', 'ScheduledInstallTime', au_key do
-        let(:reg_data) { 19 }
+    ['Scheduled', 4].each do |scheduled|
+      describe 'Scheduled', {:testrail => ['70203', '70199']} do
+        it { create_apply_manifest(
+            {:auto_update_option => scheduled,
+             :scheduled_install_day => 0,
+             :scheduled_install_hour => 19, }) }
+        it_behaves_like 'registry_value', 'AUOptions', au_key do
+          let(:reg_data) { 4 }
+        end
+        it_behaves_like 'registry_value', 'ScheduledInstallDay', au_key do
+          let(:reg_data) { 0 }
+        end
+        it_behaves_like 'registry_value', 'ScheduledInstallTime', au_key do
+          let(:reg_data) { 19 }
+        end
       end
     end
   end
@@ -135,7 +175,7 @@ RSpec.describe 'wsus_client' do
                     'AutoInstallMinorUpdates', au_key
   end
 
-  context 'detection_frequency_hours =>', {:testrail => ['70214', '70215']} do
+  context 'detection_frequency_hours =>', {:testrail => ['70213', '70214', '70215']} do
     it_behaves_like 'enabled range',
                     :detection_frequency_hours,
                     'DetectionFrequency',
@@ -211,7 +251,7 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context 'scheduled_install_time =>', {:testrail => ['70263', '70264']} do
+  context 'scheduled_install_hour =>', {:testrail => ['70263', '70264']} do
     [0, 23].each do |hour|
       describe "#{hour}" do
         it {
@@ -227,10 +267,29 @@ RSpec.describe 'wsus_client' do
       end
     end
   end
-#
-# context 'target_group =>', {:testrail => ['70268']} do
-#   let(:reg_key) { "#{base_key}\\TargetGroup" }
-#   let(:param_sym) { :target_group }
-#   it_behaves_like 'enabled feature', 'UberUserGroup'
-# end
+
+  context 'target_group =>', {:testrail => ['70268']} do
+    describe 'testTargetGroup' do
+      it {
+        create_apply_manifest :target_group => 'testTargetGroup'
+      }
+      it_behaves_like 'registry_value', 'TargetGroup' do
+        let(:reg_data) { 'testTargetGroup' }
+        let(:reg_type) { :type_string }
+      end
+      it_behaves_like 'registry_value', 'TargetGroupEnabled' do
+        let(:reg_data) { 1 }
+        let(:reg_type) { :type_dword_converted }
+      end
+    end
+    describe 'false', {:testrail => ['89606']} do
+      it {
+        create_apply_manifest :target_group => false
+      }
+      it_behaves_like 'registry_value', 'TargetGroupEnabled' do
+        let(:reg_data) { 0 }
+        let(:reg_type) { :type_dword_converted }
+      end
+    end
+  end
 end
