@@ -1,10 +1,20 @@
+##2015-09-01 - Supported release 1.0.0
+
+###Summary
+
+First supported release
+
+###Features
+- Add metadata for Puppet 4 and PE 2015.2.0
+- Update documentation
+
 ##2015-07-02 - Unsupported release 0.1.3
 
 ###Summary
 
 Fix the max value of RebootRelaunchTimeout
 
-####Features
+###Features
 - Increase RebootRelaunchTimeout to 1440 instead of 440
 
 ##2015-06-25 - Unsupported release 0.1.2
