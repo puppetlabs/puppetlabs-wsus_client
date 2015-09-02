@@ -1,4 +1,4 @@
-##2015-09-01 - Supported release 1.0.0
+##2015-09-02 - Supported release 1.0.0
 
 ###Summary
 
