@@ -5,7 +5,7 @@
   "summary": "Manage WSUS(Windows Server Update Service) settings for client nodes",
   "license": "Apache-2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-wsus_client",
-  "project_page": "https://tickets.puppetlabs.com/browse/MODULES/",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-wsus_client",
   "issues_url": "https://tickets.puppetlabs.com/browse/MODULES/",
   "operatingsystem_support": [
     {
