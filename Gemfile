@@ -43,8 +43,6 @@ group :development do
   gem 'puppet_facts',                        :require => false
   gem 'mocha', '~>0.10.5',                   :require => false
   gem 'pry',                                 :require => false
-  # rspec-puppet should be pinned to 2.3.2 until MODULES-3240 is resolved
-  gem 'rspec-puppet','2.3.2',                :require => false
 end
 
 group :system_tests do
