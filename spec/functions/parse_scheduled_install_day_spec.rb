@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'parse_scheduled_install_day' do
-  let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
   expect_day = {'Everyday' => 0,
                 'Sunday' => 1,
                 'Monday' => 2,
