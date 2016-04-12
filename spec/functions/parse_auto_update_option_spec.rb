@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'parse_auto_update_option' do
-  let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
   expected_hash = {'NotifyOnly' => 2,
                    'AutoNotify' => 3,
                    'Scheduled' => 4,
