@@ -18,3 +18,11 @@ appveyor.yml:
       RUBY_VER: 193
     - PUPPET_GEM_VERSION: 3.7.0
       RUBY_VER: 200-x64
+MAINTAINERS.md:
+  maintainers:
+    - "Puppet Windows Team `windows |at| puppet |dot| com`"
+NOTICE:
+  copyright_holders:
+    - name: 'Puppet, Inc.'
+      begin: 2015
+      end: 'latest'
