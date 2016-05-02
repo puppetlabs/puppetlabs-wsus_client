@@ -1,3 +1,12 @@
+##2016-05-03 - Supported Release 1.0.2
+###Summary
+
+Small release with monior bugfixes
+
+###Bugfixes
+- Fix links and dependencies in metadata.json
+- Fix acceptance tests
+
 ##2015-12-08 - Supported Release 1.0.1
 ###Summary
 
