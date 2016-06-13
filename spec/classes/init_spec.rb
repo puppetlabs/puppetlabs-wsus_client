@@ -357,6 +357,13 @@ describe 'wsus_client' do
         let(:param_sym) { :target_group }
         it_behaves_like 'enabled feature', 'UberUserGroup'
       end
+
+      context 'always_auto_reboot_at_scheduled_time =>' do
+        let(:reg_key) { "#{au_key}\\AlwaysAutoRebootAtScheduledTime" }
+        let(:param_sym) { :always_auto_reboot_at_scheduled_time }
+        it_behaves_like 'bool value'
+        it_behaves_like 'non enabled feature'
+      end
     end
   end
 end

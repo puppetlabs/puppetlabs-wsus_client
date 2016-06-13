@@ -14,6 +14,7 @@ class wsus_client (
   $reschedule_wait_time_minutes        = undef,
   $scheduled_install_day               = undef,
   $scheduled_install_hour              = undef,
+  $always_auto_reboot_at_scheduled_time = undef,
   $target_group                        = undef,
   $purge_values                        = false,
 ){
@@ -168,5 +169,11 @@ class wsus_client (
   wsus_client::setting{ "${_basekey}\\TargetGroup":
     type => 'string',
     data => $target_group,
+  }
+
+  wsus_client::setting{ "${_au_base}\\AlwaysAutoRebootAtScheduledTime":
+    data          => $always_auto_reboot_at_scheduled_time,
+    has_enabled   => false,
+    validate_bool => true,
   }
 }
