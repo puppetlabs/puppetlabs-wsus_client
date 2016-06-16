@@ -37,12 +37,15 @@ class wsus_client (
     purge_values => $purge_values
   }
 
-  if ($::kernelmajversion >= 6.3) {
-    service { 'wuauserv': enable => true, }
-  } else {
-    service { 'wuauserv':
-      ensure => running,
-      enable => true,
+  case $::kernelmajversion {
+    '6.3', '10.0' : {
+      service { 'wuauserv': enable => true, }
+    }
+    default       : {
+      service { 'wuauserv':
+        ensure => running,
+        enable => true,
+      }
     }
   }
 
