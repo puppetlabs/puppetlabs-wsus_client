@@ -39,9 +39,16 @@ class wsus_client (
     purge_values => $purge_values
   }
 
-  service{ 'wuauserv':
-    ensure => running,
-    enable => true,
+  case $::kernelmajversion {
+    '6.3', '10.0' : {
+      service { 'wuauserv': enable => true, }
+    }
+    default       : {
+      service { 'wuauserv':
+        ensure => running,
+        enable => true,
+      }
+    }
   }
 
   Registry_value{ require => Registry_key[$_basekey], notify => Service['wuauserv'] }
