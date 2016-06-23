@@ -49,6 +49,7 @@ group :system_tests do
   gem 'beaker-rspec', *location_for(ENV['BEAKER_RSPEC_VERSION'] || '~> 5.1')
   gem 'beaker', *location_for(ENV['BEAKER_VERSION'] || '~> 2.20')
   gem 'beaker-puppet_install_helper',  :require => false
+  gem 'specinfra', '=2.59.0',          :require => false
 end
 
 # The recommendation is for PROJECT_GEM_VERSION, although there are older ways
