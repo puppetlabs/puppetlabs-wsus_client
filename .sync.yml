@@ -8,6 +8,13 @@
       env: PUPPET_GEM_VERSION="3.7.0"
 Gemfile:
   supports_windows: true
+  optional:
+    ':system_tests':
+      # There is a known problem with specinfra versions above 2.59.0
+      # https://github.com/mizzy/specinfra/pull/561
+      # Until this is resolved, pin specinfra to 2.59.0
+      - gem: specinfra
+        version: '=2.59.0'
 Rakefile:
   unmanaged: true
 spec/spec_helper.rb:
