@@ -364,6 +364,17 @@ describe 'wsus_client' do
         it_behaves_like 'bool value'
         it_behaves_like 'non enabled feature'
       end
+
+      context 'always_auto_reboot_at_scheduled_time_minutes =>' do
+        let(:reg_key) { "#{au_key}\\AlwaysAutoRebootAtScheduledTimeMinutes" }
+        let(:param_sym) { :always_auto_reboot_at_scheduled_time_minutes }
+        let(:below_range) { 14 }
+        let(:above_range) { 181 }
+        it_behaves_like 'valid range', [15, 83, 180]
+        it_behaves_like 'below range'
+        it_behaves_like 'above range'
+        it_behaves_like 'non enabled feature'
+      end
     end
   end
 end
