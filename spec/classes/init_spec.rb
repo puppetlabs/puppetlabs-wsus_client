@@ -48,7 +48,7 @@ describe 'wsus_client' do
 
   shared_examples 'below range' do
     let(:params) { {param_sym => below_range} }
-    let(:error_message) { /Expected #{below_range} to be greater or equal to \d, got #{below_range}/ }
+    let(:error_message) { /Expected #{below_range} to be greater or equal to \d+, got #{below_range}/ }
     it {
       expect { catalogue }.to raise_error(Puppet::Error, error_message)
     }
