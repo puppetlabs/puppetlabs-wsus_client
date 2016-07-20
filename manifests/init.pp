@@ -41,7 +41,6 @@ class wsus_client (
   }
 
   service{ 'wuauserv':
-    ensure => running,
     enable => true,
   }
 
