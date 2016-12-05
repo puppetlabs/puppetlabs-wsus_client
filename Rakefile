@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet-lint/tasks/puppet-lint'
+require 'puppet_blacksmith/rake_tasks' if Bundler.rubygems.find_name('puppet-blacksmith').any?
 
 # These lint exclusions are in puppetlabs_spec_helper but needs a version above 0.10.3 
 # Line length test is 80 chars in puppet-lint 1.1.0
