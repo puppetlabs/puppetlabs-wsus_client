@@ -48,7 +48,7 @@ describe 'wsus_client' do
 
   shared_examples 'below range' do
     let(:params) { {param_sym => below_range} }
-    let(:error_message) { /Expected #{below_range} to be greater or equal to \d, got #{below_range}/ }
+    let(:error_message) { /Expected #{below_range} to be greater or equal to \d+, got #{below_range}/ }
     it {
       expect { catalogue }.to raise_error(Puppet::Error, error_message)
     }
@@ -356,6 +356,24 @@ describe 'wsus_client' do
         let(:reg_key) { "#{base_key}\\TargetGroup" }
         let(:param_sym) { :target_group }
         it_behaves_like 'enabled feature', 'UberUserGroup'
+      end
+
+      context 'always_auto_reboot_at_scheduled_time =>' do
+        let(:reg_key) { "#{au_key}\\AlwaysAutoRebootAtScheduledTime" }
+        let(:param_sym) { :always_auto_reboot_at_scheduled_time }
+        it_behaves_like 'bool value'
+        it_behaves_like 'non enabled feature'
+      end
+
+      context 'always_auto_reboot_at_scheduled_time_minutes =>' do
+        let(:reg_key) { "#{au_key}\\AlwaysAutoRebootAtScheduledTimeMinutes" }
+        let(:param_sym) { :always_auto_reboot_at_scheduled_time_minutes }
+        let(:below_range) { 14 }
+        let(:above_range) { 181 }
+        it_behaves_like 'valid range', [15, 83, 180]
+        it_behaves_like 'below range'
+        it_behaves_like 'above range'
+        it_behaves_like 'non enabled feature'
       end
     end
   end

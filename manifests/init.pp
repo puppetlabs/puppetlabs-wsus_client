@@ -1,21 +1,23 @@
 class wsus_client (
-  $server_url                          = undef,
-  $enable_status_server                = undef,
-  $accept_trusted_publisher_certs      = undef,
-  $auto_update_option                  = undef, #2..5 valid values
-  $auto_install_minor_updates          = undef,
-  $detection_frequency_hours           = undef,
-  $disable_windows_update_access       = undef,
-  $elevate_non_admins                  = undef,
-  $no_auto_reboot_with_logged_on_users = undef,
-  $no_auto_update                      = undef,
-  $reboot_relaunch_timeout_minutes     = undef,
-  $reboot_warning_timeout_minutes      = undef,
-  $reschedule_wait_time_minutes        = undef,
-  $scheduled_install_day               = undef,
-  $scheduled_install_hour              = undef,
-  $target_group                        = undef,
-  $purge_values                        = false,
+  $server_url                                   = undef,
+  $enable_status_server                         = undef,
+  $accept_trusted_publisher_certs               = undef,
+  $auto_update_option                           = undef, #2..5 valid values
+  $auto_install_minor_updates                   = undef,
+  $detection_frequency_hours                    = undef,
+  $disable_windows_update_access                = undef,
+  $elevate_non_admins                           = undef,
+  $no_auto_reboot_with_logged_on_users          = undef,
+  $no_auto_update                               = undef,
+  $reboot_relaunch_timeout_minutes              = undef,
+  $reboot_warning_timeout_minutes               = undef,
+  $reschedule_wait_time_minutes                 = undef,
+  $scheduled_install_day                        = undef,
+  $scheduled_install_hour                       = undef,
+  $always_auto_reboot_at_scheduled_time         = undef,
+  $always_auto_reboot_at_scheduled_time_minutes = undef,
+  $target_group                                 = undef,
+  $purge_values                                 = false,
 ){
 
   $_basekey = $::operatingsystemrelease ? {
@@ -39,7 +41,6 @@ class wsus_client (
   }
 
   service{ 'wuauserv':
-    ensure => running,
     enable => true,
   }
 
@@ -168,5 +169,16 @@ class wsus_client (
   wsus_client::setting{ "${_basekey}\\TargetGroup":
     type => 'string',
     data => $target_group,
+  }
+
+  wsus_client::setting{ "${_au_base}\\AlwaysAutoRebootAtScheduledTime":
+    data          => $always_auto_reboot_at_scheduled_time,
+    has_enabled   => false,
+    validate_bool => true,
+  }
+  wsus_client::setting{ "${_au_base}\\AlwaysAutoRebootAtScheduledTimeMinutes":
+    data           => $always_auto_reboot_at_scheduled_time_minutes,
+    validate_range => [15,180],
+    has_enabled    => false,
   }
 }
