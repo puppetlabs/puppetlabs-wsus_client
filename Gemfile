@@ -45,7 +45,7 @@ group :development do
   gem 'metadata-json-lint',                 :require => false, :platforms => 'ruby'
   gem 'puppet_facts',                       :require => false
   gem 'puppet-blacksmith', '>= 3.4.0',      :require => false, :platforms => 'ruby'
-  gem 'puppetlabs_spec_helper', '>= 1.2.1', :require => false
+  gem 'puppetlabs_spec_helper', '0.10.3',   :require => false
   gem 'rspec-puppet', '>= 2.3.2',           :require => false
   gem 'rspec-puppet-facts',                 :require => false, :platforms => 'ruby'
   gem 'mocha', '< 1.2.0',                   :require => false
