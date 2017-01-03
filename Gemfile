@@ -45,7 +45,7 @@ group :development do
   gem 'metadata-json-lint',                 :require => false, :platforms => 'ruby'
   gem 'puppet_facts',                       :require => false
   gem 'puppet-blacksmith', '>= 3.4.0',      :require => false, :platforms => 'ruby'
-  gem 'puppetlabs_spec_helper', '0.10.3',   :require => false
+  gem 'puppetlabs_spec_helper', '>= 1.2.1', :require => false
   gem 'rspec-puppet', '>= 2.3.2',           :require => false
   gem 'rspec-puppet-facts',                 :require => false, :platforms => 'ruby'
   gem 'mocha', '< 1.2.0',                   :require => false
@@ -57,6 +57,8 @@ group :development do
   gem 'rubocop-rspec', '~> 1.6',            :require => false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
   gem 'pry',                                :require => false
   gem 'json_pure', '<= 2.0.1',              :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
+  gem 'fast_gettext', '1.1.0',              :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.1.0')
+  gem 'fast_gettext',                       :require => false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
 end
 
 group :system_tests do
@@ -69,6 +71,7 @@ group :system_tests do
   gem 'beaker-puppet_install_helper',                                            :require => false
   gem 'master_manipulator',                                                      :require => false
   gem 'beaker-hostgenerator', *location_for(ENV['BEAKER_HOSTGENERATOR_VERSION'])
+  gem 'beaker-abs', *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')        
 end
 
 gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])

@@ -1,6 +1,6 @@
 fixtures:
-  forge_modules:
-    stdlib: "puppetlabs/stdlib"  
-    registry: "puppetlabs/registry"
+  repositories:
+    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib.git"
+    registry: "git://github.com/puppetlabs/puppetlabs-registry.git"
   symlinks:
     "wsus_client": "#{source_dir}"

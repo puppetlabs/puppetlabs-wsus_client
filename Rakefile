@@ -4,6 +4,7 @@ require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet'
 require 'rubygems'
 require 'puppet-lint/tasks/puppet-lint'
+require 'puppet_blacksmith/rake_tasks' if Bundler.rubygems.find_name('puppet-blacksmith').any?
 
 begin
   require 'beaker/tasks/test' unless RUBY_PLATFORM =~ /win32/
