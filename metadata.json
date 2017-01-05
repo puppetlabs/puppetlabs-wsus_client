@@ -1,5 +1,5 @@
 {
-  "name": "puppetlabs/wsus_client",
+  "name": "puppetlabs-wsus_client",
   "version": "1.0.3",
   "author": "Puppet Inc",
   "summary": "Manage WSUS (Windows Server Update Service) settings for client nodes",
