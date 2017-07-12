@@ -114,7 +114,8 @@ describe 'wsus_client' do
     context "Windows #{os}" do
       let(:facts) { {
         :operatingsystem => 'windows',
-        :operatingsystemrelease => "Server #{os}"
+        :operatingsystemrelease => "Server #{os}",
+        :osfamily => 'windows'
       } }
 
       base_key = settings[:base_key]
