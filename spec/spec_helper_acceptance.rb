@@ -1,5 +1,7 @@
 require 'beaker-rspec'
 require 'beaker/puppet_install_helper'
+require 'beaker/testmode_switcher'
+require 'beaker/testmode_switcher/dsl'
 
 # Install Puppet Agent
 run_puppet_install_helper
