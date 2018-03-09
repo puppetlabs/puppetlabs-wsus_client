@@ -24,13 +24,17 @@ unless ENV['MODULE_provision'] == 'no'
 
   # Install wsus_client module from the forge or from local source.
   if options[:forge_host]
-    install_dev_puppet_module_on(default, staging)
-  else
-    # Install wsus_client dependencies.
-    %w(puppetlabs-stdlib puppetlabs-registry).each do |dep|
-      on(default, puppet("module install #{dep}"))
+    hosts.each do |host|
+      install_dev_puppet_module_on(host, staging)
     end
+  else
+    hosts.each do |host|
+      # Install wsus_client dependencies.
+      %w(puppetlabs-stdlib puppetlabs-registry).each do |dep|
+        on(host, puppet("module install #{dep}"))
+      end
 
-    install_dev_puppet_module_on(default, local)
+      install_dev_puppet_module_on(host, local)
+    end
   end
 end
