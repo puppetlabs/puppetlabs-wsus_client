@@ -1,3 +1,9 @@
+[CmdletBinding()]
+Param(
+  [Parameter(Mandatory = $False)]
+  [Switch]$Detailed
+)
+
 Function Get-SafeString($value) {
   if ($value -eq $null) {
     Write-Output ''
@@ -54,28 +60,33 @@ $Searcher = $Session.CreateUpdateSearcher()
 $historyCount = $Searcher.GetTotalHistoryCount()
 $Searcher.QueryHistory(0, $historyCount) | ForEach-Object -Process {
   # Returns IUpdateHistoryEntry https://msdn.microsoft.com/en-us/library/windows/desktop/aa386400(v=vs.85).aspx
+
+  # Basic Settings
   $props = @{
     'Operation' = Convert-ToUpdateOperationString $_.Operation
     'ResultCode' = Convert-ToOperationResultCodeString $_.ResultCode
-    'HResult' = $_.HResult
     'Date' = Get-SafeDateTime $_.Date
     'UpdateIdentity' = @{}
     'Title' = Get-SafeString $_.Title
-    'Description' = Get-SafeString $_.Description
-    'UnmappedResultCode' = $_.UnmappedResultCode
-    'ClientApplicationID' = Get-SafeString $_.ClientApplicationID
-    'ServerSelection' = Convert-ToServerSelectionString $_.ServerSelection
     'ServiceID' = Get-SafeString  $_.ServiceID
-    'UninstallationSteps' = @()
-    'UninstallationNotes' = Get-SafeString $_.UninstallationNotes
-    'SupportUrl' = Get-SafeString $_.SupportUrl
     'Categories' = @()
   }
-
   $_.Categories | % { $props.Categories += $_.Name } | Out-Null
   $props['UpdateIdentity']['RevisionNumber'] = $_.UpdateIdentity.RevisionNumber
   $props['UpdateIdentity']['UpdateID'] = $_.UpdateIdentity.UpdateID
-  $_.UninstallationSteps | % { $props.UninstallationSteps += $_ } | Out-Null
+
+  # Detailed Settings
+  if ($Detailed) {
+    $props['HResult'] = $_.HResult
+    $props['Description'] = Get-SafeString $_.Description
+    $props['UnmappedResultCode'] = $_.UnmappedResultCode
+    $props['ClientApplicationID'] = Get-SafeString $_.ClientApplicationID
+    $props['ServerSelection'] = Convert-ToServerSelectionString $_.ServerSelection
+    $props['UninstallationSteps'] = @()
+    $props['UninstallationNotes'] = Get-SafeString $_.UninstallationNotes
+    $props['SupportUrl'] = Get-SafeString $_.SupportUrl
+    $_.UninstallationSteps | % { $props.UninstallationSteps += $_ } | Out-Null
+  }
 
   New-Object -TypeName PSObject -Property $props
 } | ConvertTo-JSON

@@ -1,0 +1,10 @@
+{
+  "description": "Returns a history of installed Windows Updates.",
+  "parameters": {
+    "detailed": {
+      "description": "Return detailed update information.  Default is to return basic information",
+      "type": "Optional[Boolean]"
+    }
+  },
+  "input_method": "powershell"
+}
