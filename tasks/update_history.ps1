@@ -1,7 +1,16 @@
 [CmdletBinding()]
 Param(
   [Parameter(Mandatory = $False)]
-  [Switch]$Detailed
+  [Switch]$Detailed,
+
+  [Parameter(Mandatory = $False)]
+  [String]$Title,
+
+  [Parameter(Mandatory = $False)]
+  [String]$UpdateID,
+
+  [Parameter(Mandatory = $False)]
+  [Int]$MaximumUpdates = 300
 )
 
 Function Get-SafeString($value) {
@@ -58,7 +67,11 @@ $Searcher = $Session.CreateUpdateSearcher()
 # Returns IUpdateSearcher https://msdn.microsoft.com/en-us/library/windows/desktop/aa386515(v=vs.85).aspx
 
 $historyCount = $Searcher.GetTotalHistoryCount()
-$Searcher.QueryHistory(0, $historyCount) | ForEach-Object -Process {
+if ($historyCount -gt $MaximumUpdates) { $historyCount = $MaximumUpdates }
+$Searcher.QueryHistory(0, $historyCount) |
+  Where-Object { [String]::IsNullOrEmpty($Title) -or ($_.Title -match $Title) } |
+  Where-Object { [String]::IsNullOrEmpty($UpdateID) -or ($_.UpdateIdentity.UpdateID -eq $UpdateID) } |
+  ForEach-Object -Process {
   # Returns IUpdateHistoryEntry https://msdn.microsoft.com/en-us/library/windows/desktop/aa386400(v=vs.85).aspx
 
   # Basic Settings
