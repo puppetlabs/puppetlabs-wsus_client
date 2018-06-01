@@ -1,0 +1,22 @@
+{
+  "description": "Returns a history of installed Windows Updates.",
+  "parameters": {
+    "detailed": {
+      "description": "Return detailed update information.  Default is to return basic information",
+      "type": "Optional[Boolean]"
+    },
+    "title": {
+      "description": "Return updates which match the specified regular expression.  Default is to all updates",
+      "type": "Optional[String]"
+    },
+    "updateid": {
+      "description": "Return updates which the specified Update ID.  Default is to all updates",
+      "type": "Optional[String]"
+    },
+    "maximumupdates": {
+      "description": "Limit the size of the history returned.  Default is to return a maximum of 300 items",
+      "type": "Optional[String]"
+    }
+  },
+  "input_method": "powershell"
+}
