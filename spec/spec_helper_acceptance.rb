@@ -1,3 +1,5 @@
+require 'beaker-pe'
+require 'beaker-puppet'
 require 'beaker-rspec'
 require 'beaker/puppet_install_helper'
 require 'beaker/testmode_switcher'
@@ -5,6 +7,7 @@ require 'beaker/testmode_switcher/dsl'
 
 # Install Puppet Agent
 run_puppet_install_helper
+configure_type_defaults_on(hosts)
 
 # Install Forge certs to allow for PMT installation.
 install_ca_certs_on default
