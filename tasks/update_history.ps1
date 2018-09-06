@@ -76,7 +76,7 @@ Function Invoke-ExecuteTask($Detailed, $Title, $UpdateID, $MaximumUpdates) {
 
   $historyCount = $Searcher.GetTotalHistoryCount()
   if ($historyCount -gt $MaximumUpdates) { $historyCount = $MaximumUpdates }
-  $Searcher.QueryHistory(0, $historyCount) |
+  $Result = $Searcher.QueryHistory(0, $historyCount) |
     Where-Object { [String]::IsNullOrEmpty($Title) -or ($_.Title -match $Title) } |
     Where-Object { [String]::IsNullOrEmpty($UpdateID) -or ($_.UpdateIdentity.UpdateID -eq $UpdateID) } |
     ForEach-Object -Process {
@@ -110,7 +110,17 @@ Function Invoke-ExecuteTask($Detailed, $Title, $UpdateID, $MaximumUpdates) {
     }
 
     New-Object -TypeName PSObject -Property $props
-  } | ConvertTo-JSON
+  }
+
+  if ($Result -ne $null) {
+    if ($Result.GetType().ToString() -ne 'System.Object[]') {
+      '[ ' + ($Result | ConvertTo-JSON) + ' ]'
+    } else {
+      $Result | ConvertTo-JSON
+    }
+  } else {
+    '[ ]'
+  }
 }
 
 if (-Not $NoOperation) { Invoke-ExecuteTask -Detailed $Detailed -Title $Title -UpdateID $UpdateID -MaximumUpdates $MaximumUpdates }
