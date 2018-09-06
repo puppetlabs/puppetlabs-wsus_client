@@ -59,3 +59,105 @@ Describe 'Convert-ToUpdateOperationString' {
     Convert-ToUpdateOperationString 2 | Should Be 'Uninstallation'
   }
 }
+
+Describe 'Invoke-ExecuteTask' {
+  $DefaultExecuteParams = @{
+    Detailed = $false;
+    Title = $null
+    UpdateID = $null
+    MaximumUpdates = 300
+  }
+
+  It 'should return empty JSON if no history' {
+    Mock Get-UpdateSessionObject { New-MockUpdateSession 0 }
+
+    $Result = Invoke-ExecuteTask @DefaultExecuteParams | ConvertFrom-JSON
+    $Result | Should -HaveCount 0
+  }
+
+  It 'should return a JSON array for a single element' {
+    Mock Get-UpdateSessionObject { New-MockUpdateSession 1 }
+
+    $ResultJSON = Invoke-ExecuteTask @DefaultExecuteParams
+    $ResultJSON | Should -Match "^\["
+    $ResultJSON | Should -Match "\]$"
+
+    $Result = $ResultJSON | ConvertFrom-JSON
+    $Result | Should -HaveCount 1
+  }
+
+  It 'should not return detailed information when Detailed specified as false' {
+    Mock Get-UpdateSessionObject { New-MockUpdateSession 1 }
+    $ExecuteParams = $DefaultExecuteParams.Clone()
+    $ExecuteParams.Detailed = $false
+
+    $Result = Invoke-ExecuteTask @ExecuteParams | ConvertFrom-JSON
+    $Result | Should -HaveCount 1
+    $Result[0].HResult | Should -BeNullOrEmpty
+    $Result[0].Description | Should -BeNullOrEmpty
+    $Result[0].UnmappedResultCode | Should -BeNullOrEmpty
+    $Result[0].ClientApplicationID | Should -BeNullOrEmpty
+    $Result[0].ServerSelection | Should -BeNullOrEmpty
+    $Result[0].UninstallationSteps | Should -BeNullOrEmpty
+    $Result[0].UninstallationNotes | Should -BeNullOrEmpty
+    $Result[0].SupportUrl | Should -BeNullOrEmpty
+    $Result[0].UnmappedResultCode | Should -BeNullOrEmpty
+    $Result[0].UnmappedResultCode | Should -BeNullOrEmpty
+  }
+
+  It 'should return detailed information when Detailed specified as true' {
+    Mock Get-UpdateSessionObject { New-MockUpdateSession 1 }
+    $ExecuteParams = $DefaultExecuteParams.Clone()
+    $ExecuteParams.Detailed = $true
+
+    $Result = Invoke-ExecuteTask @ExecuteParams | ConvertFrom-JSON
+    $Result | Should -HaveCount 1
+    $Result[0].HResult | Should -Not -BeNullOrEmpty
+    $Result[0].Description | Should -Not -BeNullOrEmpty
+    $Result[0].UnmappedResultCode | Should -Not -BeNullOrEmpty
+    $Result[0].ClientApplicationID | Should -Not -BeNullOrEmpty
+    $Result[0].ServerSelection | Should -Not -BeNullOrEmpty
+    $Result[0].UninstallationSteps | Should -Not -BeNullOrEmpty
+    $Result[0].UninstallationNotes | Should -Not -BeNullOrEmpty
+    $Result[0].SupportUrl | Should -Not -BeNullOrEmpty
+    $Result[0].UnmappedResultCode | Should -Not -BeNullOrEmpty
+    $Result[0].UnmappedResultCode | Should -Not -BeNullOrEmpty
+  }
+
+  It 'should return only the maximum number of updates when specified' {
+    Mock Get-UpdateSessionObject { New-MockUpdateSession 20 }
+    $ExecuteParams = $DefaultExecuteParams
+    $ExecuteParams.MaximumUpdates = 5
+
+    $Result = Invoke-ExecuteTask @ExecuteParams | ConvertFrom-JSON
+    $Result | Should -HaveCount 5
+  }
+
+  It 'should return a single update when UpdateID is specified' {
+    $UpdateGUID = [GUID]::NewGuid().ToString()
+    $UpdateObject = New-MockUpdate -UpdateID $UpdateGUID
+    Mock Get-UpdateSessionObject { New-MockUpdateSession 10 @($UpdateObject) }
+    $ExecuteParams = $DefaultExecuteParams.Clone()
+    $ExecuteParams.UpdateID = $UpdateGUID
+
+    $Result = Invoke-ExecuteTask @ExecuteParams | ConvertFrom-JSON
+    $Result | Should -HaveCount 1
+  }
+
+  It 'should return a matching updates when Title is specified' {
+    $UpdateObjects = @(
+      New-MockUpdate -Title 'asserttitle'
+      New-MockUpdate -Title 'zzAssertTitlezz'
+    )
+    Mock Get-UpdateSessionObject { New-MockUpdateSession 10 $UpdateObjects }
+    $ExecuteParams = $DefaultExecuteParams.Clone()
+    $ExecuteParams.Title = 'AssertTitle'
+
+    $Result = Invoke-ExecuteTask @ExecuteParams | ConvertFrom-JSON
+    $Result | Should -HaveCount 2
+
+    $UpdateTitles = $Result | ForEach-Object { Write-Output $_.Title }
+    $UpdateTitles | Should -Contain 'asserttitle'
+    $UpdateTitles | Should -Contain 'zzAssertTitlezz'
+  }
+}

@@ -65,9 +65,13 @@ Function Convert-ToUpdateOperationString($value) {
   }
 }
 
-Function Invoke-ExecuteTask() {
+Function Get-UpdateSessionObject() {
   $Session = New-Object -ComObject "Microsoft.Update.Session"
-  $Searcher = $Session.CreateUpdateSearcher()
+  Write-Output $Session.CreateUpdateSearcher()
+}
+
+Function Invoke-ExecuteTask($Detailed, $Title, $UpdateID, $MaximumUpdates) {
+  $Searcher = Get-UpdateSessionObject
   # Returns IUpdateSearcher https://msdn.microsoft.com/en-us/library/windows/desktop/aa386515(v=vs.85).aspx
 
   $historyCount = $Searcher.GetTotalHistoryCount()
@@ -109,4 +113,4 @@ Function Invoke-ExecuteTask() {
   } | ConvertTo-JSON
 }
 
-if (-Not $NoOperation) { Invoke-ExecuteTask }
+if (-Not $NoOperation) { Invoke-ExecuteTask -Detailed $Detailed -Title $Title -UpdateID $UpdateID -MaximumUpdates $MaximumUpdates }
