@@ -25,3 +25,16 @@ spec/default_facts.yml:
 
 .gitlab-ci.yml:
   delete: true
+
+Rakefile:
+  extras:
+    - 'desc "Run PowerShell unit tests"'
+    - 'task :spec_pester do'
+    - '  exec ("powershell -NoProfile -NoLogo -NonInteractive -Command \". spec/run_pester.ps1 -EnableExit\"")'
+    - 'end'
+
+appveyor.yml:
+  matrix_extras:
+    -
+      RUBY_VERSION: 24-x64
+      CHECK: spec_pester
