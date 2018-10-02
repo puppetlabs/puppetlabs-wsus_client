@@ -10,7 +10,10 @@ Param(
   [String]$UpdateID,
 
   [Parameter(Mandatory = $False)]
-  [Int]$MaximumUpdates = 300
+  [Int]$MaximumUpdates = 300,
+
+  [Parameter(Mandatory = $False)]
+  [Switch]$NoOperation
 )
 
 Function Get-SafeString($value) {
@@ -62,44 +65,62 @@ Function Convert-ToUpdateOperationString($value) {
   }
 }
 
-$Session = New-Object -ComObject "Microsoft.Update.Session"
-$Searcher = $Session.CreateUpdateSearcher()
-# Returns IUpdateSearcher https://msdn.microsoft.com/en-us/library/windows/desktop/aa386515(v=vs.85).aspx
+Function Get-UpdateSessionObject() {
+  $Session = New-Object -ComObject "Microsoft.Update.Session"
+  Write-Output $Session.CreateUpdateSearcher()
+}
 
-$historyCount = $Searcher.GetTotalHistoryCount()
-if ($historyCount -gt $MaximumUpdates) { $historyCount = $MaximumUpdates }
-$Searcher.QueryHistory(0, $historyCount) |
-  Where-Object { [String]::IsNullOrEmpty($Title) -or ($_.Title -match $Title) } |
-  Where-Object { [String]::IsNullOrEmpty($UpdateID) -or ($_.UpdateIdentity.UpdateID -eq $UpdateID) } |
-  ForEach-Object -Process {
-  # Returns IUpdateHistoryEntry https://msdn.microsoft.com/en-us/library/windows/desktop/aa386400(v=vs.85).aspx
+Function Invoke-ExecuteTask($Detailed, $Title, $UpdateID, $MaximumUpdates) {
+  $Searcher = Get-UpdateSessionObject
+  # Returns IUpdateSearcher https://msdn.microsoft.com/en-us/library/windows/desktop/aa386515(v=vs.85).aspx
 
-  # Basic Settings
-  $props = @{
-    'Operation' = Convert-ToUpdateOperationString $_.Operation
-    'ResultCode' = Convert-ToOperationResultCodeString $_.ResultCode
-    'Date' = Get-SafeDateTime $_.Date
-    'UpdateIdentity' = @{}
-    'Title' = Get-SafeString $_.Title
-    'ServiceID' = Get-SafeString  $_.ServiceID
-    'Categories' = @()
+  $historyCount = $Searcher.GetTotalHistoryCount()
+  if ($historyCount -gt $MaximumUpdates) { $historyCount = $MaximumUpdates }
+  $Result = $Searcher.QueryHistory(0, $historyCount) |
+    Where-Object { [String]::IsNullOrEmpty($Title) -or ($_.Title -match $Title) } |
+    Where-Object { [String]::IsNullOrEmpty($UpdateID) -or ($_.UpdateIdentity.UpdateID -eq $UpdateID) } |
+    ForEach-Object -Process {
+    # Returns IUpdateHistoryEntry https://msdn.microsoft.com/en-us/library/windows/desktop/aa386400(v=vs.85).aspx
+
+    # Basic Settings
+    $props = @{
+      'Operation' = Convert-ToUpdateOperationString $_.Operation
+      'ResultCode' = Convert-ToOperationResultCodeString $_.ResultCode
+      'Date' = Get-SafeDateTime $_.Date
+      'UpdateIdentity' = @{}
+      'Title' = Get-SafeString $_.Title
+      'ServiceID' = Get-SafeString  $_.ServiceID
+      'Categories' = @()
+    }
+    $_.Categories | % { $props.Categories += $_.Name } | Out-Null
+    $props['UpdateIdentity']['RevisionNumber'] = $_.UpdateIdentity.RevisionNumber
+    $props['UpdateIdentity']['UpdateID'] = $_.UpdateIdentity.UpdateID
+
+    # Detailed Settings
+    if ($Detailed) {
+      $props['HResult'] = $_.HResult
+      $props['Description'] = Get-SafeString $_.Description
+      $props['UnmappedResultCode'] = $_.UnmappedResultCode
+      $props['ClientApplicationID'] = Get-SafeString $_.ClientApplicationID
+      $props['ServerSelection'] = Convert-ToServerSelectionString $_.ServerSelection
+      $props['UninstallationSteps'] = @()
+      $props['UninstallationNotes'] = Get-SafeString $_.UninstallationNotes
+      $props['SupportUrl'] = Get-SafeString $_.SupportUrl
+      $_.UninstallationSteps | % { $props.UninstallationSteps += $_ } | Out-Null
+    }
+
+    New-Object -TypeName PSObject -Property $props
   }
-  $_.Categories | % { $props.Categories += $_.Name } | Out-Null
-  $props['UpdateIdentity']['RevisionNumber'] = $_.UpdateIdentity.RevisionNumber
-  $props['UpdateIdentity']['UpdateID'] = $_.UpdateIdentity.UpdateID
 
-  # Detailed Settings
-  if ($Detailed) {
-    $props['HResult'] = $_.HResult
-    $props['Description'] = Get-SafeString $_.Description
-    $props['UnmappedResultCode'] = $_.UnmappedResultCode
-    $props['ClientApplicationID'] = Get-SafeString $_.ClientApplicationID
-    $props['ServerSelection'] = Convert-ToServerSelectionString $_.ServerSelection
-    $props['UninstallationSteps'] = @()
-    $props['UninstallationNotes'] = Get-SafeString $_.UninstallationNotes
-    $props['SupportUrl'] = Get-SafeString $_.SupportUrl
-    $_.UninstallationSteps | % { $props.UninstallationSteps += $_ } | Out-Null
+  if ($Result -ne $null) {
+    if ($Result.GetType().ToString() -ne 'System.Object[]') {
+      '[ ' + ($Result | ConvertTo-JSON) + ' ]'
+    } else {
+      $Result | ConvertTo-JSON
+    }
+  } else {
+    '[ ]'
   }
+}
 
-  New-Object -TypeName PSObject -Property $props
-} | ConvertTo-JSON
+if (-Not $NoOperation) { Invoke-ExecuteTask -Detailed $Detailed -Title $Title -UpdateID $UpdateID -MaximumUpdates $MaximumUpdates }
