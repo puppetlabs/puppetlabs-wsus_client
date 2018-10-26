@@ -14,7 +14,7 @@ A feature release for Puppet 5, Puppet6, Windows Server 2016, and Windows Deskto
 - Add Testmode Switcher for acceptance testing - [MODULES-6735](https://tickets.puppetlabs.com/browse/MODULES-6735)
 - Add support for Windows Server 2016 and Windows Desktop Operating Systems - [MODULES-4271](https://tickets.puppetlabs.com/browse/MODULES-4271)
 - Convert module to PDK format - [MODULES-7407](https://tickets.puppetlabs.com/browse/MODULES-7407)
-- Add PowerShell task to get Update History - [MODULES-7661](https://tickets.puppetlabs.com/browse/MODULES-7661)
+- Add PowerShell task to get Update History - [MODULES-7761](https://tickets.puppetlabs.com/browse/MODULES-7761)
 
 ## 2016-12-13 - Supported Release 1.0.3
 ### Summary
