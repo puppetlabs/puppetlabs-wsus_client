@@ -18,13 +18,21 @@ Gemfile:
 # For the moment don't do any rubocop checks.
 .rubocop.yml:
   include_todos: true
-  selected_profile: off
 
 spec/default_facts.yml:
   unmanaged: true
 
 .gitlab-ci.yml:
   delete: true
+
+.travis.yml:
+  unmanaged: true
+
+appveyor.yml:
+  delete: true
+
+.gitlab-ci.yml:
+  unmanaged: true
 
 Rakefile:
   extras:
