@@ -210,7 +210,7 @@ This parameter depends on a valid [`scheduled_install_day`][] value and is **req
 
 Sets the URL at which your WSUS server can be reached. Valid options: fully qualified URL starting with 'http' or 'https', including protocol and port; 'false'; or undef. Default: undef.
 
-When set to a URL, Puppet sets the `WUServer` registry key to this parameter's value and the `UseWUServer` registry key to '1' (true). 
+When set to a URL, Puppet sets the `WUServer` registry key to this parameter's value and the `UseWUServer` registry key to '1' (true).
 
 If this parameter is set to 'false', Puppet sets `UseWUServer` to false, disabling WSUS updates on the client. If undefined, Puppet does not manage `WUServer` or `UseWUServer`.
 
@@ -243,4 +243,4 @@ This module requires clients running Windows Server 2003 or newer, and a configu
 
 ## Development
 
-Puppet Inc modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great. We can't access the huge number of platforms and myriad hardware, software, and deployment configurations that Puppet is intended to serve. We want to keep it as easy as possible to contribute changes so that our modules work in your environment. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things. For more information, see our [module contribution guide](https://docs.puppet.com/forge/contributing.html). To see who's already involved, see the list of [contributors](https://github.com/puppetlabs/puppetlabs-wsus_client/graphs/contributors).
+If you would like to contribute to this module, please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-wsus_client/blob/master/CONTRIBUTING.md). For more information, see our [module contribution guide](https://puppet.com/docs/puppet/latest/contributing.html). To see who's already involved, see the list of [contributors](https://github.com/puppetlabs/puppetlabs-wsus_client/graphs/contributors).
