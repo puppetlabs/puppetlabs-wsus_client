@@ -238,14 +238,6 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'accept_trusted_publisher_certs =>' do
-        let(:reg_key) { "#{base_key}\\AcceptTrustedPublisherCerts" }
-        let(:param_sym) { :accept_trusted_publisher_certs }
-        it_behaves_like 'bool value'
-        it_behaves_like 'registry_value undefined'
-        it_behaves_like 'non enabled feature'
-      end
-
       context 'auto_install_minor_updates =>' do
         let(:reg_key) { "#{au_key}\\AutoInstallMinorUpdates" }
         let(:param_sym) { :auto_install_minor_updates }
