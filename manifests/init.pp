@@ -1,14 +1,9 @@
 # @summary
-<<<<<<< HEAD
 #   This module manages operating system updates.
-=======
-#   This module manages  operating system updates.
->>>>>>> Modules 9412 - pdk convert or pdk update on the module
 #
 # This module configures Puppet agents to schedule update downloads and installations from a WSUS server,
 # manage user access to update settings, and configure automatic updates.
 #
-<<<<<<< HEAD
 # @example
 #    class { 'wsus_client': }
 #
@@ -109,8 +104,6 @@
 #   Sets the client's target group. Valid values: a string. Default: undef.
 #   This enabled parameter is only respected when the WSUS server allows clients to modify this setting via the TargetGroup and TargetGroupEnabled registry keys.
 #
-=======
->>>>>>> Modules 9412 - pdk convert or pdk update on the module
 class wsus_client (
   $server_url                                   = undef,
   $enable_status_server                         = undef,

@@ -22,6 +22,10 @@ Gemfile:
 spec/default_facts.yml:
   unmanaged: true
 
+.gitignore:
+  required:
+    - ---.project
+
 .gitlab-ci.yml:
   delete: true
 
