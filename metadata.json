@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.6.0 < 6.0.0"
+      "version_requirement": ">= 4.6.0 < 7.0.0"
     },
     {
       "name": "puppetlabs/registry",
@@ -35,7 +35,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.7.0 < 7.0.0"
+      "version_requirement": ">= 5.5.10 < 7.0.0"
     }
   ],
   "pdk-version": "1.8.0",
