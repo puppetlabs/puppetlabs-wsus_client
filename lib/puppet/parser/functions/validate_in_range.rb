@@ -1,6 +1,17 @@
+#
+#  To write custom funtion, we use the legacy Ruby functions API, which uses the Puppet::Parser::Functions namespace.
+#  Custom function: validate_in_range
+#
 module Puppet::Parser::Functions
+  newfunction(:validate_in_range, :doc => <<-EOS
+    @summary
+      Validate the incoming value is in a certain range.
 
-  newfunction(:validate_in_range) do |args|
+    @return
+      Raises an error if the given value fails this validation.
+
+  EOS
+  ) do |args|
 
     data, min, max = *args
 
