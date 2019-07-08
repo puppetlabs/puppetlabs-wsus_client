@@ -1,6 +1,16 @@
+#
+#  To write custom funtion, we use the legacy Ruby functions API, which uses the Puppet::Parser::Functions namespace.
+#  Custom function: parse_auto_update_option
+#
 module Puppet::Parser::Functions
   newfunction(:parse_auto_update_option, :type => :rvalue, :arity => 1, :doc => <<-EOS
-    Parse the incoming value to the corresponding integer, if integer is supplied simply return value
+    @summary
+      Parse the incoming value to the corresponding integer, if integer is supplied simply return value
+
+    @return [Integer] option auto_update_option as an integer
+
+    > *Note:*
+    Valid options for auto_update_option are NotifyOnly|AutoNotify|Scheduled|AutoInstall|2|3|4|5
   EOS
   ) do |args|
     autoupdate_hash = {'notifyonly'  => 2,

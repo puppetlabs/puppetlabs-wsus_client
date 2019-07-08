@@ -1,6 +1,27 @@
-##
+# @summary
+#   Manages wsus_client settings
 #
-##
+# @param ensure
+#   Specifies whether the setting should exist. Valid options: 'present', 'absent', and 'file'
+#
+# @param key
+#   Specifies registry_value
+#
+# @param data
+#   Incoming data
+#
+# @param type
+#    Data type. default value: dword
+#
+# @param has_enabled
+#   Specifies whether the key should be enabled. Boolean value
+#
+# @param validate_range
+#   Specifies whether the data should be validated as a number in a certain range
+#
+# @param validate_bool
+#   Specifies whether the data should be validated as a boolean value
+#
 define wsus_client::setting(
   $ensure = 'present',
   $key = $title,
