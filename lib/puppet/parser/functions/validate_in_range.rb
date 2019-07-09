@@ -3,7 +3,7 @@
 #  Custom function: validate_in_range
 #
 module Puppet::Parser::Functions
-  newfunction(:validate_in_range, :doc => <<-EOS
+  newfunction(:validate_in_range, doc: <<-EOS
     @summary
       Validate the incoming value is in a certain range.
 
@@ -11,18 +11,18 @@ module Puppet::Parser::Functions
       Raises an error if the given value fails this validation.
 
   EOS
-  ) do |args|
+             ) do |args|
 
     data, min, max = *args
 
     data = Integer(data)
     min = Integer(min)
     max = Integer(max)
-    if (data < min)
-      fail("Expected #{data} to be greater or equal to #{min}, got #{data}")
+    if data < min
+      raise("Expected #{data} to be greater or equal to #{min}, got #{data}")
     end
-    if (data > max)
-      fail("Expected #{data} to be less or equal to #{min}, got #{data}")
+    if data > max
+      raise("Expected #{data} to be less or equal to #{min}, got #{data}")
     end
   end
 end

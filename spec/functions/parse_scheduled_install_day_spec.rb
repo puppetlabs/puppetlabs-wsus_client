@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe 'parse_scheduled_install_day' do
-  expect_day = {'Everyday' => 0,
-                'Sunday' => 1,
-                'Monday' => 2,
-                'Tuesday' => 3,
-                'Wednesday' => 4,
-                'Thursday' => 5,
-                'Friday' => 6,
-                'Saturday' => 7}
+  expect_day = { 'Everyday' => 0,
+                 'Sunday' => 1,
+                 'Monday' => 2,
+                 'Tuesday' => 3,
+                 'Wednesday' => 4,
+                 'Thursday' => 5,
+                 'Friday' => 6,
+                 'Saturday' => 7 }
 
   expect_day.keys.each do |day|
     describe "when parsing #{day}" do
@@ -39,7 +39,7 @@ describe 'parse_scheduled_install_day' do
     end
   end
   describe "when passing 'Whatthe'" do
-    it 'should raise error' do
+    it 'raises error' do
       expect {
         scope.function_parse_scheduled_install_day(['Whatthe'])
       }.to raise_error(Puppet::Error,
