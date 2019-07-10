@@ -22,8 +22,8 @@ unless ENV['MODULE_provision'] == 'no'
   proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
   # In CI install from staging forge, otherwise from local
-  staging = { :module_name => 'puppetlabs-wsus_client' }
-  local = { :module_name => 'wsus_client', :source => proj_root }
+  staging = { module_name: 'puppetlabs-wsus_client' }
+  local = { module_name: 'wsus_client', source: proj_root }
 
   # Install wsus_client module from the forge or from local source.
   if options[:forge_host]
@@ -33,7 +33,7 @@ unless ENV['MODULE_provision'] == 'no'
   else
     hosts.each do |host|
       # Install wsus_client dependencies.
-      %w(puppetlabs-stdlib puppetlabs-registry).each do |dep|
+      ['puppetlabs-stdlib', 'puppetlabs-registry'].each do |dep|
         on(host, puppet("module install #{dep}"))
       end
 
