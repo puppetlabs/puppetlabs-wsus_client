@@ -1,3 +1,20 @@
+## 2019-07-25 - Supported Release 2.0.0
+### Summary
+
+Major release which removes support for older versions of Puppet-Agent.
+
+### Features
+
+- Add Puppet Strings docs [MODULES-9421](https://tickets.puppetlabs.com/browse/MODULES-9421)
+
+### Bugfixes
+
+- Update acceptance tests to improve the quality and efficiency [MODULES-9411](https://tickets.puppetlabs.com/browse/MODULES-9411)
+
+### Changed
+
+- Raise lower Puppet bound to 5.5.10 [MODULES-9414](https://tickets.puppetlabs.com/browse/MODULES-9414)
+
 ## 2018-10-31 - Supported Release 1.1.0
 ### Summary
 
