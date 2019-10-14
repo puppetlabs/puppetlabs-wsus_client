@@ -1,43 +1,83 @@
-require 'beaker-pe'
-require 'beaker-puppet'
-require 'beaker-rspec'
-require 'beaker/puppet_install_helper'
-require 'beaker/testmode_switcher'
-require 'beaker/testmode_switcher/dsl'
+# frozen_string_literal: true
 
-# Install Puppet Agent
-run_puppet_install_helper
-configure_type_defaults_on(hosts)
+require 'serverspec'
+require 'puppet_litmus'
+require 'pry'
+require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
+include PuppetLitmus
 
-# Install Forge certs to allow for PMT installation.
-install_ca_certs_on default
-
-RSpec.configure do |c|
-  # Readable test descriptions
-  c.formatter = :documentation
-end
-
-unless ENV['MODULE_provision'] == 'no'
-  # Determine root path of local module source.
-  proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-
-  # In CI install from staging forge, otherwise from local
-  staging = { module_name: 'puppetlabs-wsus_client' }
-  local = { module_name: 'wsus_client', source: proj_root }
-
-  # Install wsus_client module from the forge or from local source.
-  if options[:forge_host]
-    hosts.each do |host|
-      install_dev_puppet_module_on(host, staging)
-    end
+if ENV['TARGET_HOST'].nil? || ENV['TARGET_HOST'] == 'localhost'
+  puts 'Running tests against this machine !'
+  if Gem.win_platform?
+    set :backend, :cmd
   else
-    hosts.each do |host|
-      # Install wsus_client dependencies.
-      ['puppetlabs-stdlib', 'puppetlabs-registry'].each do |dep|
-        on(host, puppet("module install #{dep}"))
-      end
+    set :backend, :exec
+  end
+else
+  # load inventory
+  inventory_hash = inventory_hash_from_inventory_file
+  node_config = config_from_node(inventory_hash, ENV['TARGET_HOST'])
 
-      install_dev_puppet_module_on(host, local)
-    end
+  if target_in_group(inventory_hash, ENV['TARGET_HOST'], 'docker_nodes')
+    host = ENV['TARGET_HOST']
+    set :backend, :docker
+    set :docker_container, host
+  elsif target_in_group(inventory_hash, ENV['TARGET_HOST'], 'ssh_nodes')
+    set :backend, :ssh
+    options = Net::SSH::Config.for(host)
+    options[:user] = node_config.dig('ssh', 'user') unless node_config.dig('ssh', 'user').nil?
+    options[:port] = node_config.dig('ssh', 'port') unless node_config.dig('ssh', 'port').nil?
+    options[:keys] = node_config.dig('ssh', 'private-key') unless node_config.dig('ssh', 'private-key').nil?
+    options[:password] = node_config.dig('ssh', 'password') unless node_config.dig('ssh', 'password').nil?
+    # Support both net-ssh 4 and 5.
+    # rubocop:disable Metrics/BlockNesting
+    options[:verify_host_key] = if node_config.dig('ssh', 'host-key-check').nil?
+                                  # Fall back to SSH behavior. This variable will only be set in net-ssh 5.3+.
+                                  if @strict_host_key_checking.nil? || @strict_host_key_checking
+                                    Net::SSH::Verifiers::Always.new
+                                  else
+                                    # SSH's behavior with StrictHostKeyChecking=no: adds new keys to known_hosts.
+                                    # If known_hosts points to /dev/null, then equivalent to :never where it
+                                    # accepts any key beacuse they're all new.
+                                    Net::SSH::Verifiers::AcceptNewOrLocalTunnel.new
+                                  end
+                                elsif node_config.dig('ssh', 'host-key-check')
+                                  if defined?(Net::SSH::Verifiers::Always)
+                                    Net::SSH::Verifiers::Always.new
+                                  else
+                                    Net::SSH::Verifiers::Secure.new
+                                  end
+                                elsif defined?(Net::SSH::Verifiers::Never)
+                                  Net::SSH::Verifiers::Never.new
+                                else
+                                  Net::SSH::Verifiers::Null.new
+                                end
+    # rubocop:enable Metrics/BlockNesting
+    host = if ENV['TARGET_HOST'].include?(':')
+             ENV['TARGET_HOST'].split(':').first
+           else
+             ENV['TARGET_HOST']
+           end
+    set :host,        options[:host_name] || host
+    set :ssh_options, options
+    set :request_pty, true
+  elsif target_in_group(inventory_hash, ENV['TARGET_HOST'], 'winrm_nodes')
+    require 'winrm'
+
+    set :backend, :winrm
+    set :os, family: 'windows'
+    user = node_config.dig('winrm', 'user') unless node_config.dig('winrm', 'user').nil?
+    pass = node_config.dig('winrm', 'password') unless node_config.dig('winrm', 'password').nil?
+    endpoint = "http://#{ENV['TARGET_HOST']}:5985/wsman"
+
+    opts = {
+      user: user,
+      password: pass,
+      endpoint: endpoint,
+      operation_timeout: 300,
+    }
+
+    winrm = WinRM::Connection.new opts
+    Specinfra.configuration.winrm = winrm
   end
 end

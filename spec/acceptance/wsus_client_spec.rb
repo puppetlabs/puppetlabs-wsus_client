@@ -19,7 +19,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
   purge_values => true,
 }
     PP
-    execute_manifest(pp, catch_failures: false)
+    apply_manifest(pp, catch_failures: false)
   end
 
   def create_apply_manifest(params, clear_first = true)
@@ -32,7 +32,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
       pp << "\n  #{k} => #{v},"
     end
     pp << '}'
-    execute_manifest(pp, catch_failures: true)
+    apply_manifest(pp, catch_failures: true)
   end
 
   shared_examples 'registry_value' do |property, key = base_key|
