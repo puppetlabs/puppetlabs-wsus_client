@@ -42,7 +42,5 @@ Rakefile:
   - task :spec_pester do
   - '  exec ("powershell -NoProfile -NoLogo -NonInteractive -Command \". spec/run_pester.ps1 -EnableExit\"")'
   - end
-spec/default_facts.yml:
-  unmanaged: true
 spec/spec_helper.rb:
   coverage_report: true
