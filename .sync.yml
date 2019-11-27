@@ -4,7 +4,7 @@
 ".rubocop.yml":
   include_todos: true
 ".travis.yml":
-  unmanaged: true
+  simplecov: true
 appveyor.yml:
   matrix_extras:
   - RUBY_VERSION: 24-x64
@@ -15,6 +15,7 @@ appveyor.yml:
   - PUPPET_GEM_VERSION: "~> 6.0"
     RUBY_VERSION: 25-x64
     CHECK: parallel_spec
+  simplecov: true
 Gemfile:
   required:
     ":system_tests":
