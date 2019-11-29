@@ -1,64 +1,47 @@
 ---
-Gemfile:
-  required:
-    ':system_tests':
-      - gem: 'puppet-module-posix-system-r#{minor_version}'
-        platforms: ruby
-      - gem: 'puppet-module-win-system-r#{minor_version}'
-        platforms:
-          - mswin
-          - mingw
-          - x64_mingw
-      - gem: beaker-testmode_switcher
-        version: '~> 0.4'
-      - gem: master_manipulator
-      - gem: puppet-blacksmith
-        version: '~> 3.4'
-  optional:
-    ':development':
-      - gem: 'github_changelog_generator'
-        git: 'https://github.com/skywinder/github-changelog-generator'
-        ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
-        condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
-
-# For the moment don't do any rubocop checks.
-.rubocop.yml:
+".gitlab-ci.yml":
+  delete: true
+".rubocop.yml":
   include_todos: true
-
-spec/default_facts.yml:
-  unmanaged: true
-
-.gitignore:
-  required:
-    - ---.project
-
-.gitlab-ci.yml:
-  delete: true
-
-.travis.yml:
-  unmanaged: true
-
-appveyor.yml:
-  delete: true
-
-.gitlab-ci.yml:
-  unmanaged: true
-
-Rakefile:
-  extras:
-    - 'desc "Run PowerShell unit tests"'
-    - 'task :spec_pester do'
-    - '  exec ("powershell -NoProfile -NoLogo -NonInteractive -Command \". spec/run_pester.ps1 -EnableExit\"")'
-    - 'end'
-
+".travis.yml":
+  simplecov: true
 appveyor.yml:
   matrix_extras:
-    -
-      RUBY_VERSION: 24-x64
-      CHECK: spec_pester
-    - PUPPET_GEM_VERSION: ~> 6.0
-      RUBY_VERSION: 25
-      CHECK: parallel_spec
-    - PUPPET_GEM_VERSION: ~> 6.0
-      RUBY_VERSION: 25-x64
-      CHECK: parallel_spec
+  - RUBY_VERSION: 24-x64
+    CHECK: spec_pester
+  - PUPPET_GEM_VERSION: "~> 6.0"
+    RUBY_VERSION: 25
+    CHECK: parallel_spec
+  - PUPPET_GEM_VERSION: "~> 6.0"
+    RUBY_VERSION: 25-x64
+    CHECK: parallel_spec
+  simplecov: true
+Gemfile:
+  required:
+    ":system_tests":
+    - gem: puppet-module-posix-system-r#{minor_version}
+      platforms: ruby
+    - gem: puppet-module-win-system-r#{minor_version}
+      platforms:
+      - mswin
+      - mingw
+      - x64_mingw
+    - gem: beaker-testmode_switcher
+      version: "~> 0.4"
+    - gem: master_manipulator
+    - gem: puppet-blacksmith
+      version: "~> 3.4"
+  optional:
+    ":development":
+    - gem: github_changelog_generator
+      git: https://github.com/skywinder/github-changelog-generator
+      ref: 20ee04ba1234e9e83eb2ffb5056e23d641c7a018
+      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')
+Rakefile:
+  extras:
+  - desc "Run PowerShell unit tests"
+  - task :spec_pester do
+  - '  exec ("powershell -NoProfile -NoLogo -NonInteractive -Command \". spec/run_pester.ps1 -EnableExit\"")'
+  - end
+spec/spec_helper.rb:
+  coverage_report: true
