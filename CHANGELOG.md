@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v3.1.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v3.1.0) (2020-01-06)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v3.0.0...v3.1.0)
+
+### Added
+
+- Update metadata.json [\#114](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/114) ([ducksecops](https://github.com/ducksecops))
+
 ## [v3.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v3.0.0) (2019-10-18)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v2.0.0...v3.0.0)
