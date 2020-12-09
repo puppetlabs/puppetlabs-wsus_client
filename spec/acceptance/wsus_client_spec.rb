@@ -31,9 +31,9 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
     pp = "class {'wsus_client':"
     params.each do |k, v|
       v = "'#{v}'" if v.is_a? String
-      pp << "\n  #{k} => #{v},"
+      pp += "\n  #{k} => #{v},"
     end
-    pp << '}'
+    pp += '}'
     apply_manifest(pp, catch_failures: true)
   end
 
