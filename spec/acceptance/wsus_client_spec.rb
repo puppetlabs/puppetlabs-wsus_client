@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 RSpec.describe 'wsus_client' do
   let(:reg_type) { :type_dword_converted }
@@ -56,8 +58,9 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
   shared_examples 'boolean values' do |param, property, key = base_key|
     [true, false].each do |enabled|
       describe enabled.to_s do
-        it { create_apply_manifest param => enabled }
         let(:reg_data) { enabled ? 1 : 0 }
+
+        it { create_apply_manifest param => enabled }
 
         it_behaves_like 'registry_value', property, key
       end
