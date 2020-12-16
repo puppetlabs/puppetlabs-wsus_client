@@ -14,7 +14,7 @@ module Puppet::Parser::Functions
     > *Note:*
     Valid options for auto_update_option are NotifyOnly|AutoNotify|Scheduled|AutoInstall|2|3|4|5
   EOS
-             ) do |args|
+  ) do |args|
     autoupdate_hash = { 'notifyonly' => 2,
                         'autonotify'  => 3,
                         'scheduled'   => 4,
