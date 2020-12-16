@@ -1,8 +1,6 @@
 ---
 ".gitlab-ci.yml":
   delete: true
-".rubocop.yml":
-  include_todos: true
 ".travis.yml":
   global_env:
     - HONEYCOMB_WRITEKEY="7f3c63a70eecc61d635917de46bea4e6",HONEYCOMB_DATASET="litmus tests"
@@ -31,7 +29,6 @@ Gemfile:
   optional:
     ":development":
     - gem: github_changelog_generator
-      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
 Rakefile:
   extras:
   - desc "Run PowerShell unit tests"
