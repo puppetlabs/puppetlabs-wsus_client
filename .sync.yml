@@ -1,10 +1,8 @@
 ---
 ".gitlab-ci.yml":
   delete: true
-".rubocop.yml":
-  include_todos: true
 ".travis.yml":
-  global_env: 
+  global_env:
     - HONEYCOMB_WRITEKEY="7f3c63a70eecc61d635917de46bea4e6",HONEYCOMB_DATASET="litmus tests"
   deploy_to_forge:
     enabled: false
@@ -28,26 +26,9 @@ appveyor.yml:
     CHECK: parallel_spec
   simplecov: true
 Gemfile:
-  required:
-    ":system_tests":
-    - gem: puppet-module-posix-system-r#{minor_version}
-      platforms: ruby
-    - gem: puppet-module-win-system-r#{minor_version}
-      platforms:
-      - mswin
-      - mingw
-      - x64_mingw
-    - gem: beaker-testmode_switcher
-      version: "~> 0.4"
-    - gem: master_manipulator
-    - gem: puppet-blacksmith
-      version: "~> 3.4"
   optional:
     ":development":
     - gem: github_changelog_generator
-      git: https://github.com/skywinder/github-changelog-generator
-      ref: 20ee04ba1234e9e83eb2ffb5056e23d641c7a018
-      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')
 Rakefile:
   extras:
   - desc "Run PowerShell unit tests"
