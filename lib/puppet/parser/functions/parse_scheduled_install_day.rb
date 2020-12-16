@@ -14,7 +14,7 @@ module Puppet::Parser::Functions
     > *Note:*
     Valid options for scheduled_install_day are Everyday|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|0-7
   EOS
-             ) do |args|
+  ) do |args|
     day_hash = { 'Everyday' => 0,
                  'Sunday' => 1,
                  'Monday' => 2,

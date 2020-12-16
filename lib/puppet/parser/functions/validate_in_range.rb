@@ -13,8 +13,7 @@ module Puppet::Parser::Functions
       Raises an error if the given value fails this validation.
 
   EOS
-             ) do |args|
-
+  ) do |args|
     data, min, max = *args
 
     data = Integer(data)
