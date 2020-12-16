@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 RSpec.describe 'wsus_client' do
   let(:reg_type) { :type_dword_converted }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 #  To write custom funtion, we use the legacy Ruby functions API, which uses the Puppet::Parser::Functions namespace.
 #  Custom function: validate_in_range
