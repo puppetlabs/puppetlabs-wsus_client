@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 #  To write custom funtion, we use the legacy Ruby functions API, which uses the Puppet::Parser::Functions namespace.
 #  Custom function: parse_auto_update_option
@@ -12,7 +14,7 @@ module Puppet::Parser::Functions
     > *Note:*
     Valid options for auto_update_option are NotifyOnly|AutoNotify|Scheduled|AutoInstall|2|3|4|5
   EOS
-             ) do |args|
+  ) do |args|
     autoupdate_hash = { 'notifyonly' => 2,
                         'autonotify'  => 3,
                         'scheduled'   => 4,

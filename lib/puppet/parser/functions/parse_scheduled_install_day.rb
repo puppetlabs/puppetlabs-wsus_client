@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 #  To write custom funtion, we use the legacy Ruby functions API, which uses the Puppet::Parser::Functions namespace.
 #  Custom function: parse_scheduled_install_day
@@ -12,7 +14,7 @@ module Puppet::Parser::Functions
     > *Note:*
     Valid options for scheduled_install_day are Everyday|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|0-7
   EOS
-             ) do |args|
+  ) do |args|
     day_hash = { 'Everyday' => 0,
                  'Sunday' => 1,
                  'Monday' => 2,

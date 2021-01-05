@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'parse_scheduled_install_day' do
@@ -10,7 +12,7 @@ describe 'parse_scheduled_install_day' do
                  'Friday' => 6,
                  'Saturday' => 7 }
 
-  expect_day.keys.each do |day|
+  expect_day.each_key do |day|
     describe "when parsing #{day}" do
       it {
         expect(scope.function_parse_scheduled_install_day([day])).to eq(expect_day[day])
@@ -31,7 +33,7 @@ describe 'parse_scheduled_install_day' do
       }
     end
   end
-  expect_day.values.each do |day|
+  expect_day.each_value do |day|
     describe "when parsing #{day}" do
       it {
         expect(scope.function_parse_scheduled_install_day([day])).to eq(day)
