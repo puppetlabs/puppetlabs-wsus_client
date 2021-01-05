@@ -8,7 +8,7 @@ describe 'parse_auto_update_option' do
                     'Scheduled' => 4,
                     'AutoInstall' => 5 }
 
-  expected_hash.keys.each do |auto_update_option|
+  expected_hash.each_key do |auto_update_option|
     describe "when parsing #{auto_update_option}" do
       it {
         expect(scope.function_parse_auto_update_option([auto_update_option])).to eq(expected_hash[auto_update_option])
@@ -28,7 +28,7 @@ describe 'parse_auto_update_option' do
     end
   end
 
-  expected_hash.values.each do |auto_update_value|
+  expected_hash.each_value do |auto_update_value|
     describe "when parsing #{auto_update_value}" do
       it {
         expect(scope.function_parse_auto_update_option([auto_update_value])).to eq(auto_update_value)
