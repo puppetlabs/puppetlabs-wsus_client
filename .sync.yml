@@ -49,4 +49,5 @@ spec/spec_helper.rb:
 .github/workflows/nightly.yml:
   unmanaged: false
 .github/workflows/pr_test.yml:
-  unmanaged: false
+  unmanaged: true
+  delete: true
