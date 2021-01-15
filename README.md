@@ -31,13 +31,13 @@ This module modifies registry keys in `HKLM\Software\Policies\Microsoft\Windows\
 
 To use wsus_client, you must have a configured and running WSUS server, and your clients must run Windows Server 2003 or newer. For more information about deploying WSUS, see Microsoft's [WSUS Deployment Guide](https://technet.microsoft.com/en-us/library/dd939906.aspx).
 
-To install this module on your Puppet master, run this command:
+To install this module on your Puppet server, run this command:
 
 ~~~
 $ puppet module install [--modulepath <PATH>] puppetlabs/wsus_client
 ~~~
 
-If necessary, use the optional `--modulepath` argument to specify your Puppet master's `modulepath`.
+If necessary, use the optional `--modulepath` argument to specify your Puppet server's `modulepath`.
 
 ### Beginning with wsus_client
 
@@ -81,7 +81,7 @@ class { 'wsus_client':
 
 ## Reference
 
-For information on the classes and types, see the [REFERENCE.md](https://github.com/puppetlabs/puppetlabs-wsus_client/blob/master/REFERENCE.md).
+For information on the classes and types, see the [REFERENCE.md](https://github.com/puppetlabs/puppetlabs-wsus_client/blob/main/REFERENCE.md).
 
 ## Limitations
 
@@ -89,4 +89,4 @@ This module requires clients running Windows Server 2003 or newer, and a configu
 
 ## Development
 
-If you would like to contribute to this module, please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-wsus_client/blob/master/CONTRIBUTING.md). For more information, see our [module contribution guide](https://puppet.com/docs/puppet/latest/contributing.html). To see who's already involved, see the list of [contributors](https://github.com/puppetlabs/puppetlabs-wsus_client/graphs/contributors).
+If you would like to contribute to this module, please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-wsus_client/blob/main/CONTRIBUTING.md). For more information, see our [module contribution guide](https://puppet.com/docs/puppet/latest/contributing.html). To see who's already involved, see the list of [contributors](https://github.com/puppetlabs/puppetlabs-wsus_client/graphs/contributors).
