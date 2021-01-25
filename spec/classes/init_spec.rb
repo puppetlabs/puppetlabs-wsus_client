@@ -134,7 +134,7 @@ describe 'wsus_client' do
       base_key = settings[:base_key]
       au_key = settings[:au_key]
       context 'base keys' do
-        [true, false].each do |purge| # rubocop:disable Performance/CollectionLiteralInLoop
+        [true, false].each do |purge|
           describe "purge_values => #{purge}" do
             let(:params) { { purge_values: purge } }
 
@@ -227,7 +227,7 @@ describe 'wsus_client' do
 
         it_behaves_like 'valid range', [2, 3, 5]
         it_behaves_like 'non enabled feature', 2
-        [1, 6].each do |au_opt| # rubocop:disable Performance/CollectionLiteralInLoop
+        [1, 6].each do |au_opt|
           describe au_opt.to_s do
             let(:params) do
               {
@@ -239,7 +239,7 @@ describe 'wsus_client' do
             it_behaves_like 'fail validation'
           end
         end
-        ['Scheduled', 4].each do |param| # rubocop:disable Performance/CollectionLiteralInLoop
+        ['Scheduled', 4].each do |param|
           describe 'require scheduled_install_day scheduled_install_hour' do
             let(:params) do
               {
