@@ -1,6 +1,6 @@
 if ($ENV:APPVEYOR -eq 'True') {
   Write-Host "Installing Pester ..."
-  & cinst pester
+  & choco install pester --version 4.10.1
 }
 
 Import-Module Pester
