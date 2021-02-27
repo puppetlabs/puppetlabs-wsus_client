@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v4.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v4.0.0) (2021-02-27)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v3.2.0...v4.0.0)
+
+### Changed
+
+- pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [\#148](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/148) ([carabasdaniel](https://github.com/carabasdaniel))
+
 ## [v3.2.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v3.2.0) (2021-02-18)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v3.1.0...v3.2.0)
