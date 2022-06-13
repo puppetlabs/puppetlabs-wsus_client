@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v4.1.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v4.1.0) - 2022-06-13
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v4.0.0...v4.1.0)
+
+### Added
+
+- pdksync - (FM-8922) - Add Support for Windows 2022 [#175](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/175) ([david22swan](https://github.com/david22swan))
+
 ## [v4.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v4.0.0) (2021-02-27)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v3.2.0...v4.0.0)
