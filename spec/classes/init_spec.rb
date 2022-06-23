@@ -51,19 +51,19 @@ describe 'wsus_client' do
 
   shared_examples 'below range' do
     let(:params) { { param_sym => below_range } }
-    let(:error_message) { %r{Expected #{below_range} to be greater or equal to \d+, got #{below_range}} }
+    let(:error_message) { %r{expects a value of type Undef, Integer} }
 
     it {
-      expect { catalogue }.to raise_error(Puppet::Error, error_message)
+      expect { catalogue.to_s }.to raise_error(error_message)
     }
   end
 
   shared_examples 'above range' do
     let(:params) { { param_sym => above_range } }
-    let(:error_message) { %r{Expected #{above_range} to be less or equal to \d+, got #{above_range}} }
+    let(:error_message) { %r{expects a value of type Undef, Integer} }
 
     it {
-      expect { catalogue }.to raise_error(Puppet::Error, error_message)
+      expect { catalogue }.to raise_error(error_message)
     }
   end
 
@@ -234,7 +234,7 @@ describe 'wsus_client' do
                 auto_update_option: au_opt,
               }
             end
-            let(:error_message) { %r{Valid options for auto_update_option are 2|3|4|5, provided #{au_opt}} }
+            let(:error_message) { %r{expects a value of type Undef} }
 
             it_behaves_like 'fail validation'
           end
@@ -409,6 +409,7 @@ describe 'wsus_client' do
         let(:param_sym) { :always_auto_reboot_at_scheduled_time_minutes }
         let(:below_range) { 14 }
         let(:above_range) { 181 }
+        let(:range) { [15, 180] }
 
         it_behaves_like 'valid range', [15, 83, 180]
         it_behaves_like 'below range'

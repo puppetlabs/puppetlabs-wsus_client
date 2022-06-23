@@ -142,21 +142,21 @@ class wsus_client (
   Optional[Boolean] $accept_trusted_publisher_certs                                                                 = undef,
   Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall'],Integer[2,5]]] $auto_update_option  = undef,
   Optional[Boolean] $auto_install_minor_updates                                                                     = undef,
-  Optional[Integer[1,22]] $detection_frequency_hours                                                                = undef,
+  Optional[Variant[Integer[1,22],Boolean]] $detection_frequency_hours                                               = undef,
   Optional[Boolean] $disable_windows_update_access                                                                  = undef,
   Optional[Boolean] $elevate_non_admins                                                                             = undef,
   Optional[Boolean] $no_auto_reboot_with_logged_on_users                                                            = undef,
   Optional[Boolean] $no_auto_update                                                                                 = undef,
-  Optional[Integer[1,1440]] $reboot_relaunch_timeout_minutes                                                        = undef,
-  Optional[Integer[1,30]] $reboot_warning_timeout_minutes                                                           = undef,
-  Optional[Integer[1,60]] $reschedule_wait_time_minutes                                                             = undef,
+  Optional[Variant[Integer[1,1440],Boolean]] $reboot_relaunch_timeout_minutes                                       = undef,
+  Optional[Variant[Integer[1,30],Boolean]] $reboot_warning_timeout_minutes                                          = undef,
+  Optional[Variant[Integer[1,60],Boolean]] $reschedule_wait_time_minutes                                            = undef,
   Optional[Variant[Enum['Everyday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday'],Integer[0,7]]]
   $scheduled_install_day                                                                                            = undef,
-  Optional[Integer[0,23]] $scheduled_install_hour                                                                   = undef,
+  Optional[Variant[Integer[0,23],Boolean]] $scheduled_install_hour                                                  = undef,
   Optional[Boolean] $always_auto_reboot_at_scheduled_time                                                           = undef,
-  Optional[Integer[15,180]] $always_auto_reboot_at_scheduled_time_minutes                                           = undef,
+  Optional[Variant[Integer[15,180],Boolean]] $always_auto_reboot_at_scheduled_time_minutes                          = undef,
   Boolean $purge_values                                                                                             = false,
-  Optional[String] $target_group                                                                                    = undef,
+  Optional[Variant[String,Boolean]] $target_group                                                                   = undef,
 ) {
   $_basekey = 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate'
 
