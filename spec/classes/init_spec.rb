@@ -51,7 +51,7 @@ describe 'wsus_client' do
 
   shared_examples 'below range' do
     let(:params) { { param_sym => below_range } }
-    let(:error_message) { %r{expects a value of type Undef, Integer} }
+    let(:error_message) { %r{expects a value of type Undef, Integer\[#{range[0]}, #{range[1]}\], or Boolean} }
 
     it {
       expect { catalogue.to_s }.to raise_error(error_message)
@@ -60,7 +60,7 @@ describe 'wsus_client' do
 
   shared_examples 'above range' do
     let(:params) { { param_sym => above_range } }
-    let(:error_message) { %r{expects a value of type Undef, Integer} }
+    let(:error_message) { %r{expects a value of type Undef, Integer\[#{range[0]}, #{range[1]}\], or Boolean} }
 
     it {
       expect { catalogue }.to raise_error(error_message)
@@ -234,7 +234,7 @@ describe 'wsus_client' do
                 auto_update_option: au_opt,
               }
             end
-            let(:error_message) { %r{expects a value of type Undef} }
+            let(:error_message) { %r{expects a value of type Undef, Enum\['AutoInstall', 'AutoNotify', 'NotifyOnly', 'Scheduled'\], or Integer\[2, 5\]} }
 
             it_behaves_like 'fail validation'
           end
@@ -281,8 +281,9 @@ describe 'wsus_client' do
 
       context 'detection_frequency_hours =>' do
         let(:reg_key) { "#{au_key}\\DetectionFrequency" }
-        let(:below_range) { 0 }
-        let(:above_range) { 23 }
+        let(:range) { [1, 22] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
         let(:param_sym) { :detection_frequency_hours }
 
         it_behaves_like 'valid range', [1, 11, 22]
@@ -325,8 +326,9 @@ describe 'wsus_client' do
 
       context 'reboot_relaunch_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootRelaunchTimeout" }
-        let(:below_range) { 0 }
-        let(:above_range) { 1441 }
+        let(:range) { [1, 1440] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
         let(:param_sym) { :reboot_relaunch_timeout_minutes }
 
         it_behaves_like 'valid range', [1, 720, 1440]
@@ -337,8 +339,9 @@ describe 'wsus_client' do
 
       context 'reboot_warning_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootWarningTimeout" }
-        let(:below_range) { 0 }
-        let(:above_range) { 31 }
+        let(:range) { [1, 30] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
         let(:param_sym) { :reboot_warning_timeout_minutes }
 
         it_behaves_like 'valid range', [1, 15, 30]
@@ -349,8 +352,9 @@ describe 'wsus_client' do
 
       context 'reschedule_wait_time_minutes =>' do
         let(:reg_key) { "#{au_key}\\RescheduleWaitTime" }
-        let(:below_range) { 0 }
-        let(:above_range) { 61 }
+        let(:range) { [1, 60] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
         let(:param_sym) { :reschedule_wait_time_minutes }
 
         it_behaves_like 'valid range', [1, 31, 60]
@@ -380,7 +384,9 @@ describe 'wsus_client' do
 
       context 'scheduled_install_hour =>' do
         let(:reg_key) { "#{au_key}\\ScheduledInstallTime" }
-        let(:above_range) { 24 }
+        let(:range) { [0, 23] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
         let(:param_sym) { :scheduled_install_hour }
 
         it_behaves_like 'valid range', [0, 12, 23]
@@ -407,9 +413,9 @@ describe 'wsus_client' do
       context 'always_auto_reboot_at_scheduled_time_minutes =>' do
         let(:reg_key) { "#{au_key}\\AlwaysAutoRebootAtScheduledTimeMinutes" }
         let(:param_sym) { :always_auto_reboot_at_scheduled_time_minutes }
-        let(:below_range) { 14 }
-        let(:above_range) { 181 }
         let(:range) { [15, 180] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
 
         it_behaves_like 'valid range', [15, 83, 180]
         it_behaves_like 'below range'
