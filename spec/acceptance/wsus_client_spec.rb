@@ -135,9 +135,9 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
   end
 
   context 'auto_update_option =>' do
-    { 'notifyonly' => 2,
-      'autonotify' => 3,
-      'autoinstall' => 5 }.each do |key, au_opt|
+    { 'NotifyOnly' => 2,
+      'AutoNotify' => 3,
+      'AutoInstall' => 5 }.each do |key, au_opt|
       describe au_opt.to_s, testcase: ['70197', '70198', '70200'] do
         it { create_apply_manifest auto_update_option: au_opt }
         it_behaves_like 'registry_value', 'AUOptions', au_key do
