@@ -10,7 +10,7 @@
 
 ### Defined types
 
-* [`wsus_client::setting`](#wsus_clientsetting): Manages wsus_client settings
+* [`wsus_client::setting`](#wsus_client--setting): Manages wsus_client settings
 
 ### Functions
 
@@ -41,63 +41,75 @@ class { 'wsus_client': }
 
 The following parameters are available in the `wsus_client` class:
 
-* [`server_url`](#server_url)
-* [`enable_status_server`](#enable_status_server)
-* [`accept_trusted_publisher_certs`](#accept_trusted_publisher_certs)
-* [`auto_update_option`](#auto_update_option)
-* [`auto_install_minor_updates`](#auto_install_minor_updates)
-* [`detection_frequency_hours`](#detection_frequency_hours)
-* [`disable_windows_update_access`](#disable_windows_update_access)
-* [`elevate_non_admins`](#elevate_non_admins)
-* [`no_auto_reboot_with_logged_on_users`](#no_auto_reboot_with_logged_on_users)
-* [`no_auto_update`](#no_auto_update)
-* [`reboot_relaunch_timeout_minutes`](#reboot_relaunch_timeout_minutes)
-* [`reboot_warning_timeout_minutes`](#reboot_warning_timeout_minutes)
-* [`reschedule_wait_time_minutes`](#reschedule_wait_time_minutes)
-* [`scheduled_install_day`](#scheduled_install_day)
-* [`scheduled_install_hour`](#scheduled_install_hour)
-* [`always_auto_reboot_at_scheduled_time`](#always_auto_reboot_at_scheduled_time)
-* [`always_auto_reboot_at_scheduled_time_minutes`](#always_auto_reboot_at_scheduled_time_minutes)
-* [`purge_values`](#purge_values)
-* [`target_group`](#target_group)
+* [`server_url`](#-wsus_client--server_url)
+* [`enable_status_server`](#-wsus_client--enable_status_server)
+* [`accept_trusted_publisher_certs`](#-wsus_client--accept_trusted_publisher_certs)
+* [`auto_update_option`](#-wsus_client--auto_update_option)
+* [`auto_install_minor_updates`](#-wsus_client--auto_install_minor_updates)
+* [`detection_frequency_hours`](#-wsus_client--detection_frequency_hours)
+* [`disable_windows_update_access`](#-wsus_client--disable_windows_update_access)
+* [`elevate_non_admins`](#-wsus_client--elevate_non_admins)
+* [`no_auto_reboot_with_logged_on_users`](#-wsus_client--no_auto_reboot_with_logged_on_users)
+* [`no_auto_update`](#-wsus_client--no_auto_update)
+* [`reboot_relaunch_timeout_minutes`](#-wsus_client--reboot_relaunch_timeout_minutes)
+* [`reboot_warning_timeout_minutes`](#-wsus_client--reboot_warning_timeout_minutes)
+* [`reschedule_wait_time_minutes`](#-wsus_client--reschedule_wait_time_minutes)
+* [`scheduled_install_day`](#-wsus_client--scheduled_install_day)
+* [`scheduled_install_hour`](#-wsus_client--scheduled_install_hour)
+* [`always_auto_reboot_at_scheduled_time`](#-wsus_client--always_auto_reboot_at_scheduled_time)
+* [`always_auto_reboot_at_scheduled_time_minutes`](#-wsus_client--always_auto_reboot_at_scheduled_time_minutes)
+* [`purge_values`](#-wsus_client--purge_values)
+* [`target_group`](#-wsus_client--target_group)
 
-##### <a name="server_url"></a>`server_url`
+##### <a name="-wsus_client--server_url"></a>`server_url`
 
-Data type: `Any`
+Data type: `Optional[Variant[Stdlib::HTTPUrl,Boolean]]`
 
-Sets the URL at which your WSUS server can be reached. Valid options: fully qualified URL starting with 'http' or 'https', including protocol and port; 'false'; or undef. Default: undef.
+Sets the URL at which your WSUS server can be reached. Valid options: fully qualified URL starting with 'http' or 'https', including
+protocol and port; 'false'; or undef. Default: undef.
 When set to a URL, Puppet sets the WUServer registry key to this parameter's value and the UseWUServer registry key to '1' (true).
-If this parameter is set to 'false', Puppet sets UseWUServer to false, disabling WSUS updates on the client. If undefined, Puppet does not manage WUServer or UseWUServer.
-Even if HTTPS is required for authentication, you can use 'http' URLs instead of 'https'. WSUS automatically switches to an HTTPS connection when required and increments the provided port by 1. For example, if the server_url is 'http://myserver:8530' and the WSUS server requires HTTPS access, the client automatically uses 'https://myserver:8531' to authenticate, then downloads the updates without encryption via the server_url. This performs better than using SSL to encrypt binary downloads.
-Note: The server_url parameter is central to using wsus_client to manage updates from a WSUS server. While not strictly required to use the class, note that you must manage the WUServer and UseWUServer registry keys yourself if you do not set server_url and enable_status_server.
+If this parameter is set to 'false', Puppet sets UseWUServer to false, disabling WSUS updates on the client. If undefined, Puppet
+does not manage WUServer or UseWUServer.
+Even if HTTPS is required for authentication, you can use 'http' URLs instead of 'https'. WSUS automatically switches to an HTTPS
+connection when required and increments the provided port by 1. For example, if the server_url is 'http://myserver:8530' and the
+WSUS server requires HTTPS access, the client automatically uses 'https://myserver:8531' to authenticate, then downloads the updates
+without encryption via the server_url. This performs better than using SSL to encrypt binary downloads.
+Note: The server_url parameter is central to using wsus_client to manage updates from a WSUS server. While not strictly required
+to use the class, note that you must manage the WUServer and UseWUServer registry keys yourself if you do not set server_url
+and enable_status_server.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="enable_status_server"></a>`enable_status_server`
+##### <a name="-wsus_client--enable_status_server"></a>`enable_status_server`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
-Determines whether Puppet also sets the WUStatusServer registry key, which sets the client status reporting destination. Valid options: 'true', 'false', and undef. Default: undef.
-If this parameter is set to true, Puppet sets the value for the WUStatusServer registry key to the server_url parameter's value. Therefore, when setting this parameter to true, you must also set the server_url parameter to a valid URL or your Puppet run will fail with an error.
+Determines whether Puppet also sets the WUStatusServer registry key, which sets the client status reporting destination.
+Valid options: 'true', 'false', and undef. Default: undef.
+If this parameter is set to true, Puppet sets the value for the WUStatusServer registry key to the server_url parameter's value.
+Therefore, when setting this parameter to true, you must also set the server_url parameter to a valid URL or your Puppet run
+will fail with an error.
 If enable_status_server is set to 'false', Puppet removes the WUStatusServer registry key.
-Note: Windows requires the same value for WUStatusServer and WUServer, so wsus_client does not provide an option to set a different status server URL.
+Note: Windows requires the same value for WUStatusServer and WUServer, so wsus_client does not provide an option to set a
+different status server URL.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="accept_trusted_publisher_certs"></a>`accept_trusted_publisher_certs`
+##### <a name="-wsus_client--accept_trusted_publisher_certs"></a>`accept_trusted_publisher_certs`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
-Determines whether to accept trusted non-Microsoft publisher certificates when checking for updates. Valid options: 'true', 'false', and undef.
+Determines whether to accept trusted non-Microsoft publisher certificates when checking for updates.
+Valid options: 'true', 'false', and undef.
 Default: undef.
 If 'true', the WSUS server distributes signed non-Microsoft updates.
 If 'false', the WSUS server only distributes Microsoft updates.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="auto_update_option"></a>`auto_update_option`
+##### <a name="-wsus_client--auto_update_option"></a>`auto_update_option`
 
-Data type: `Any`
+Data type: `Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall'],Integer[2,5]]]`
 
 Sets the automatic update option you would like to use. Valid values: 'NotifyOnly', 'AutoNotify', 'Scheduled', and 'AutoInstall'.
 You can also refer to these four values using integers 2 through 5, respectively.
@@ -113,149 +125,169 @@ If set to this value, scheduled_install_day and scheduled_install_hour are requi
 This parameter must be set to this value to use reschedule_wait_time_minutes.
 'AutoInstall': Requires fully automatic updates that users can configure if allowed.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="auto_install_minor_updates"></a>`auto_install_minor_updates`
+##### <a name="-wsus_client--auto_install_minor_updates"></a>`auto_install_minor_updates`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
 Determines whether to silently install minor updates automatically. Valid options: 'true', 'false', and undef.
 If 'true', Windows installs minor updates without user interaction.
 If 'false', Windows treats them as any other update, which depends on other settings such as auto_update_option.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="detection_frequency_hours"></a>`detection_frequency_hours`
+##### <a name="-wsus_client--detection_frequency_hours"></a>`detection_frequency_hours`
 
-Data type: `Any`
+Data type: `Optional[Variant[Integer[1,22],Boolean]]`
 
 Sets an interval in hours for clients to check for updates. Valid values: integers 1 through 22.
 Default: undef.
-If this enabled parameter has a valid value, Puppet sets the DetectionFrequency registry key to its value and the DetectionFrequencyEnabled Boolean registry key to 'true'.
-Otherwise, Puppet sets DetectionFrequencyEnabled to 'false' and Windows ignores the value of DetectionFrequency, falling back to the Windows default value of 22 hours.
+If this enabled parameter has a valid value, Puppet sets the DetectionFrequency registry key to its value and the
+DetectionFrequencyEnabled Boolean registry key to 'true'.
+Otherwise, Puppet sets DetectionFrequencyEnabled to 'false' and Windows ignores the value of DetectionFrequency, falling
+back to the Windows default value of 22 hours.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="disable_windows_update_access"></a>`disable_windows_update_access`
+##### <a name="-wsus_client--disable_windows_update_access"></a>`disable_windows_update_access`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
-Determines whether non-administrators can access Windows Update. Valid options: 'true' (disable access), 'false' (enable access), and undef.
+Determines whether non-administrators can access Windows Update.
+Valid options: 'true' (disable access), 'false' (enable access), and undef.
 Default: undef.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="elevate_non_admins"></a>`elevate_non_admins`
+##### <a name="-wsus_client--elevate_non_admins"></a>`elevate_non_admins`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
 Determines which security groups can approve or refuse updates. Valid options: 'true', 'false', and undef.
 Default: undef.
 If 'true', members of the Users group can approve or refuse updates.
 If 'false', only members of the Administrators group can approve or refuse updates.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="no_auto_reboot_with_logged_on_users"></a>`no_auto_reboot_with_logged_on_users`
+##### <a name="-wsus_client--no_auto_reboot_with_logged_on_users"></a>`no_auto_reboot_with_logged_on_users`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
-Determines whether to automatically reboot while a user is logged in to the client. Valid options: 'true', 'false', and undef. Default: undef.
-If 'true', Windows will not restart the client after installing updates, even if a reboot is required to finish installing the update. If 'false', Windows notifies the user that the client will restart 15 minutes after installing an update that requires a reboot.
+Determines whether to automatically reboot while a user is logged in to the client.
+Valid options: 'true', 'false', and undef. Default: undef.
+If 'true', Windows will not restart the client after installing updates, even if a reboot is required to finish installing the update.
+If 'false', Windows notifies the user that the client will restart 15 minutes after installing an update that requires a reboot.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="no_auto_update"></a>`no_auto_update`
+##### <a name="-wsus_client--no_auto_update"></a>`no_auto_update`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
 Disables automatic updates. Valid options: 'true', 'false' (automatic updates enabled), and undef. Default: undef.
 Windows disables automatic updates when this parameter is set to 'true' and enables them if it's set to 'false'.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="reboot_relaunch_timeout_minutes"></a>`reboot_relaunch_timeout_minutes`
+##### <a name="-wsus_client--reboot_relaunch_timeout_minutes"></a>`reboot_relaunch_timeout_minutes`
 
-Data type: `Any`
+Data type: `Optional[Variant[Integer[1,1440],Boolean]]`
 
-Sets a delay in minutes to wait before attempting to reboot after installing an update that requires one. Valid values: integers 1 through 1440. Default: undef.
-If this enabled parameter has a valid value, Puppet sets the RebootRelaunchTimeout registry key to its value and the RebootRelaunchTimeoutEnabled Boolean registry key to 'true'. Otherwise, Puppet sets RebootRelaunchTimeoutEnabled to 'false' and Windows ignores the value of RebootRelaunchTimeout, falling back to the Windows default value of 10 minutes.
+Sets a delay in minutes to wait before attempting to reboot after installing an update that requires one.
+Valid values: integers 1 through 1440. Default: undef.
+If this enabled parameter has a valid value, Puppet sets the RebootRelaunchTimeout registry key to its value and the
+RebootRelaunchTimeoutEnabled Boolean registry key to 'true'. Otherwise, Puppet sets RebootRelaunchTimeoutEnabled to 'false'
+and Windows ignores the value of RebootRelaunchTimeout, falling back to the Windows default value of 10 minutes.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="reboot_warning_timeout_minutes"></a>`reboot_warning_timeout_minutes`
+##### <a name="-wsus_client--reboot_warning_timeout_minutes"></a>`reboot_warning_timeout_minutes`
 
-Data type: `Any`
+Data type: `Optional[Variant[Integer[1,30],Boolean]]`
 
-Sets how many minutes users can wait before responding to a prompt to reboot the client after installing an update that requires a reboot. Valid values: integers 1 through 30. Default: undef.
-If this enabled parameter has a valid value, Puppet sets the RebootWarningTimeout registry key to its value and the RebootWarningTimeoutEnabled Boolean registry key to 'true'. Otherwise, Puppet sets RebootWarningTimeoutEnabled to 'false' and Windows ignores the value of RebootWarningTimeout, falling back to the Windows default value of 5 minutes.
+Sets how many minutes users can wait before responding to a prompt to reboot the client after installing an update that requires
+a reboot. Valid values: integers 1 through 30. Default: undef.
+If this enabled parameter has a valid value, Puppet sets the RebootWarningTimeout registry key to its value and the
+RebootWarningTimeoutEnabled Boolean registry key to 'true'. Otherwise, Puppet sets RebootWarningTimeoutEnabled to 'false' and
+Windows ignores the value of RebootWarningTimeout, falling back to the Windows default value of 5 minutes.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="reschedule_wait_time_minutes"></a>`reschedule_wait_time_minutes`
+##### <a name="-wsus_client--reschedule_wait_time_minutes"></a>`reschedule_wait_time_minutes`
 
-Data type: `Any`
+Data type: `Optional[Variant[Integer[1,60],Boolean]]`
 
-Sets how many minutes the client's automatic update service waits at startup before applying updates from a missed scheduled update. Valid values: integers 1 through 60. Default: undef.
-This enabled parameter is used only when automatic updates are enabled and auto_update_option is set to 'Scheduled' or '4'. If this parameter is set to a valid value, Puppet sets the RescheduleWaitTime registry key to that value and the RescheduleWaitTimeEnabled Boolean registry key to 'true'. Otherwise, Puppet sets RescheduleWaitTimeEnabled to 'false' and Windows ignores the value of RescheduleWaitTime, falling back to the Windows default behavior of re-attempting installation at the next scheduled update time.
+Sets how many minutes the client's automatic update service waits at startup before applying updates from a missed scheduled update.
+Valid values: integers 1 through 60. Default: undef.
+This enabled parameter is used only when automatic updates are enabled and auto_update_option is set to 'Scheduled' or '4'.
+If this parameter is set to a valid value, Puppet sets the RescheduleWaitTime registry key to that value and the
+RescheduleWaitTimeEnabled Boolean registry key to 'true'. Otherwise, Puppet sets RescheduleWaitTimeEnabled to 'false' and Windows
+ignores the value of RescheduleWaitTime, falling back to the Windows default behavior of re-attempting installation at the next
+scheduled update time.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="scheduled_install_day"></a>`scheduled_install_day`
+##### <a name="-wsus_client--scheduled_install_day"></a>`scheduled_install_day`
 
-Data type: `Any`
+Data type: `Optional[Variant[Enum['Everyday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday'],Integer[0,7]]]`
 
-Schedules a day of the week to automatically install updates. Valid values: 'Everyday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', and 'Saturday'. You can also refer to these eight values using the integers 0 through 7, respectively. Default: undef.
+Schedules a day of the week to automatically install updates. Valid values: 'Everyday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+'Thursday', 'Friday', and 'Saturday'. You can also refer to these eight values using the integers 0 through 7, respectively.
+Default: undef.
 This parameter depends on a valid scheduled_install_hour value and is required when auto_update_option is set to 'Scheduled' or '4'.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="scheduled_install_hour"></a>`scheduled_install_hour`
+##### <a name="-wsus_client--scheduled_install_hour"></a>`scheduled_install_hour`
 
-Data type: `Any`
+Data type: `Optional[Variant[Integer[0,23],Boolean]]`
 
 Schedules an hour of the day to automatically install updates. Valid values: an integer from 0 through 23. Default: undef.
 This parameter depends on a valid scheduled_install_day value and is required when auto_update_option is set to 'Scheduled' or '4'.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="always_auto_reboot_at_scheduled_time"></a>`always_auto_reboot_at_scheduled_time`
+##### <a name="-wsus_client--always_auto_reboot_at_scheduled_time"></a>`always_auto_reboot_at_scheduled_time`
 
-Data type: `Any`
+Data type: `Optional[Boolean]`
 
 Determines whether to automatically reboot. Valid options: 'true', 'false', and undef. Default: undef.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="always_auto_reboot_at_scheduled_time_minutes"></a>`always_auto_reboot_at_scheduled_time_minutes`
+##### <a name="-wsus_client--always_auto_reboot_at_scheduled_time_minutes"></a>`always_auto_reboot_at_scheduled_time_minutes`
 
-Data type: `Any`
+Data type: `Optional[Variant[Integer[15,180],Boolean]]`
 
 Sets the timer to warning a signed-in user that a restart is going to occur. Valid values: integers 15 through 180. Default: undef.
-When the timer runs out, the restart will proceed even if the PC has signed-in users.
+ When the timer runs out, the restart will proceed even if the PC has signed-in users.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="purge_values"></a>`purge_values`
+##### <a name="-wsus_client--purge_values"></a>`purge_values`
 
-Data type: `Any`
+Data type: `Boolean`
 
-Determines whether Puppet purges values of unmanaged registry keys under the WindowsUpdate parent key. Valid options: Boolean. Default: 'false'.
+Determines whether Puppet purges values of unmanaged registry keys under the WindowsUpdate parent key. Valid options: Boolean.
+Default: 'false'.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="target_group"></a>`target_group`
+##### <a name="-wsus_client--target_group"></a>`target_group`
 
-Data type: `Any`
+Data type: `Optional[Variant[String,Boolean]]`
 
 Sets the client's target group. Valid values: a string. Default: undef.
-This enabled parameter is only respected when the WSUS server allows clients to modify this setting via the TargetGroup and TargetGroupEnabled registry keys.
+This enabled parameter is only respected when the WSUS server allows clients to modify this setting via the TargetGroup and
+TargetGroupEnabled registry keys.
 
-Default value: ``undef``
+Default value: `undef`
 
 ## Defined types
 
-### <a name="wsus_clientsetting"></a>`wsus_client::setting`
+### <a name="wsus_client--setting"></a>`wsus_client::setting`
 
 Manages wsus_client settings
 
@@ -263,69 +295,69 @@ Manages wsus_client settings
 
 The following parameters are available in the `wsus_client::setting` defined type:
 
-* [`ensure`](#ensure)
-* [`key`](#key)
-* [`data`](#data)
-* [`type`](#type)
-* [`has_enabled`](#has_enabled)
-* [`validate_range`](#validate_range)
-* [`validate_bool`](#validate_bool)
+* [`ensure`](#-wsus_client--setting--ensure)
+* [`key`](#-wsus_client--setting--key)
+* [`data`](#-wsus_client--setting--data)
+* [`type`](#-wsus_client--setting--type)
+* [`has_enabled`](#-wsus_client--setting--has_enabled)
+* [`validate_range`](#-wsus_client--setting--validate_range)
+* [`validate_bool`](#-wsus_client--setting--validate_bool)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-wsus_client--setting--ensure"></a>`ensure`
 
-Data type: `Any`
+Data type: `Enum['present', 'absent', 'file']`
 
 Specifies whether the setting should exist. Valid options: 'present', 'absent', and 'file'
 
 Default value: `'present'`
 
-##### <a name="key"></a>`key`
+##### <a name="-wsus_client--setting--key"></a>`key`
 
-Data type: `Any`
+Data type: `String`
 
 Specifies registry_value
 
 Default value: `$title`
 
-##### <a name="data"></a>`data`
+##### <a name="-wsus_client--setting--data"></a>`data`
 
-Data type: `Any`
+Data type: `Optional[Variant[String,Integer,Boolean,Stdlib::HTTPUrl]]`
 
 Incoming data
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="type"></a>`type`
+##### <a name="-wsus_client--setting--type"></a>`type`
 
-Data type: `Any`
+Data type: `String`
 
 Data type. default value: dword
 
 Default value: `'dword'`
 
-##### <a name="has_enabled"></a>`has_enabled`
+##### <a name="-wsus_client--setting--has_enabled"></a>`has_enabled`
 
-Data type: `Any`
+Data type: `Boolean`
 
 Specifies whether the key should be enabled. Boolean value
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="validate_range"></a>`validate_range`
+##### <a name="-wsus_client--setting--validate_range"></a>`validate_range`
 
-Data type: `Any`
+Data type: `Optional[Tuple[Integer, Integer]]`
 
 Specifies whether the data should be validated as a number in a certain range
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="validate_bool"></a>`validate_bool`
+##### <a name="-wsus_client--setting--validate_bool"></a>`validate_bool`
 
-Data type: `Any`
+Data type: `Boolean`
 
 Specifies whether the data should be validated as a boolean value
 
-Default value: ``false``
+Default value: `false`
 
 ## Functions
 

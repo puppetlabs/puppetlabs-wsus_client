@@ -2,13 +2,33 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v4.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v4.0.0) (2021-02-27)
+## [v5.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v5.0.0) (2023-03-09)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v4.0.0...v5.0.0)
+
+### Changed
+
+- \(gh-cat-9\) Add specific data types [\#181](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/181) ([LukasAud](https://github.com/LukasAud))
+
+### Added
+
+- pdksync - \(FM-8922\) - Add Support for Windows 2022 [\#175](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/175) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- \(MAINT\) Drop support for Windows 7, 8, 2008 \(Server\) and 2008 R2 \(Server\) [\#185](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/185) ([jordanbreen28](https://github.com/jordanbreen28))
+
+## [v4.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v4.0.0) (2021-03-01)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v3.2.0...v4.0.0)
 
 ### Changed
 
 - pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [\#148](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/148) ([carabasdaniel](https://github.com/carabasdaniel))
+
+### Fixed
+
+- adjusted upper limit [\#184](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/184) ([prolixalias](https://github.com/prolixalias))
 
 ## [v3.2.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v3.2.0) (2021-02-18)
 
@@ -24,7 +44,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Added
 
-- Update metadata.json [\#114](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/114) ([ducksecops](https://github.com/ducksecops))
+- Update metadata.json [\#114](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/114) ([sootysec](https://github.com/sootysec))
 
 ## [v3.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v3.0.0) (2019-10-18)
 
