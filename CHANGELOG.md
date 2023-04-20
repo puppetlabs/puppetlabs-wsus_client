@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.0.1](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v5.0.1) (2023-04-20)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v5.0.0...v5.0.1)
+
+### Fixed
+
+- \(CONT-860\) Update registry dependency [\#202](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/202) ([LukasAud](https://github.com/LukasAud))
+
 ## [v5.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v5.0.0) (2023-03-09)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v4.0.0...v5.0.0)
@@ -17,6 +25,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Fixed
 
 - \(MAINT\) Drop support for Windows 7, 8, 2008 \(Server\) and 2008 R2 \(Server\) [\#185](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/185) ([jordanbreen28](https://github.com/jordanbreen28))
+- adjusted upper limit [\#184](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/184) ([prolixalias](https://github.com/prolixalias))
 
 ## [v4.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v4.0.0) (2021-03-01)
 
@@ -25,10 +34,6 @@ All notable changes to this project will be documented in this file. The format 
 ### Changed
 
 - pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [\#148](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/148) ([carabasdaniel](https://github.com/carabasdaniel))
-
-### Fixed
-
-- adjusted upper limit [\#184](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/184) ([prolixalias](https://github.com/prolixalias))
 
 ## [v3.2.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v3.2.0) (2021-02-18)
 
