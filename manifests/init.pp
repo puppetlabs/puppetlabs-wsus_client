@@ -162,7 +162,7 @@ class wsus_client (
 
   $_au_base = "${_basekey}\\AU"
 
-  validate_bool($purge_values)
+  validate_legacy(Boolean, 'validate_bool', $purge_values)
 
   registry_key { $_basekey:
     ensure       => present,
@@ -197,7 +197,7 @@ class wsus_client (
         has_enabled => false,
       }
       if $enable_status_server != undef {
-        validate_bool($enable_status_server)
+        validate_legacy(Boolean, 'validate_bool', $enable_status_server)
         $_ensure_status_server = $enable_status_server ? {
           true => 'present',
           false => 'absent',
