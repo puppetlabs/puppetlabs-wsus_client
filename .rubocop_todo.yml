@@ -53,3 +53,10 @@ RSpec/NoExpectationExample:
 Style/MixinUsage:
   Exclude:
     - 'spec/spec_helper.rb'
+
+# Offense count: 1
+# Configuration parameters: AllowedMethods.
+# AllowedMethods: respond_to_missing?
+Style/OptionalBooleanParameter:
+  Exclude:
+    - 'spec/acceptance/wsus_client_spec.rb'
