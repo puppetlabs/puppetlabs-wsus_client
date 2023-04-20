@@ -89,7 +89,7 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context 'server_url =>', testrail: ['70183', '70185', '70184'] do
+  context 'with server_url =>', testrail: ['70183', '70185', '70184'] do
     let(:reg_type) { :type_string }
 
     ['http://SERVER:8530', 'https://SERVER:8531'].each do |wsus_url|
@@ -136,7 +136,7 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context 'auto_update_option =>' do
+  context 'with auto_update_option =>' do
     { 'NotifyOnly' => 2,
       'AutoNotify' => 3,
       'AutoInstall' => 5 }.each do |key, au_opt|
@@ -179,19 +179,19 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context 'accept_trusted_publisher_certs =>', testrail: ['70193', '70194'] do
+  context 'with accept_trusted_publisher_certs =>', testrail: ['70193', '70194'] do
     it_behaves_like 'boolean values',
                     :accept_trusted_publisher_certs,
                     'AcceptTrustedPublisherCerts'
   end
 
-  context 'auto_install_minor_updates =>', testrail: ['70210', '70211'] do
+  context 'with auto_install_minor_updates =>', testrail: ['70210', '70211'] do
     it_behaves_like 'boolean values',
                     :auto_install_minor_updates,
                     'AutoInstallMinorUpdates', au_key
   end
 
-  context 'detection_frequency_hours =>', testrail: ['70213', '70214', '70215'] do
+  context 'with detection_frequency_hours =>', testrail: ['70213', '70214', '70215'] do
     it_behaves_like 'enabled range',
                     :detection_frequency_hours,
                     'DetectionFrequency',
@@ -199,33 +199,33 @@ RSpec.describe 'wsus_client' do
                     au_key
   end
 
-  context 'disable_windows_update_access =>', testrail: ['70220', '70221'] do
+  context 'with disable_windows_update_access =>', testrail: ['70220', '70221'] do
     it_behaves_like 'boolean values',
                     :disable_windows_update_access,
                     'DisableWindowsUpdateAccess'
   end
 
-  context 'elevate_non_admins =>', testrail: ['70223', '70224'] do
+  context 'with elevate_non_admins =>', testrail: ['70223', '70224'] do
     it_behaves_like 'boolean values',
                     :elevate_non_admins,
                     'ElevateNonAdmins'
   end
 
-  context 'no_auto_reboot_with_logged_on_users =>', testrail: ['70226', '70227'] do
+  context 'with no_auto_reboot_with_logged_on_users =>', testrail: ['70226', '70227'] do
     it_behaves_like 'boolean values',
                     :no_auto_reboot_with_logged_on_users,
                     'NoAutoRebootWithLoggedOnUsers',
                     au_key
   end
 
-  context 'no_auto_update =>', testrail: ['70229', '70230'] do
+  context 'with no_auto_update =>', testrail: ['70229', '70230'] do
     it_behaves_like 'boolean values',
                     :no_auto_update,
                     'NoAutoUpdate',
                     au_key
   end
 
-  context 'reboot_relaunch_timeout_minutes =>', testrail: ['70232', '70233', '70234'] do
+  context 'with reboot_relaunch_timeout_minutes =>', testrail: ['70232', '70233', '70234'] do
     it_behaves_like 'enabled range',
                     :reboot_relaunch_timeout_minutes,
                     'RebootRelaunchTimeout',
@@ -233,7 +233,7 @@ RSpec.describe 'wsus_client' do
                     au_key
   end
 
-  context 'reboot_warning_timeout_minutes =>', testrail: ['70239', '70240', '70241'] do
+  context 'with reboot_warning_timeout_minutes =>', testrail: ['70239', '70240', '70241'] do
     it_behaves_like 'enabled range',
                     :reboot_warning_timeout_minutes,
                     'RebootWarningTimeout',
@@ -241,7 +241,7 @@ RSpec.describe 'wsus_client' do
                     au_key
   end
 
-  context 'reschedule_wait_time_minutes =>', testrail: ['70246', '70247', '70248'] do
+  context 'with reschedule_wait_time_minutes =>', testrail: ['70246', '70247', '70248'] do
     it_behaves_like 'enabled range',
                     :reschedule_wait_time_minutes,
                     'RescheduleWaitTime',
@@ -249,7 +249,7 @@ RSpec.describe 'wsus_client' do
                     au_key
   end
 
-  context 'scheduled_install_day =>', testrail: ['70253', '70254', '70255', '70256'] do
+  context 'with scheduled_install_day =>', testrail: ['70253', '70254', '70255', '70256'] do
     { 'Everyday' => 0, 'Tuesday' => 3, 0 => 0, 3 => 3 }.each do |day, expected_value|
       describe day.to_s do
         it {
@@ -268,7 +268,7 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context 'scheduled_install_hour =>', testrail: ['70263', '70264'] do
+  context 'with scheduled_install_hour =>', testrail: ['70263', '70264'] do
     [0, 23].each do |hour|
       describe hour.to_s do
         it {
@@ -287,7 +287,7 @@ RSpec.describe 'wsus_client' do
     end
   end
 
-  context 'target_group =>', testrail: ['70268'] do
+  context 'with target_group =>', testrail: ['70268'] do
     describe 'testTargetGroup' do
       it {
         create_apply_manifest target_group: 'testTargetGroup'

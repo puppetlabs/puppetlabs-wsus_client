@@ -125,7 +125,7 @@ describe 'wsus_client' do
   end
 
   test_hash.each do |os, settings|
-    context "Windows #{os}" do
+    context "with Windows #{os}" do
       let(:facts) do
         {
           operatingsystem: 'windows',
@@ -136,7 +136,7 @@ describe 'wsus_client' do
 
       base_key = settings[:base_key]
       au_key = settings[:au_key]
-      context 'base keys' do
+      context 'with base keys' do
         booleans = [true, false]
         booleans.each do |purge|
           describe "purge_values => #{purge}" do
@@ -153,7 +153,7 @@ describe 'wsus_client' do
         end
       end
 
-      context 'server_url =>' do
+      context 'with server_url =>' do
         let(:reg_type) { 'string' }
         let(:reg_data) { 'https://SERVER:8530' }
 
@@ -227,7 +227,7 @@ describe 'wsus_client' do
         end
       end
 
-      context 'auto_update_option =>' do
+      context 'with auto_update_option =>' do
         let(:reg_key) { "#{au_key}\\AUOptions" }
         let(:param_sym) { :auto_update_option }
 
@@ -269,7 +269,7 @@ describe 'wsus_client' do
         end
       end
 
-      context 'accept_trusted_publisher_certs =>' do
+      context 'with accept_trusted_publisher_certs =>' do
         let(:reg_key) { "#{base_key}\\AcceptTrustedPublisherCerts" }
         let(:param_sym) { :accept_trusted_publisher_certs }
 
@@ -278,7 +278,7 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'auto_install_minor_updates =>' do
+      context 'with auto_install_minor_updates =>' do
         let(:reg_key) { "#{au_key}\\AutoInstallMinorUpdates" }
         let(:param_sym) { :auto_install_minor_updates }
 
@@ -287,7 +287,7 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'detection_frequency_hours =>' do
+      context 'with detection_frequency_hours =>' do
         let(:reg_key) { "#{au_key}\\DetectionFrequency" }
         let(:range) { [1, 22] }
         let(:below_range) { range[0] - 1 }
@@ -300,7 +300,7 @@ describe 'wsus_client' do
         it_behaves_like 'enabled feature', 11
       end
 
-      context 'disable_windows_update_access =>' do
+      context 'with disable_windows_update_access =>' do
         let(:reg_key) { "#{base_key}\\DisableWindowsUpdateAccess" }
         let(:param_sym) { :disable_windows_update_access }
 
@@ -308,7 +308,7 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'elevate_non_admins =>' do
+      context 'with elevate_non_admins =>' do
         let(:reg_key) { "#{base_key}\\ElevateNonAdmins" }
         let(:param_sym) { :elevate_non_admins }
 
@@ -316,7 +316,7 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'no_auto_reboot_with_logged_on_users =>' do
+      context 'with no_auto_reboot_with_logged_on_users =>' do
         let(:reg_key) { "#{au_key}\\NoAutoRebootWithLoggedOnUsers" }
         let(:param_sym) { :no_auto_reboot_with_logged_on_users }
 
@@ -324,7 +324,7 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'no_auto_update =>' do
+      context 'with no_auto_update =>' do
         let(:reg_key) { "#{au_key}\\NoAutoUpdate" }
         let(:param_sym) { :no_auto_update }
 
@@ -332,7 +332,7 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'reboot_relaunch_timeout_minutes =>' do
+      context 'with reboot_relaunch_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootRelaunchTimeout" }
         let(:range) { [1, 1440] }
         let(:below_range) { range[0] - 1 }
@@ -345,7 +345,7 @@ describe 'wsus_client' do
         it_behaves_like 'enabled feature', 720
       end
 
-      context 'reboot_warning_timeout_minutes =>' do
+      context 'with reboot_warning_timeout_minutes =>' do
         let(:reg_key) { "#{au_key}\\RebootWarningTimeout" }
         let(:range) { [1, 30] }
         let(:below_range) { range[0] - 1 }
@@ -358,7 +358,7 @@ describe 'wsus_client' do
         it_behaves_like 'enabled feature', 15
       end
 
-      context 'reschedule_wait_time_minutes =>' do
+      context 'with reschedule_wait_time_minutes =>' do
         let(:reg_key) { "#{au_key}\\RescheduleWaitTime" }
         let(:range) { [1, 60] }
         let(:below_range) { range[0] - 1 }
@@ -371,7 +371,7 @@ describe 'wsus_client' do
         it_behaves_like 'enabled feature', 30
       end
 
-      context 'scheduled_install_day =>' do
+      context 'with scheduled_install_day =>' do
         let(:reg_key) { "#{au_key}\\ScheduledInstallDay" }
         let(:param_sym) { :scheduled_install_day }
         let(:above_range) { 8 }
@@ -390,7 +390,7 @@ describe 'wsus_client' do
         end
       end
 
-      context 'scheduled_install_hour =>' do
+      context 'with scheduled_install_hour =>' do
         let(:reg_key) { "#{au_key}\\ScheduledInstallTime" }
         let(:range) { [0, 23] }
         let(:below_range) { range[0] - 1 }
@@ -403,14 +403,14 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature', 12
       end
 
-      context 'target_group =>' do
+      context 'with target_group =>' do
         let(:reg_key) { "#{base_key}\\TargetGroup" }
         let(:param_sym) { :target_group }
 
         it_behaves_like 'enabled feature', 'UberUserGroup'
       end
 
-      context 'always_auto_reboot_at_scheduled_time =>' do
+      context 'with always_auto_reboot_at_scheduled_time =>' do
         let(:reg_key) { "#{au_key}\\AlwaysAutoRebootAtScheduledTime" }
         let(:param_sym) { :always_auto_reboot_at_scheduled_time }
 
@@ -418,7 +418,7 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
-      context 'always_auto_reboot_at_scheduled_time_minutes =>' do
+      context 'with always_auto_reboot_at_scheduled_time_minutes =>' do
         let(:reg_key) { "#{au_key}\\AlwaysAutoRebootAtScheduledTimeMinutes" }
         let(:param_sym) { :always_auto_reboot_at_scheduled_time_minutes }
         let(:range) { [15, 180] }
