@@ -26,19 +26,13 @@ module Puppet::Parser::Functions
 
     option = args[0]
     if option.is_a?(Numeric) || option =~ %r{^\d$}
-      if option.is_a?(String)
-        option = Integer(option)
-      end
-      if option < 0 || option > 7
-        raise Puppet::ParseError, "Valid options for scheduled_install_day are #{day_hash.keys.join('|')}|0-7, provided '#{option}'"
-      end
+      option = Integer(option) if option.is_a?(String)
+      raise Puppet::ParseError, "Valid options for scheduled_install_day are #{day_hash.keys.join('|')}|0-7, provided '#{option}'" if option < 0 || option > 7
 
       return option
     end
 
-    if day_hash.key?(option.capitalize)
-      return day_hash[option.capitalize]
-    end
+    return day_hash[option.capitalize] if day_hash.key?(option.capitalize)
 
     raise Puppet::ParseError, "Valid options for scheduled_install_day are #{day_hash.keys.join('|')}|0-7, provided '#{option}'"
   end

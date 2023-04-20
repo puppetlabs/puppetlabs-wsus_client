@@ -19,11 +19,7 @@ module Puppet::Parser::Functions
     data = Integer(data)
     min = Integer(min)
     max = Integer(max)
-    if data < min
-      raise("Expected #{data} to be greater or equal to #{min}, got #{data}")
-    end
-    if data > max
-      raise("Expected #{data} to be less or equal to #{min}, got #{data}")
-    end
+    raise("Expected #{data} to be greater or equal to #{min}, got #{data}") if data < min
+    raise("Expected #{data} to be less or equal to #{min}, got #{data}") if data > max
   end
 end

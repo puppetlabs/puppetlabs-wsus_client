@@ -23,19 +23,13 @@ module Puppet::Parser::Functions
     option = args[0]
     error_msg = "Valid options for auto_update_option are NotifyOnly|AutoNotify|Scheduled|AutoInstall|2|3|4|5, provided '#{option}'"
     if option.is_a?(Numeric) || option =~ %r{^\d$}
-      if option.is_a?(String)
-        option = Integer(option)
-      end
-      if option < 2 || option > 5
-        raise Puppet::ParseError, error_msg
-      end
+      option = Integer(option) if option.is_a?(String)
+      raise Puppet::ParseError, error_msg if option < 2 || option > 5
 
       return option
     end
 
-    if autoupdate_hash.key?(option.downcase)
-      return autoupdate_hash[option.downcase]
-    end
+    return autoupdate_hash[option.downcase] if autoupdate_hash.key?(option.downcase)
 
     raise Puppet::ParseError, error_msg
   end

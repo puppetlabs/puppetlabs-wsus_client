@@ -25,9 +25,7 @@ RSpec.describe 'wsus_client' do
   end
 
   def create_apply_manifest(params, clear_first = true)
-    if clear_first
-      clear_registry
-    end
+    clear_registry if clear_first
     pp = "class {'wsus_client':"
     params.each do |k, v|
       v = "'#{v}'" if v.is_a? String
@@ -42,10 +40,8 @@ RSpec.describe 'wsus_client' do
       it { is_expected.to exist }
 
       it {
-        unless reg_data.nil?
-          is_expected.to have_property_value(property, reg_type, reg_data)
-        end
-        is_expected.to have_property(property, reg_type)
+        expect(subject).to have_property_value(property, reg_type, reg_data) unless reg_data.nil?
+        expect(subject).to have_property(property, reg_type)
       }
     end
   end
@@ -74,6 +70,7 @@ RSpec.describe 'wsus_client' do
         before :all do
           create_apply_manifest param => valid_value
         end
+
         describe windows_registry_key(key) do
           it { is_expected.to exist }
           it { is_expected.to have_property_value(property, :type_dword_converted, valid_value) }

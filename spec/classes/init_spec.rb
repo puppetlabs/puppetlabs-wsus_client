@@ -16,7 +16,7 @@ describe 'wsus_client' do
 
   shared_examples 'registry_value' do
     it {
-      is_expected.to contain_registry_value(reg_key).with(
+      expect(subject).to contain_registry_value(reg_key).with(
         'ensure' => reg_ensure,
         'type' => reg_type,
         'data' => reg_data,
@@ -96,7 +96,7 @@ describe 'wsus_client' do
         let(:params) { { param_sym => enabled } }
 
         it {
-          is_expected.to contain_registry_value("#{reg_key}Enabled").with(
+          expect(subject).to contain_registry_value("#{reg_key}Enabled").with(
             'type' => 'dword',
             'data' => (enabled ? 1 : 0),
           )
@@ -111,7 +111,7 @@ describe 'wsus_client' do
       it { is_expected.to contain_registry_value("#{reg_key}Enabled") }
 
       it {
-        is_expected.to contain_registry_value(reg_key).with(
+        expect(subject).to contain_registry_value(reg_key).with(
           'data' => valid_non_bool_value,
         )
       }
@@ -143,7 +143,7 @@ describe 'wsus_client' do
 
             [base_key, au_key].each do |key|
               it {
-                is_expected.to contain_registry_key(key).with(
+                expect(subject).to contain_registry_key(key).with(
                   'purge_values' => purge,
                 )
               }
@@ -377,7 +377,7 @@ describe 'wsus_client' do
         it_behaves_like 'registry_value undefined' # when unset should be missing
         it_behaves_like 'non enabled feature', 4
         days = ['Everyday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        (0..7).each do |day_int|
+        8.times do |day_int|
           describe "convert #{days[day_int]}" do
             let(:params) { { param_sym => days[day_int] } }
             let(:reg_data) { day_int }
