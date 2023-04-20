@@ -45,7 +45,7 @@ define wsus_client::setting (
         validate_in_range($data,$validate_range[0],$validate_range[1])
       }
       if $validate_bool {
-        validate_bool($data)
+        validate_legacy(Boolean, 'validate_bool', $data)
       }
       $_data = $validate_bool ? {
         true => bool2num($data),

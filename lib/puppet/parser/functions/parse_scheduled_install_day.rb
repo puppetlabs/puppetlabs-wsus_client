@@ -5,7 +5,7 @@
 #  Custom function: parse_scheduled_install_day
 #
 module Puppet::Parser::Functions
-  newfunction(:parse_scheduled_install_day, type: :rvalue, arity: 1, doc: <<-EOS
+  newfunction(:parse_scheduled_install_day, type: :rvalue, arity: 1, doc: <<-DOCUMENTATION
     @summary
       Parse the incoming value to the corresponding integer, if integer is supplied simply return value
 
@@ -13,7 +13,7 @@ module Puppet::Parser::Functions
 
     > *Note:*
     Valid options for scheduled_install_day are Everyday|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|0-7
-  EOS
+  DOCUMENTATION
   ) do |args|
     day_hash = { 'Everyday' => 0,
                  'Sunday' => 1,
@@ -26,18 +26,14 @@ module Puppet::Parser::Functions
 
     option = args[0]
     if option.is_a?(Numeric) || option =~ %r{^\d$}
-      if option.is_a?(String)
-        option = Integer(option)
-      end
-      if option < 0 || option > 7
-        raise Puppet::ParseError, "Valid options for scheduled_install_day are #{day_hash.keys.join('|')}|0-7, provided '#{option}'"
-      end
+      option = Integer(option) if option.is_a?(String)
+      raise Puppet::ParseError, "Valid options for scheduled_install_day are #{day_hash.keys.join('|')}|0-7, provided '#{option}'" if option.negative? || option > 7
+
       return option
     end
 
-    if day_hash.key?(option.capitalize)
-      return day_hash[option.capitalize]
-    end
+    return day_hash[option.capitalize] if day_hash.key?(option.capitalize)
+
     raise Puppet::ParseError, "Valid options for scheduled_install_day are #{day_hash.keys.join('|')}|0-7, provided '#{option}'"
   end
 end
