@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v6.0.0) (2023-04-20)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v5.0.1...v6.0.0)
+
+### Changed
+
+- \(CONT-804\) Add Support for Puppet 8 / Drop Support for Puppet 6 [\#204](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/204) ([david22swan](https://github.com/david22swan))
+
 ## [v5.0.1](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v5.0.1) (2023-04-20)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v5.0.0...v5.0.1)
