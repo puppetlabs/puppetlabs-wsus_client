@@ -11,12 +11,6 @@
 Metrics/MethodLength:
   Max: 14
 
-# Offense count: 3
-# Configuration parameters: MinSize.
-Performance/CollectionLiteralInLoop:
-  Exclude:
-    - 'spec/classes/init_spec.rb'
-
 # Offense count: 34
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
