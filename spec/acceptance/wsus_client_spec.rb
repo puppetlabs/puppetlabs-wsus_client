@@ -24,7 +24,7 @@ RSpec.describe 'wsus_client' do
     apply_manifest(pp, catch_failures: false)
   end
 
-  def create_apply_manifest(params, clear_first = true)
+  def create_apply_manifest(params, clear_first: true)
     clear_registry if clear_first
     pp = "class {'wsus_client':"
     params.each do |k, v|
