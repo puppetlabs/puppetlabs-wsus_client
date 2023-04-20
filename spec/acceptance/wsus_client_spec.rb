@@ -8,18 +8,18 @@ RSpec.describe 'wsus_client' do
   au_key = "#{base_key}\\AU"
 
   def clear_registry
-    pp = <<-PP
-service {'wuauserv':
-  ensure => stopped,
-}->
-registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU':
-  ensure       => absent,
-  purge_values => true,
-}->
-registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
-  ensure       => absent,
-  purge_values => true,
-}
+    pp = <<~PP
+      service {'wuauserv':
+        ensure => stopped,
+      }->
+      registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU':
+        ensure       => absent,
+        purge_values => true,
+      }->
+      registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
+        ensure       => absent,
+        purge_values => true,
+      }
     PP
     apply_manifest(pp, catch_failures: false)
   end
@@ -40,6 +40,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
   shared_examples 'registry_value' do |property, key = base_key|
     describe windows_registry_key(key) do
       it { is_expected.to exist }
+
       it {
         unless reg_data.nil?
           is_expected.to have_property_value(property, reg_type, reg_data)
@@ -83,6 +84,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
 
     describe 'false' do
       it { create_apply_manifest param => false }
+
       describe windows_registry_key(key) do
         it { is_expected.to exist }
         it { is_expected.to have_property_value("#{property}Enabled", :type_dword_converted, 0) }
@@ -98,6 +100,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
         let(:reg_data) { wsus_url }
 
         it { create_apply_manifest server_url: wsus_url }
+
         it_behaves_like 'registry_value', 'WUServer'
         it_behaves_like 'registry_value undefined', 'WUStatusServer'
         it_behaves_like 'registry_value', 'UseWUServer', au_key do
@@ -116,6 +119,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
           enable_status_server: true,
         )
       }
+
       it_behaves_like 'registry_value', 'WUStatusServer'
       it_behaves_like 'registry_value', 'WUServer'
     end
@@ -129,6 +133,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
             enable_status_server: false }, false
         )
       }
+
       it_behaves_like 'registry_value undefined', 'WUStatusServer'
       it_behaves_like 'registry_value', 'WUServer'
     end
@@ -140,12 +145,15 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
       'AutoInstall' => 5 }.each do |key, au_opt|
       describe au_opt.to_s, testcase: ['70197', '70198', '70200'] do
         it { create_apply_manifest auto_update_option: au_opt }
+
         it_behaves_like 'registry_value', 'AUOptions', au_key do
           let(:reg_data) { au_opt }
         end
       end
+
       describe key.to_s, testcase: ['70201', '70202', '70204'] do
         it { create_apply_manifest auto_update_option: key }
+
         it_behaves_like 'registry_value', 'AUOptions', au_key do
           let(:reg_data) { au_opt }
         end
@@ -160,6 +168,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
             scheduled_install_hour: 19,
           )
         }
+
         it_behaves_like 'registry_value', 'AUOptions', au_key do
           let(:reg_data) { 4 }
         end
@@ -251,6 +260,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
                                 scheduled_install_day: day,
                                 scheduled_install_hour: 18
         }
+
         it_behaves_like 'registry_value', 'ScheduledInstallDay', au_key do
           let(:reg_data) { expected_value }
         end
@@ -269,6 +279,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
                                 scheduled_install_day: 'Tuesday',
                                 scheduled_install_hour: hour
         }
+
         it_behaves_like 'registry_value', 'ScheduledInstallTime', au_key do
           let(:reg_data) { hour }
         end
@@ -284,6 +295,7 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
       it {
         create_apply_manifest target_group: 'testTargetGroup'
       }
+
       it_behaves_like 'registry_value', 'TargetGroup' do
         let(:reg_data) { 'testTargetGroup' }
         let(:reg_type) { :type_string }
@@ -293,10 +305,12 @@ registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate':
         let(:reg_type) { :type_dword_converted }
       end
     end
+
     describe 'false', testrail: ['89606'] do
       it {
         create_apply_manifest target_group: false
       }
+
       it_behaves_like 'registry_value', 'TargetGroupEnabled' do
         let(:reg_data) { 0 }
         let(:reg_type) { :type_dword_converted }

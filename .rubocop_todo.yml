@@ -6,30 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'lib/puppet/parser/functions/parse_auto_update_option.rb'
-    - 'lib/puppet/parser/functions/parse_scheduled_install_day.rb'
-
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.
-# SupportedHashRocketStyles: key, separator, table
-# SupportedColonStyles: key, separator, table
-# SupportedLastArgumentHashStyles: always_inspect, always_ignore, ignore_implicit, ignore_explicit
-Layout/HashAlignment:
-  Exclude:
-    - 'lib/puppet/parser/functions/parse_auto_update_option.rb'
-    - 'spec/classes/init_spec.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Layout/HeredocIndentation:
-  Exclude:
-    - 'spec/acceptance/wsus_client_spec.rb'
-
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
 Metrics/MethodLength:
@@ -71,21 +47,6 @@ RSpec/DescribeClass:
     - 'spec/classes/init_spec.rb'
     - 'spec/functions/parse_auto_update_option_spec.rb'
     - 'spec/functions/parse_scheduled_install_day_spec.rb'
-
-# Offense count: 14
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/acceptance/wsus_client_spec.rb'
-    - 'spec/classes/init_spec.rb'
-
-# Offense count: 5
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterExampleGroup:
-  Exclude:
-    - 'spec/acceptance/wsus_client_spec.rb'
-    - 'spec/classes/init_spec.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).

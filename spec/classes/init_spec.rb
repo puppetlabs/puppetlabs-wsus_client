@@ -18,8 +18,8 @@ describe 'wsus_client' do
     it {
       is_expected.to contain_registry_value(reg_key).with(
         'ensure' => reg_ensure,
-        'type'   => reg_type,
-        'data'   => reg_data,
+        'type' => reg_type,
+        'data' => reg_data,
       )
     }
   end
@@ -90,6 +90,7 @@ describe 'wsus_client' do
       it { is_expected.not_to contain_registry_value("#{reg_key}Enabled") }
       it { is_expected.not_to contain_registry_value(reg_key) }
     end
+
     [true, false].each do |enabled|
       describe enabled.to_s do
         let(:params) { { param_sym => enabled } }
@@ -100,6 +101,7 @@ describe 'wsus_client' do
             'data' => (enabled ? 1 : 0),
           )
         }
+
         it { is_expected.not_to contain_registry_value(reg_key) }
       end
     end
@@ -107,6 +109,7 @@ describe 'wsus_client' do
       let(:params) { { param_sym => valid_non_bool_value } }
 
       it { is_expected.to contain_registry_value("#{reg_key}Enabled") }
+
       it {
         is_expected.to contain_registry_value(reg_key).with(
           'data' => valid_non_bool_value,
@@ -176,6 +179,7 @@ describe 'wsus_client' do
             let(:reg_type) { 'dword' }
           end
         end
+
         describe 'WUStatusServer =>' do
           describe 'true' do
             let(:params) do
@@ -197,6 +201,7 @@ describe 'wsus_client' do
               let(:reg_type) { 'dword' }
             end
           end
+
           describe 'false' do
             let(:params) do
               {

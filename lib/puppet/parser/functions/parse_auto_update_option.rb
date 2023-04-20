@@ -16,8 +16,8 @@ module Puppet::Parser::Functions
   EOS
   ) do |args|
     autoupdate_hash = { 'notifyonly' => 2,
-                        'autonotify'  => 3,
-                        'scheduled'   => 4,
+                        'autonotify' => 3,
+                        'scheduled' => 4,
                         'autoinstall' => 5 }
 
     option = args[0]
@@ -29,12 +29,14 @@ module Puppet::Parser::Functions
       if option < 2 || option > 5
         raise Puppet::ParseError, error_msg
       end
+
       return option
     end
 
     if autoupdate_hash.key?(option.downcase)
       return autoupdate_hash[option.downcase]
     end
+
     raise Puppet::ParseError, error_msg
   end
 end
