@@ -190,7 +190,7 @@ class wsus_client (
       has_enabled => false,
     }
     if $server_url {
-      validate_re($server_url, '^http(|s):\/\/', "server_url is required to be either http or https, ${server_url}")
+      validate_legacy(Optional[Variant[Stdlib::HTTPUrl,Boolean]],'validate_re' ,$server_url, '^http(|s):\/\/', "server_url is required to be either http or https, ${server_url}")
       wsus_client::setting { "${_basekey}\\WUServer":
         type        => 'string',
         data        => $server_url,
