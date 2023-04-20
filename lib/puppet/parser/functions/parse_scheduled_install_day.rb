@@ -5,7 +5,7 @@
 #  Custom function: parse_scheduled_install_day
 #
 module Puppet::Parser::Functions
-  newfunction(:parse_scheduled_install_day, type: :rvalue, arity: 1, doc: <<-EOS
+  newfunction(:parse_scheduled_install_day, type: :rvalue, arity: 1, doc: <<-DOCUMENTATION
     @summary
       Parse the incoming value to the corresponding integer, if integer is supplied simply return value
 
@@ -13,7 +13,7 @@ module Puppet::Parser::Functions
 
     > *Note:*
     Valid options for scheduled_install_day are Everyday|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|0-7
-  EOS
+  DOCUMENTATION
   ) do |args|
     day_hash = { 'Everyday' => 0,
                  'Sunday' => 1,

@@ -5,14 +5,14 @@
 #  Custom function: validate_in_range
 #
 module Puppet::Parser::Functions
-  newfunction(:validate_in_range, doc: <<-EOS
+  newfunction(:validate_in_range, doc: <<-DOCUMENTATION
     @summary
       Validate the incoming value is in a certain range.
 
     @return
       Raises an error if the given value fails this validation.
 
-  EOS
+  DOCUMENTATION
   ) do |args|
     data, min, max = *args
 
