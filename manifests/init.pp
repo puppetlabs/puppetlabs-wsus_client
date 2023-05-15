@@ -162,8 +162,6 @@ class wsus_client (
 
   $_au_base = "${_basekey}\\AU"
 
-  validate_legacy(Boolean, 'validate_bool', $purge_values)
-
   registry_key { $_basekey:
     ensure       => present,
     purge_values => $purge_values,
@@ -190,14 +188,14 @@ class wsus_client (
       has_enabled => false,
     }
     if $server_url {
-      validate_legacy(Optional[Variant[Stdlib::HTTPUrl,Boolean]],'validate_re' ,$server_url, '^http(|s):\/\/', "server_url is required to be either http or https, ${server_url}")
+      assert_type(Stdlib::HTTPUrl, $server_url)
       wsus_client::setting { "${_basekey}\\WUServer":
         type        => 'string',
         data        => $server_url,
         has_enabled => false,
       }
       if $enable_status_server != undef {
-        validate_legacy(Boolean, 'validate_bool', $enable_status_server)
+        assert_type(Boolean, $enable_status_server)
         $_ensure_status_server = $enable_status_server ? {
           true => 'present',
           false => 'absent',
