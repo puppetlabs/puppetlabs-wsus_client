@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-wsus_client",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "author": "puppetlabs",
   "summary": "Manage WSUS (Windows Server Update Service) settings for client nodes",
   "license": "Apache-2.0",
