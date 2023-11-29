@@ -3,7 +3,8 @@
   delete: true
 appveyor.yml:
   delete: true
-
+.rubocop.yml:
+  include_todos: true
 Gemfile:
   optional:
     ":development":
@@ -33,5 +34,3 @@ spec/spec_helper.rb:
   unmanaged: false
 .travis.yml:
   delete: true
-.rubocop.yml:
-  unmanaged: true
