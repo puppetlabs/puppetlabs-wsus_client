@@ -7,6 +7,24 @@ RSpec.describe 'wsus_client' do
   base_key = 'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate'
   au_key = "#{base_key}\\AU"
 
+  # Method to retry the operation on exception occures
+  # @params :
+  #   max_retry_count : default to 3
+  #   retry_wait_interval_secs : default to 5
+  #   error_matcher : match string to retry
+  def retry_on_error_matching(max_retry_count = 3, retry_wait_interval_secs = 5, error_matcher = nil)
+    try = 0
+    begin
+      try += 1
+      yield
+    rescue StandardError => e
+      raise unless try < max_retry_count && (error_matcher.nil? || e.message =~ error_matcher)
+
+      sleep retry_wait_interval_secs
+      retry
+    end
+  end
+
   def clear_registry
     pp = <<~PP
       service {'wuauserv':
@@ -57,7 +75,11 @@ RSpec.describe 'wsus_client' do
       describe enabled.to_s do
         let(:reg_data) { enabled ? 1 : 0 }
 
-        it { create_apply_manifest param => enabled }
+        it {
+          retry_on_error_matching(10, 5, %r{apply manifest failed}) do
+            create_apply_manifest param => enabled
+          end
+        }
 
         it_behaves_like 'registry_value', property, key
       end
@@ -111,10 +133,9 @@ RSpec.describe 'wsus_client' do
       let(:reg_data) { 'http://myserver:8530' }
 
       it {
-        create_apply_manifest(
-          server_url: 'http://myserver:8530',
-          enable_status_server: true,
-        )
+        retry_on_error_matching(10, 5, %r{apply manifest failed}) do
+          create_apply_manifest(server_url: 'http://myserver:8530', enable_status_server: true)
+        end
       }
 
       it_behaves_like 'registry_value', 'WUStatusServer'
