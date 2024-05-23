@@ -314,4 +314,10 @@ RSpec.describe 'wsus_client' do
       end
     end
   end
+
+  context 'with disable_dual_scan =>', testrail: ['70270', '70271'] do
+    it_behaves_like 'boolean values',
+                    :disable_dual_scan,
+                    'DisableDualScan'
+  end
 end
