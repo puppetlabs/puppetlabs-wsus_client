@@ -136,6 +136,10 @@
 #   This enabled parameter is only respected when the WSUS server allows clients to modify this setting via the TargetGroup and
 #   TargetGroupEnabled registry keys.
 #
+# @param disable_dual_scan
+#   Enable this policy to not allow update deferral policies to cause scans against Windows Update.
+#   Valid options: 'true', 'false', and undef. Default: undef.
+#
 class wsus_client (
   Optional[Variant[Stdlib::HTTPUrl,Boolean]] $server_url                                                            = undef,
   Optional[Boolean] $enable_status_server                                                                           = undef,
@@ -157,6 +161,7 @@ class wsus_client (
   Optional[Variant[Integer[15,180],Boolean]] $always_auto_reboot_at_scheduled_time_minutes                          = undef,
   Boolean $purge_values                                                                                             = false,
   Optional[Variant[String,Boolean]] $target_group                                                                   = undef,
+  Optional[Boolean] $disable_dual_scan                                                                              = undef,
 ) {
   $_basekey = 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate'
 
@@ -240,6 +245,12 @@ class wsus_client (
 
   wsus_client::setting { "${_basekey}\\DisableWindowsUpdateAccess":
     data          => $disable_windows_update_access,
+    has_enabled   => false,
+    validate_bool => true,
+  }
+
+  wsus_client::setting { "${_basekey}\\DisableDualScan":
+    data          => $disable_dual_scan,
     has_enabled   => false,
     validate_bool => true,
   }
