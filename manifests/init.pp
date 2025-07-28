@@ -140,7 +140,8 @@ class wsus_client (
   Optional[Variant[Stdlib::HTTPUrl,Boolean]] $server_url                                                            = undef,
   Optional[Boolean] $enable_status_server                                                                           = undef,
   Optional[Boolean] $accept_trusted_publisher_certs                                                                 = undef,
-  Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall'],Integer[2,5]]] $auto_update_option  = undef,
+  Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall', 'NotifyRestart'],Integer[2,5],Integer[7,7]]]
+  $auto_update_option                                                                                               = undef,
   Optional[Boolean] $auto_install_minor_updates                                                                     = undef,
   Optional[Variant[Integer[1,22],Boolean]] $detection_frequency_hours                                               = undef,
   Optional[Boolean] $disable_windows_update_access                                                                  = undef,
@@ -212,6 +213,16 @@ class wsus_client (
 
   if $auto_update_option {
     $_parsed_auto_update_option = parse_auto_update_option($auto_update_option)
+
+    # Option 7 is only supported on Windows Server 2016 and later.
+    if $_parsed_auto_update_option == 7 {
+      # Windows 2012's major version in facter is "2012 R2" which cannot be converted to integer directly.
+      # So, extract the leading digits from the major release string.
+      $_windows_version = regsubst($facts['os']['release']['major'], '^(\d+).*$', '\1')
+      if (Integer($_windows_version) < 2016) {
+        fail('auto_update_option value 7 is only supported on Windows Server 2016 and later.')
+      }
+    }
     if $_parsed_auto_update_option == 4 and !($scheduled_install_day and $scheduled_install_hour) {
       fail("scheduled_install_day and scheduled_install_hour required when specifying auto_update_option => '${auto_update_option}'")
     }

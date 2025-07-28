@@ -18,13 +18,14 @@ module Puppet::Parser::Functions
     autoupdate_hash = { 'notifyonly' => 2,
                         'autonotify' => 3,
                         'scheduled' => 4,
-                        'autoinstall' => 5 }
+                        'autoinstall' => 5,
+                        'notifyrestart' => 7 }
 
     option = args[0]
-    error_msg = "Valid options for auto_update_option are NotifyOnly|AutoNotify|Scheduled|AutoInstall|2|3|4|5, provided '#{option}'"
+    error_msg = "Valid options for auto_update_option are NotifyOnly|AutoNotify|Scheduled|AutoInstall|NotifyRestart|2|3|4|5|7, provided '#{option}'"
     if option.is_a?(Numeric) || option =~ %r{^\d$}
       option = Integer(option) if option.is_a?(String)
-      raise Puppet::ParseError, error_msg if option < 2 || option > 5
+      raise Puppet::ParseError, error_msg if option < 2 || option > 7
 
       return option
     end

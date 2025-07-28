@@ -241,7 +241,7 @@ describe 'wsus_client' do
                 auto_update_option: au_opt
               }
             end
-            let(:error_message) { %r{expects a value of type Undef, Enum\['AutoInstall', 'AutoNotify', 'NotifyOnly', 'Scheduled'\], or Integer\[2, 5\]} }
+            let(:error_message) { %r{expects a value of type Undef, Enum\['AutoInstall', 'AutoNotify', 'NotifyOnly', 'NotifyRestart', 'Scheduled'\], Integer\[2, 5\], or Integer\[7, 7\]} }
 
             it_behaves_like 'fail validation'
           end
