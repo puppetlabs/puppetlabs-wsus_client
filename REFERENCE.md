@@ -109,10 +109,10 @@ Default value: `undef`
 
 ##### <a name="-wsus_client--auto_update_option"></a>`auto_update_option`
 
-Data type: `Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall'],Integer[2,5]]]`
+Data type: `Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall', 'NotifyRestart'],Integer[2,5],Integer[7,7]]]`
 
-Sets the automatic update option you would like to use. Valid values: 'NotifyOnly', 'AutoNotify', 'Scheduled', and 'AutoInstall'.
-You can also refer to these four values using integers 2 through 5, respectively.
+Sets the automatic update option you would like to use. Valid values: 'NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall' and 'NotifyRestart'.
+You can also refer to these five values using integers 2 through 5, and 7, respectively.
 Default: undef.
 
 See the AUOptions key values on the Microsoft TechNet documentation for detailed descriptions of these options. In summary:
@@ -120,6 +120,7 @@ See the AUOptions key values on the Microsoft TechNet documentation for detailed
 * 'NotifyOnly': Notifies users before downloading updates.
 * 'AutoNotify': Automatically downloads updates and notifies users.
 * 'Scheduled': Automatically downloads updates and schedules automatic installation.
+* 'NotifyRestart': Automatically downloads updates and notifies users before both install and restart. (Windows Server 2016 and later only)
 
 If set to this value, scheduled_install_day and scheduled_install_hour are required.
 This parameter must be set to this value to use reschedule_wait_time_minutes.
