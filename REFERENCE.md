@@ -109,7 +109,7 @@ Default value: `undef`
 
 ##### <a name="-wsus_client--auto_update_option"></a>`auto_update_option`
 
-Data type: `Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall'],Integer[2,5]]]`
+Data type: `Optional[Variant[Enum['NotifyOnly', 'AutoNotify', 'Scheduled', 'AutoInstall', 'NotifyRestart'],Integer[2,5],Integer[7,7]]]`
 
 Sets the automatic update option you would like to use. Valid values: 'NotifyOnly', 'AutoNotify', 'Scheduled', and 'AutoInstall'.
 You can also refer to these four values using integers 2 through 5, respectively.
