@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.2.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v6.2.0) - 2025-08-05
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v6.1.0...v6.2.0)
+
+### Added
+
+- (MODULES-11590) Add support for option 7 to parameter 'auto_update_option' [#230](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/230) ([shubhamshinde360](https://github.com/shubhamshinde360))
+
+### Other
+
+- Update documentation for 'auto_update_option' parameter [#232](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/232) ([shubhamshinde360](https://github.com/shubhamshinde360))
+
 ## [v6.1.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v6.1.0) - 2023-06-20
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v6.0.0...v6.1.0)
@@ -22,6 +34,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v5.0.1...v6.0.0)
 
 ### Changed
+
 - (CONT-804) Add Support for Puppet 8 / Drop Support for Puppet 6 [#204](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/204) ([david22swan](https://github.com/david22swan))
 
 ## [v5.0.1](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v5.0.1) - 2023-04-20
@@ -36,12 +49,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v4.0.0...v5.0.0)
 
+### Changed
+
+- (gh-cat-9) Add specific data types [#181](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/181) ([LukasAud](https://github.com/LukasAud))
+
 ### Added
 
 - pdksync - (FM-8922) - Add Support for Windows 2022 [#175](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/175) ([david22swan](https://github.com/david22swan))
-
-### Changed
-- (gh-cat-9) Add specific data types [#181](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/181) ([LukasAud](https://github.com/LukasAud))
 
 ### Fixed
 
@@ -53,6 +67,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v3.2.0...v4.0.0)
 
 ### Changed
+
 - pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [#148](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/148) ([carabasdaniel](https://github.com/carabasdaniel))
 
 ## [v3.2.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v3.2.0) - 2021-02-18
@@ -91,13 +106,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/1.0.3...1.1.0)
 
+### Changed
+
+- (MODULES-4837) Update puppet compatibility with 4.7 as lower bound [#71](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/71) ([lbayerlein](https://github.com/lbayerlein))
+
 ### Added
 
 - pdksync - (MODULES-7705) - Bumping stdlib dependency from < 5.0.0 to < 6.0.0 [#86](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/86) ([pmcmaw](https://github.com/pmcmaw))
 - (MODULES-7222) Create a task to list the Update History [#83](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/83) ([glennsarti](https://github.com/glennsarti))
-
-### Changed
-- (MODULES-4837) Update puppet compatibility with 4.7 as lower bound [#71](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/71) ([lbayerlein](https://github.com/lbayerlein))
 
 ## [1.0.3](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/1.0.3) - 2016-12-14
 
