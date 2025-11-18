@@ -308,6 +308,14 @@ describe 'wsus_client' do
         it_behaves_like 'non enabled feature'
       end
 
+      context 'with disable_dual_scan =>' do
+        let(:reg_key) { "#{base_key}\\DisableDualScan" }
+        let(:param_sym) { :disable_dual_scan }
+
+        it_behaves_like 'bool value'
+        it_behaves_like 'non enabled feature'
+      end
+
       context 'with elevate_non_admins =>' do
         let(:reg_key) { "#{base_key}\\ElevateNonAdmins" }
         let(:param_sym) { :elevate_non_admins }
