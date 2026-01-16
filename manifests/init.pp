@@ -128,6 +128,16 @@
 #   Sets the timer to warning a signed-in user that a restart is going to occur. Valid values: integers 15 through 180. Default: undef.
 #    When the timer runs out, the restart will proceed even if the PC has signed-in users.
 #
+# @param active_hours_start
+#   Sets the start time for Active Hours in 24-hour format. Valid values: integers 0 through 23. Default: undef.
+#   Active Hours prevent automatic restarts during specified times. Both active_hours_start and active_hours_end must be set
+#   to enable this feature. When both are defined, the SetActiveHours registry key is automatically enabled.
+#
+# @param active_hours_end
+#   Sets the end time for Active Hours in 24-hour format. Valid values: integers 0 through 23. Default: undef.
+#   Active Hours prevent automatic restarts during specified times. Both active_hours_start and active_hours_end must be set
+#   to enable this feature. When both are defined, the SetActiveHours registry key is automatically enabled.
+#
 # @param purge_values
 #   Determines whether Puppet purges values of unmanaged registry keys under the WindowsUpdate parent key. Valid options: Boolean. 
 #   Default: 'false'.
@@ -157,6 +167,8 @@ class wsus_client (
   Optional[Variant[Integer[0,23],Boolean]] $scheduled_install_hour                                                  = undef,
   Optional[Boolean] $always_auto_reboot_at_scheduled_time                                                           = undef,
   Optional[Variant[Integer[15,180],Boolean]] $always_auto_reboot_at_scheduled_time_minutes                          = undef,
+  Optional[Variant[Integer[0,23],Boolean]] $active_hours_start                                                      = undef,
+  Optional[Variant[Integer[0,23],Boolean]] $active_hours_end                                                        = undef,
   Boolean $purge_values                                                                                             = false,
   Optional[Variant[String,Boolean]] $target_group                                                                   = undef,
 ) {
@@ -322,5 +334,30 @@ class wsus_client (
     data           => $always_auto_reboot_at_scheduled_time_minutes,
     validate_range => [15,180],
     has_enabled    => false,
+  }
+
+  # Active Hours configuration
+  if $active_hours_start != undef and $active_hours_end != undef {
+    $_enable_active_hours = ($active_hours_start != false and $active_hours_end != false)
+
+    wsus_client::setting { "${_basekey}\\SetActiveHours":
+      data          => $_enable_active_hours,
+      has_enabled   => false,
+      validate_bool => true,
+    }
+
+    if $_enable_active_hours {
+      wsus_client::setting { "${_basekey}\\ActiveHoursStart":
+        data           => $active_hours_start,
+        validate_range => [0,23],
+        has_enabled    => false,
+      }
+
+      wsus_client::setting { "${_basekey}\\ActiveHoursEnd":
+        data           => $active_hours_end,
+        validate_range => [0,23],
+        has_enabled    => false,
+      }
+    }
   }
 }

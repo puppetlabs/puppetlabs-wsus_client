@@ -84,32 +84,6 @@ Style/Documentation:
   - spec/**/*
 Style/WordArray:
   EnforcedStyle: brackets
-Performance/AncestorsInclude:
-  Enabled: true
-Performance/BigDecimalWithNumericArgument:
-  Enabled: true
-Performance/BlockGivenWithExplicitBlock:
-  Enabled: true
-Performance/CaseWhenSplat:
-  Enabled: true
-Performance/ConstantRegexp:
-  Enabled: true
-Performance/MethodObjectAsBlock:
-  Enabled: true
-Performance/RedundantSortBlock:
-  Enabled: true
-Performance/RedundantStringChars:
-  Enabled: true
-Performance/ReverseFirst:
-  Enabled: true
-Performance/SortReverse:
-  Enabled: true
-Performance/Squeeze:
-  Enabled: true
-Performance/StringInclude:
-  Enabled: true
-Performance/Sum:
-  Enabled: true
 Style/CollectionMethods:
   Enabled: true
 Style/MethodCalledOnDoEndBlock:
