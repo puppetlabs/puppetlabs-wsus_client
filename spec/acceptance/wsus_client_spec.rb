@@ -314,4 +314,64 @@ RSpec.describe 'wsus_client' do
       end
     end
   end
+
+  context 'with active_hours_start and active_hours_end =>' do
+    describe 'enabled with valid hours' do
+      [{ start: 0, end: 23 }, { start: 8, end: 18 }, { start: 22, end: 6 }].each do |hours|
+        describe "start: #{hours[:start]}, end: #{hours[:end]}" do
+          it {
+            create_apply_manifest(
+              active_hours_start: hours[:start],
+              active_hours_end: hours[:end],
+            )
+          }
+
+          it_behaves_like 'registry_value', 'SetActiveHours' do
+            let(:reg_data) { 1 }
+          end
+          it_behaves_like 'registry_value', 'ActiveHoursStart' do
+            let(:reg_data) { hours[:start] }
+          end
+          it_behaves_like 'registry_value', 'ActiveHoursEnd' do
+            let(:reg_data) { hours[:end] }
+          end
+        end
+      end
+    end
+
+    describe 'disabled when set to false' do
+      it {
+        create_apply_manifest(
+          active_hours_start: false,
+          active_hours_end: false,
+        )
+      }
+
+      it_behaves_like 'registry_value', 'SetActiveHours' do
+        let(:reg_data) { 0 }
+      end
+      it_behaves_like 'registry_value undefined', 'ActiveHoursStart'
+      it_behaves_like 'registry_value undefined', 'ActiveHoursEnd'
+    end
+
+    describe 'not created when only start is set' do
+      it {
+        create_apply_manifest active_hours_start: 8
+      }
+
+      it_behaves_like 'registry_value undefined', 'SetActiveHours'
+      it_behaves_like 'registry_value undefined', 'ActiveHoursStart'
+      it_behaves_like 'registry_value undefined', 'ActiveHoursEnd'
+    end
+
+    describe 'not created when only end is set' do
+      it {
+        create_apply_manifest active_hours_end: 18
+      }
+
+      it_behaves_like 'registry_value undefined', 'SetActiveHours'
+      it_behaves_like 'registry_value undefined', 'ActiveHoursStart'
+      it_behaves_like 'registry_value undefined', 'ActiveHoursEnd'
+    end
+  end
 end

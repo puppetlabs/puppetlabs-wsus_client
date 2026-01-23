@@ -430,6 +430,112 @@ describe 'wsus_client' do
         it_behaves_like 'above range'
         it_behaves_like 'non enabled feature'
       end
+
+      context 'with active_hours_start =>' do
+        let(:reg_key) { "#{base_key}\\ActiveHoursStart" }
+        let(:param_sym) { :active_hours_start }
+        let(:range) { [0, 23] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
+
+        [0, 12, 23].each do |hour|
+          describe hour.to_s do
+            let(:params) do
+              {
+                active_hours_start: hour,
+                active_hours_end: 18
+              }
+            end
+            let(:reg_data) { hour }
+
+            it_behaves_like 'registry_value'
+          end
+        end
+
+        it_behaves_like 'above range'
+        it_behaves_like 'non enabled feature', 8 do
+          let(:params) { { active_hours_start: 8, active_hours_end: 18 } }
+        end
+
+        describe 'not created when only start is set' do
+          let(:params) { { active_hours_start: 8 } }
+
+          it { is_expected.not_to contain_registry_value("#{base_key}\\SetActiveHours") }
+          it { is_expected.not_to contain_registry_value("#{base_key}\\ActiveHoursStart") }
+          it { is_expected.not_to contain_registry_value("#{base_key}\\ActiveHoursEnd") }
+        end
+
+        describe 'creates SetActiveHours when both start and end are set' do
+          let(:params) { { active_hours_start: 8, active_hours_end: 18 } }
+
+          it {
+            expect(subject).to contain_registry_value("#{base_key}\\SetActiveHours").with(
+              'type' => 'dword',
+              'data' => 1,
+            )
+          }
+          it {
+            expect(subject).to contain_registry_value("#{base_key}\\ActiveHoursStart").with(
+              'type' => 'dword',
+              'data' => 8,
+            )
+          }
+          it {
+            expect(subject).to contain_registry_value("#{base_key}\\ActiveHoursEnd").with(
+              'type' => 'dword',
+              'data' => 18,
+            )
+          }
+        end
+
+        describe 'disabled when both set to false' do
+          let(:params) { { active_hours_start: false, active_hours_end: false } }
+
+          it {
+            expect(subject).to contain_registry_value("#{base_key}\\SetActiveHours").with(
+              'type' => 'dword',
+              'data' => 0,
+            )
+          }
+          it { is_expected.not_to contain_registry_value("#{base_key}\\ActiveHoursStart") }
+          it { is_expected.not_to contain_registry_value("#{base_key}\\ActiveHoursEnd") }
+        end
+      end
+
+      context 'with active_hours_end =>' do
+        let(:reg_key) { "#{base_key}\\ActiveHoursEnd" }
+        let(:param_sym) { :active_hours_end }
+        let(:range) { [0, 23] }
+        let(:below_range) { range[0] - 1 }
+        let(:above_range) { range[1] + 1 }
+
+        [0, 12, 23].each do |hour|
+          describe hour.to_s do
+            let(:params) do
+              {
+                active_hours_start: 8,
+                active_hours_end: hour
+              }
+            end
+            let(:reg_data) { hour }
+
+            it_behaves_like 'registry_value'
+          end
+        end
+
+        it_behaves_like 'above range'
+        it_behaves_like 'non enabled feature', 18 do
+          let(:params) { { active_hours_start: 8, active_hours_end: 18 } }
+        end
+
+        describe 'not created when only end is set' do
+          let(:params) { { active_hours_end: 18 } }
+
+          it { is_expected.not_to contain_registry_value("#{base_key}\\SetActiveHours") }
+          it { is_expected.not_to contain_registry_value("#{base_key}\\ActiveHoursStart") }
+          it { is_expected.not_to contain_registry_value("#{base_key}\\ActiveHoursEnd") }
+        end
+      end
     end
   end
 end
