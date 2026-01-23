@@ -58,6 +58,8 @@ The following parameters are available in the `wsus_client` class:
 * [`scheduled_install_hour`](#-wsus_client--scheduled_install_hour)
 * [`always_auto_reboot_at_scheduled_time`](#-wsus_client--always_auto_reboot_at_scheduled_time)
 * [`always_auto_reboot_at_scheduled_time_minutes`](#-wsus_client--always_auto_reboot_at_scheduled_time_minutes)
+* [`active_hours_start`](#-wsus_client--active_hours_start)
+* [`active_hours_end`](#-wsus_client--active_hours_end)
 * [`purge_values`](#-wsus_client--purge_values)
 * [`target_group`](#-wsus_client--target_group)
 
@@ -264,6 +266,26 @@ Data type: `Optional[Variant[Integer[15,180],Boolean]]`
 
 Sets the timer to warning a signed-in user that a restart is going to occur. Valid values: integers 15 through 180. Default: undef.
  When the timer runs out, the restart will proceed even if the PC has signed-in users.
+
+Default value: `undef`
+
+##### <a name="-wsus_client--active_hours_start"></a>`active_hours_start`
+
+Data type: `Optional[Variant[Integer[0,23],Boolean]]`
+
+Sets the start time for Active Hours in 24-hour format. Valid values: integers 0 through 23. Default: undef.
+Active Hours prevent automatic restarts during specified times. Both active_hours_start and active_hours_end must be set
+to enable this feature. When both are defined, the SetActiveHours registry key is automatically enabled.
+
+Default value: `undef`
+
+##### <a name="-wsus_client--active_hours_end"></a>`active_hours_end`
+
+Data type: `Optional[Variant[Integer[0,23],Boolean]]`
+
+Sets the end time for Active Hours in 24-hour format. Valid values: integers 0 through 23. Default: undef.
+Active Hours prevent automatic restarts during specified times. Both active_hours_start and active_hours_end must be set
+to enable this feature. When both are defined, the SetActiveHours registry key is automatically enabled.
 
 Default value: `undef`
 
