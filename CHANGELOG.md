@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.3.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v6.3.0) - 2026-01-23
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v6.2.0...v6.3.0)
+
+### Changed
+
+- (CAT-2400) Puppetcore upgrade [#234](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/234) ([LukasAud](https://github.com/LukasAud))
+
+### Added
+
+- [MODULES-11611]: Added support for configuring Active Hours in WSUS client [#235](https://github.com/puppetlabs/puppetlabs-wsus_client/pull/235) ([span786](https://github.com/span786))
+
 ## [v6.2.0](https://github.com/puppetlabs/puppetlabs-wsus_client/tree/v6.2.0) - 2025-08-05
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-wsus_client/compare/v6.1.0...v6.2.0)
