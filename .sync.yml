@@ -36,6 +36,7 @@ spec/spec_helper.rb:
     - '--latest-agent'
 .github/workflows/nightly.yml:
   unmanaged: true
+  cron: '5 0 * * *'
 .github/workflows/release.yml:
   unmanaged: false
 .travis.yml:
