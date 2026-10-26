@@ -22,7 +22,7 @@ jobs:
     needs: Spec
     uses: "puppetlabs/cat-github-actions/.github/workflows/module_acceptance.yml@main"
     with:
-      flags: "--latest-agent --nightly"
+      flags: "--nightly"
       # voxpupuli-puppet-lint-plugins 7.0 (needed for Puppet 9 support) requires
       # ruby >= 3.2; the default (3.1) can no longer resolve the :development group.
       ruby_version: "3.2"
