@@ -21,13 +21,9 @@ jobs:
     needs: Spec
     uses: "puppetlabs/cat-github-actions/.github/workflows/module_acceptance.yml@main"
     with:
-      # Without a version-bearing flag, matrix_from_metadata_v3 passes no version to
-      # litmus, and puppetlabs-puppet_agent's install_powershell.ps1 hard-throws
-      # ("You must provide a version to install the agent from puppetcore on
-      # Windows/MacOS") for any puppetcore collection on this Windows-only module --
-      # this job has been failing on every scheduled run for that reason, predating
-      # this PR. --nightly resolves the collection against the internal nightly
-      # channel, matching this same flag on ci.yml's Acceptance job.
-      flags: "--latest-agent --nightly"
+      # A -nightly collection installs puppet-agent-x64-latest.msi without a version.
+      # Don't add --latest-agent: it pins the latest release's MSI name, which the
+      # nightly repo doesn't keep (404, MODULES-12071).
+      flags: "--nightly"
       ruby_version: "3.2"
     secrets: "inherit"

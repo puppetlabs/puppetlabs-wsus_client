@@ -33,7 +33,7 @@ spec/spec_helper.rb:
 .github/workflows/ci.yml:
   unmanaged: true
   acceptance_flags:
-    - '--latest-agent'
+    - '--nightly'
 .github/workflows/nightly.yml:
   unmanaged: true
   cron: '5 0 * * *'
