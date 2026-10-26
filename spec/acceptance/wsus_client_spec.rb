@@ -7,10 +7,14 @@ RSpec.describe 'wsus_client' do
   base_key = 'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate'
   au_key = "#{base_key}\\AU"
 
+  # On a fresh VM Windows keeps restarting wuauserv for update scans, and a busy
+  # wuauserv can take longer than Puppet's default 30 s service timeout to stop
+  # (MODULES-12073), so the test manifests give it 180 s.
   def clear_registry
     pp = <<~PP
       service {'wuauserv':
-        ensure => stopped,
+        ensure  => stopped,
+        timeout => 180,
       }->
       registry_key{'HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU':
         ensure       => absent,
@@ -32,6 +36,7 @@ RSpec.describe 'wsus_client' do
       pp += "\n  #{k} => #{v},"
     end
     pp += '}'
+    pp += "\nService <| title == 'wuauserv' |> { timeout => 180 }"
     apply_manifest(pp, catch_failures: true)
   end
 
