@@ -11,7 +11,7 @@ describe 'wsus_client' do
     '2012' => { base_key: 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate',
                 au_key: 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU' },
     '2008' => { base_key: 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate',
-                au_key: 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU' }
+                au_key: 'HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU' },
   }
 
   shared_examples 'registry_value' do
@@ -39,7 +39,7 @@ describe 'wsus_client' do
       describe int.to_s do
         let(:params) do
           {
-            param_sym => int
+            param_sym => int,
           }
         end
         let(:reg_data) { int }
@@ -72,7 +72,7 @@ describe 'wsus_client' do
       describe v.to_s do
         let(:params) do
           {
-            param_sym => v
+            param_sym => v,
           }
         end
         let(:reg_data) { v ? 1 : 0 }
@@ -130,7 +130,7 @@ describe 'wsus_client' do
         {
           operatingsystem: 'windows',
           operatingsystemrelease: "Server #{os}",
-          osfamily: 'windows'
+          osfamily: 'windows',
         }
       end
 
@@ -160,7 +160,7 @@ describe 'wsus_client' do
         describe 'WUServer setting' do
           let(:params) do
             {
-              server_url: 'https://SERVER:8530'
+              server_url: 'https://SERVER:8530',
             }
           end
 
@@ -186,7 +186,7 @@ describe 'wsus_client' do
             let(:params) do
               {
                 server_url: 'https://SERVER:8530',
-                enable_status_server: true
+                enable_status_server: true,
               }
             end
 
@@ -207,7 +207,7 @@ describe 'wsus_client' do
             let(:params) do
               {
                 server_url: 'https://SERVER:8530',
-                enable_status_server: false
+                enable_status_server: false,
               }
             end
 
@@ -238,7 +238,7 @@ describe 'wsus_client' do
           describe au_opt.to_s do
             let(:params) do
               {
-                auto_update_option: au_opt
+                auto_update_option: au_opt,
               }
             end
             let(:error_message) { %r{expects a value of type Undef, Enum\['AutoInstall', 'AutoNotify', 'NotifyOnly', 'NotifyRestart', 'Scheduled'\], Integer\[2, 5\], or Integer\[7, 7\]} }
@@ -251,7 +251,7 @@ describe 'wsus_client' do
           describe 'require scheduled_install_day scheduled_install_hour' do
             let(:params) do
               {
-                auto_update_option: param
+                auto_update_option: param,
               }
             end
             let(:error_message) { %r{scheduled_install_day and scheduled_install_hour required when specifying auto_update_option => '#{param}'} }
@@ -261,7 +261,7 @@ describe 'wsus_client' do
               let(:params) do
                 {
                   auto_update_option: param,
-                  scheduled_install_day: 4
+                  scheduled_install_day: 4,
                 }
               end
             end
@@ -443,7 +443,7 @@ describe 'wsus_client' do
             let(:params) do
               {
                 active_hours_start: hour,
-                active_hours_end: 18
+                active_hours_end: 18,
               }
             end
             let(:reg_data) { hour }
@@ -514,7 +514,7 @@ describe 'wsus_client' do
             let(:params) do
               {
                 active_hours_start: 8,
-                active_hours_end: hour
+                active_hours_end: hour,
               }
             end
             let(:reg_data) { hour }
